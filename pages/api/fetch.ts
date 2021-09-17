@@ -20,6 +20,8 @@ export default async function handler(
 
 	const file = await drive.files.get({fileId, fields: "*"})
 
+	console.log(file);
+
 	//@ts-ignore
 	const name = file.data.owners[0].displayName as string;
 	//@ts-ignore
