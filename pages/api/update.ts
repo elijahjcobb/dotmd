@@ -17,8 +17,11 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
+	//@ts-ignore
 	drive.files.update({
 		fileId,
+		//@ts-ignore
+		resource: {name: new Date().toLocaleTimeString() + "-time.md"},
 		media: {
 			mimeType: "text/markdown",
 			body: new Date().toLocaleTimeString() + " was updated!!!"
