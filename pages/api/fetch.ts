@@ -24,13 +24,13 @@ export default async function handler(
 	const name = file.data.owners[0].displayName as string;
 	//@ts-ignore
 	const profile = file.data.owners[0].photoLink as string;
-	const fileName = file.data.name as string;
+	const fileName = (file.data.name as string).replace(".md", "");
 	const dataUrl = file.data.webContentLink as string;
 
-	// const fileRes = await PdRequest.get().url(dataUrl).request();
-	// const data = Buffer.from(fileRes.rawPayload()).toString("utf8");
+	const fileRes = await PdRequest.get().url(dataUrl).request();
+	const data = Buffer.from(fileRes.rawPayload()).toString("utf8");
 
-	res.send({name, profile, fileName, dataUrl});
+	res.send({name, profile, fileName, data});
 	// // @ts-ignore
 	// const name = file.data.name?.replace(".md", "");
 	// res.send(JSON.stringify({
