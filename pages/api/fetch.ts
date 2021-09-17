@@ -18,11 +18,12 @@ export default async function handler(
 	const fileId = req.cookies.file
 
 	const file = drive.files.get({fileId, alt: 'media'})
-	// @ts-ignore
-	const name = file.data.name?.replace(".md", "");
-	res.send(JSON.stringify({
-		name,
-		// @ts-ignore
-		data: Buffer.from(file.data).toString("utf-8")
-	}));
+	res.send(file);
+	// // @ts-ignore
+	// const name = file.data.name?.replace(".md", "");
+	// res.send(JSON.stringify({
+	// 	name,
+	// 	// @ts-ignore
+	// 	data: Buffer.from(file.data).toString("utf-8")
+	// }));
 }
