@@ -18,26 +18,41 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
-	const file = await drive.files.get({fileId, fields: "*"})
+	// //@ts-ignore
+	drive.files.get({
+		fileId: fileId,
+		alt: 'media'
+	})
+		// //@ts-ignore
+		.on('end', function () {
+			console.log('Done');
+		})
+		// //@ts-ignore
+		.on('error', function (err) {
+			console.log('Error during download', err);
+		})
+		.pipe(res);
 
-	console.log(file);
-
-	//@ts-ignore
-	const name = file.data.owners[0].displayName as string;
-	//@ts-ignore
-	const profile = file.data.owners[0].photoLink as string;
-	const fileName = (file.data.name as string).replace(".md", "");
-	const dataUrl = file.data.webContentLink as string;
-
-	const response = await fetch(dataUrl);
-	const data = await response.text();
-
-	res.send({name, profile, fileName, data});
-	// // @ts-ignore
-	// const name = file.data.name?.replace(".md", "");
-	// res.send(JSON.stringify({
-	// 	name,
-	// 	// @ts-ignore
-	// 	data: Buffer.from(file.data).toString("utf-8")
-	// }));
+	// const file = await drive.files.get({fileId, fields: "*"})
+	//
+	// console.log(file);
+	//
+	// //@ts-ignore
+	// const name = file.data.owners[0].displayName as string;
+	// //@ts-ignore
+	// const profile = file.data.owners[0].photoLink as string;
+	// const fileName = (file.data.name as string).replace(".md", "");
+	// const dataUrl = file.data.webContentLink as string;
+	//
+	// const response = await fetch(dataUrl);
+	// const data = await response.text();
+	//
+	// res.send({name, profile, fileName, data});
+	// // // @ts-ignore
+	// // const name = file.data.name?.replace(".md", "");
+	// // res.send(JSON.stringify({
+	// // 	name,
+	// // 	// @ts-ignore
+	// // 	data: Buffer.from(file.data).toString("utf-8")
+	// // }));
 }
