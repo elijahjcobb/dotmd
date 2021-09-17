@@ -18,10 +18,10 @@ export default async function handler(
 	const fileId = req.cookies.file
 
 	const file = await drive.files.get({fileId}, {responseType: "blob"})
-	console.log(file);
 	const name = file.data.name?.replace(".md", "");
 	res.send(JSON.stringify({
 		name,
-		data: file.data
+		// @ts-ignore
+		data: Buffer.from(file.data).toString("utf-8")
 	}));
 }
