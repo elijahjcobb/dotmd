@@ -18,20 +18,9 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
-	// //@ts-ignore
-	drive.files.get({
-		fileId: fileId,
-		alt: 'media'
-	})
-		// //@ts-ignore
-		.on('end', function () {
-			console.log('Done');
-		})
-		// //@ts-ignore
-		.on('error', function (err) {
-			console.log('Error during download', err);
-		})
-		.pipe(res);
+	drive.files.get({ fileId: fileId, alt: 'media' }).then(result => { console.log(result); }).catch(err=>{ console.log(err); })
+
+	res.send("ajj");
 
 	// const file = await drive.files.get({fileId, fields: "*"})
 	//
