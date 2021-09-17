@@ -25,7 +25,7 @@ export default async function handler(
 			serialize('scope', token.tokens.scope ?? "", { path: '/' }),
 			serialize('expiry_date', (token.tokens.expiry_date ?? 0) + "", { path: '/' }),
 		]);
-		res.redirect("/api/auth");
+		res.redirect("/");
 
 		// let oauth2 = google.oauth2({version: 'v2', auth: oauth2Client});
 		// let userInfo = await oauth2.userinfo.v2.me.get();
