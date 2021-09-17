@@ -17,7 +17,7 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
-	const file = await drive.files.get({fileId, fields: "downloadUrl"})
+	const file = await drive.files.get({fileId, fields: "webContentLink"})
 	res.send(file);
 	// // @ts-ignore
 	// const name = file.data.name?.replace(".md", "");
