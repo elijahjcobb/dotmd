@@ -18,7 +18,7 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
-	drive.files.get({ fileId: fileId, alt: 'media' }).then(result => { console.log(result); }).catch(err=>{ console.log(err); })
+	drive.files.get({ fileId: fileId, alt: 'media', fields: "*" }).then(result => { console.log(result); }).catch(err=>{ console.log(err); })
 
 	res.send("ajj");
 
