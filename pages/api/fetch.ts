@@ -27,10 +27,10 @@ export default async function handler(
 	const fileName = file.data.name as string;
 	const dataUrl = file.data.webContentLink as string;
 
-	const fileRes = await PdRequest.get().url(dataUrl).request();
-	const data = Buffer.from(fileRes.rawPayload()).toString("utf8");
+	// const fileRes = await PdRequest.get().url(dataUrl).request();
+	// const data = Buffer.from(fileRes.rawPayload()).toString("utf8");
 
-	res.send({name, profile, fileName, data});
+	res.send({name, profile, fileName, dataUrl});
 	// // @ts-ignore
 	// const name = file.data.name?.replace(".md", "");
 	// res.send(JSON.stringify({
