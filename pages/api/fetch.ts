@@ -19,8 +19,6 @@ export default async function handler(
 
 	drive.files.get({ fileId: fileId, alt: 'media', fields: "*" }).then(result => { console.log(result); }).catch(err=>{ console.log(err); })
 
-	res.send("ajj");
-
 	const fileInfo = await drive.files.get({fileId, fields: "*"})
 	//@ts-ignore
 	const name = fileInfo.data.owners[0].displayName as string;
