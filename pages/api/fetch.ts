@@ -17,11 +17,24 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
-	const file = await drive.files.get({fileId}, {responseType: "arraybuffer"})
-	const name = file.data.name?.replace(".md", "");
-	res.send(JSON.stringify({
-		name,
+	drive.files.get({
+		fileId: fileId,
+		alt: 'media'
+	})
 		// @ts-ignore
-		data: Buffer.from(file.data).toString("utf-8")
-	}));
+		.on('end', function () {
+			console.log('Done');
+		})
+		// @ts-ignore
+		.on('error', function (err) {
+			console.log('Error during download', err);
+		})
+		.pipe(res);
+	// const file = drive.files.get({fileId}, {responseType: "stream"}).on
+	// const name = file.data.name?.replace(".md", "");
+	// res.send(JSON.stringify({
+	// 	name,
+	// 	// @ts-ignore
+	// 	data: Buffer.from(file.data).toString("utf-8")
+	// }));
 }
