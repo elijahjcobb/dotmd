@@ -7,11 +7,14 @@
 
 import {google} from "googleapis";
 import {OAuth2Client} from "google-auth-library";
+import * as FS from "fs";
+
+const secret = FS.readFileSync("./GOOGLE_SECRET").toString("utf8");
 
 export function createClient(): OAuth2Client {
 	return new google.auth.OAuth2(
 		"417774683388-6u56obkasqgqdq8d63k735af7cc27gl3.apps.googleusercontent.com",
-		process.env.GOOGLE_SECRET,
+		secret,
 		"http://localhost:3000/api/auth/callback"
 	)
 }
