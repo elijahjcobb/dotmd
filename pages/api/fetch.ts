@@ -17,7 +17,7 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.cookies.file
 
-	const file = await drive.files.get({fileId}, {responseType: "blob"})
+	const file = await drive.files.get({fileId}, {responseType: "arraybuffer"})
 	const name = file.data.name?.replace(".md", "");
 	res.send(JSON.stringify({
 		name,
