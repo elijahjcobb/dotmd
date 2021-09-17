@@ -15,7 +15,7 @@ export function createClient(): OAuth2Client {
 	return new google.auth.OAuth2(
 		"417774683388-6u56obkasqgqdq8d63k735af7cc27gl3.apps.googleusercontent.com",
 		secret,
-		"http://localhost:3000/api/auth/callback"
+		"https://oafa.app/api/auth/callback"
 	)
 }
 
