@@ -37,6 +37,8 @@ export const App: FC<AppProps> = props => {
 
 	return <div className={styles.App}>
 		<div className={styles.header}>
+			<img src={""} alt={"icon"}/>
+			<h1>oafa</h1>
 			<span>{props.name}</span>
 			<img src={props.profile} alt={"profile"}/>
 			<span>{props.fileName}</span>
