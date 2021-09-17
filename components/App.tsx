@@ -11,7 +11,10 @@ import {Editor} from "./Editor";
 import {Markdown} from "./Markdown";
 
 export interface AppProps {
-
+	name: string;
+	profile: string;
+	fileName: string;
+	data: string;
 }
 
 export const App: FC<AppProps> = props => {
@@ -65,11 +68,8 @@ function handleSourceCode(): boolean {
 	function save() {
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", '/api/update', true);
-
-//Send the proper header information along with the request
 		xhr.setRequestHeader("Content-Type", "application/json");
-
-		xhr.onreadystatechange = function() { // Call a function when the state changes.
+		xhr.onreadystatechange = function() {
 			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 				// Request finished. Do processing here.
 			}
