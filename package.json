@@ -28,7 +28,8 @@
 		"rehype-katex": "latest",
 		"remark-gfm": "latest",
 		"remark-math": "latest",
-		"sass": "^1.41.1"
+		"sass": "^1.41.1",
+		"@element-ts/palladium": "latest"
 	},
 	"devDependencies": {
 		"@types/react": "17.0.21",

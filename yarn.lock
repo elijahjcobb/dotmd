@@ -87,6 +87,20 @@
     "@babel/helper-validator-identifier" "^7.14.9"
     to-fast-properties "^2.0.0"
 
+"@element-ts/neon@latest":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@element-ts/neon/-/neon-1.0.3.tgz#5ed5463b753e8ccfe34c0f10078b1e05ad9a8c88"
+  integrity sha512-Ofs5udLRl4hgnZmxXET3sxIgaf+NB61saeg6g/Gyw+g27bDU1S5HPoSwX9kETiBMZEIEUPYMed+Nxw/Y/pqbow==
+  dependencies:
+    colors latest
+
+"@element-ts/palladium@latest":
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/@element-ts/palladium/-/palladium-2.0.8.tgz#371c95a60845c97092021beaf9259b76cec0577e"
+  integrity sha512-uOJGCb1wIFmNO4uKIXRgFjc6slHvh2yiBuRDvkOLSTWdutbgYt3jV0KSfLkNAFPjzNqIhICWVh6aiO2cTRVqRg==
+  dependencies:
+    "@element-ts/neon" latest
+
 "@emotion/babel-plugin@^11.3.0":
   version "11.3.0"
   resolved "https://registry.yarnpkg.com/@emotion/babel-plugin/-/babel-plugin-11.3.0.tgz#3a16850ba04d8d9651f07f3fb674b3436a4fb9d7"
@@ -1094,6 +1108,11 @@ colorette@^1.2.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colorette/-/colorette-1.4.0.tgz#5190fbb87276259a86ad700bff2c6d6faa3fca40"
   integrity sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==
+
+colors@latest:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
+  integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==
 
 comma-separated-tokens@^2.0.0:
   version "2.0.2"

@@ -8,6 +8,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import {getAuthFromCookie} from "../../api/google";
 import {google} from "googleapis";
+import {PdMethod, PdRequest} from "@element-ts/palladium";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -18,7 +19,18 @@ export default async function handler(
 	const fileId = req.cookies.file
 
 	const file = await drive.files.get({fileId, fields: "*"})
-	res.send(file);
+
+	//@ts-ignore
+	const name = file.data.owners[0].displayName as string;
+	//@ts-ignore
+	const profile = file.data.owners[0].photoLink as string;
+	const fileName = file.data.name as string;
+	const dataUrl = file.data.webContentLink as string;
+
+	const fileRes = await PdRequest.get().url(dataUrl).request();
+	const data = fileRes.rawPayload()
+
+	res.send({name, profile, fileName, data});
 	// // @ts-ignore
 	// const name = file.data.name?.replace(".md", "");
 	// res.send(JSON.stringify({
