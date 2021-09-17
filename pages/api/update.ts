@@ -15,18 +15,25 @@ export default async function handler(
 ) {
 	const auth = getAuthFromCookie(req.cookies);
 	const drive = google.drive({version: "v3", auth});
+
 	const fileId = req.cookies.file
+
+	const newName = req.body.name as string | undefined;
+	const content = req.body.data as string;
 
 	//@ts-ignore
 	drive.files.update({
 		fileId,
-		//@ts-ignore
-		resource: {name: new Date().toLocaleTimeString() + "-time.md"},
 		media: {
 			mimeType: "text/markdown",
-			body: new Date().toLocaleTimeString() + " was updated!!!"
-		}
+			body: content
+		},
+		...(newName ? {
+			resource: {name: newName + ".md"},
+		} : {})
 	})
+
+
 
 	res.send("updated");
 }

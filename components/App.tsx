@@ -62,9 +62,27 @@ function handleSourceCode(): boolean {
 - [x] be cool
 `);
 
+	function save() {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", '/api/update', true);
+
+//Send the proper header information along with the request
+		xhr.setRequestHeader("Content-Type", "application/json");
+
+		xhr.onreadystatechange = function() { // Call a function when the state changes.
+			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+				// Request finished. Do processing here.
+			}
+		}
+		xhr.send(JSON.stringify({
+			data: markdown
+		}));
+	}
+
 	return <div className={styles.App}>
 		<div className={styles.header}>
 			<span>oafa</span>
+			<button onClick={save}>save</button>
 		</div>
 		<div className={styles.container}>
 			<Editor className={styles.editor} value={markdown} setValue={setMarkdown}/>
