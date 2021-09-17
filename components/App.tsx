@@ -81,7 +81,9 @@ function handleSourceCode(): boolean {
 
 	return <div className={styles.App}>
 		<div className={styles.header}>
-			<span>oafa</span>
+			<span>{props.name}</span>
+			<img src={props.profile} alt={"profile"}/>
+			<span>{props.fileName}</span>
 			<button onClick={save}>save</button>
 		</div>
 		<div className={styles.container}>
