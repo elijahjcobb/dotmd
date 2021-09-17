@@ -29,8 +29,8 @@ export default async function handler(
 	const fileName = (file.data.name as string).replace(".md", "");
 	const dataUrl = file.data.webContentLink as string;
 
-	const fileRes = await PdRequest.get().url(dataUrl).request();
-	const data = Buffer.from(fileRes.rawPayload()).toString("utf8");
+	const response = await fetch(dataUrl);
+	const data = await response.text();
 
 	res.send({name, profile, fileName, data});
 	// // @ts-ignore
