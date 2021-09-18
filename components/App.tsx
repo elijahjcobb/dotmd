@@ -38,7 +38,7 @@ export const App: FC<AppProps> = props => {
 	const [darkMode, setDarkMode] = useState(false);
 	const [saved, setSaved] = useState(true);
 	
-	useDebounce(save, 5000, [markdown]);
+	useDebounce(save, 2000, [markdown]);
 
 	useInterval(() => {
 		const a = moment(Date.now());
