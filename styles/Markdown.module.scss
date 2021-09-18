@@ -9,6 +9,7 @@ $spacing: 16px;
 .Markdown {
 
 	padding: $spacing * 2;
+	overflow-y: auto;
 
 	h1, h2, h3, h4, h5 {
 

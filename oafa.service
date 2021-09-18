@@ -1,0 +1,13 @@
+[Unit]
+Description=The backend for oafa
+After=network.target
+
+[Service]
+type=simple
+User=root
+WorkingDirectory=/srv/oafa
+ExecStart=/usr/bin/npm run prod
+
+[Install]
+WantedBy=multi-user.target
+Alias=oafa
