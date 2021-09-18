@@ -39,21 +39,21 @@ export const App: FC<AppProps> = props => {
 	const [darkMode, setDarkMode] = useState(false);
 	const [status, setStatus] = useState<SaveStatus>(SaveStatus.Unsaved);
 
-	useEffect(() => {
-		// window.history.replaceState(null, "", window.location.pathname)
+	// useEffect(() => {
+	// 	// window.history.replaceState(null, "", window.location.pathname)
 
-		window.onkeydown = ev => {
-			if (ev.ctrlKey !== true && ev.metaKey !== true) return;
-			const key = ev.key.toLowerCase();
-			if (key === "s") {
-				ev.preventDefault();
-				save();
-			}
-		}
+	// 	window.onkeydown = ev => {
+	// 		if (ev.ctrlKey !== true && ev.metaKey !== true) return;
+	// 		const key = ev.key.toLowerCase();
+	// 		if (key === "s") {
+	// 			ev.preventDefault();
+	// 			save();
+	// 		}
+	// 	}
 
-	}, []);
+	// }, []);
 	
-	useDebounce(save, 4000, [markdown]);
+	useDebounce(save, 2000, [markdown]);
 
 	useInterval(() => {
 		const a = moment(Date.now());
@@ -99,7 +99,7 @@ export const App: FC<AppProps> = props => {
 				{status === SaveStatus.Saved && <CloudDone className={styles.saved}/>}
 				{status === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved}/>}
 				{status === SaveStatus.Error && <Error className={styles.saveError}/>}
-				<span onClick={save} className={styles.save}>{saveMessage}</span>
+				<span className={styles.save}>{saveMessage}</span>
 			</div>
 			<div className={styles.section}>
 				<div className={styles.themeButton} onClick={() => setDarkMode(v => !v)}>{darkMode ? <WbSunny /> : <NightsStay/>}</div>
