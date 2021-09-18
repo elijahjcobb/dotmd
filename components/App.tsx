@@ -37,7 +37,7 @@ export const App: FC<AppProps> = props => {
 		// window.history.replaceState(null, "", window.location.pathname)
 
 		window.onkeydown = ev => {
-			if (ev.ctrlKey !== true) return;
+			if (ev.ctrlKey !== true && ev.metaKey !== true) return;
 			const key = ev.key.toLowerCase();
 			if (key === "s") {
 				ev.preventDefault();
