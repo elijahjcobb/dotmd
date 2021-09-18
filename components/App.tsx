@@ -38,7 +38,7 @@ export const App: FC<AppProps> = props => {
 	const [darkMode, setDarkMode] = useState(false);
 	const [saved, setSaved] = useState(true);
 	
-	useDebounce(save, 2000, [markdown]);
+	useDebounce(save, 5000, [markdown]);
 
 	useInterval(() => {
 		const a = moment(Date.now());
@@ -89,7 +89,7 @@ export const App: FC<AppProps> = props => {
 		</div>
 		<div className={styles.container}>
 			{/*<Editor2 initialValue={props.data} darkMode={darkMode} onSave={v => preview.current?.setMarkdown(v)}/>*/}
-			<Editor dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
+			<Editor startTyping={() => setSaved(false)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
 			<Markdown dark={darkMode} className={styles.markdown} value={markdown}/>
 			{/*<Markdown2 ref={preview as MutableRefObject<Markdown2>} dark={darkMode} className={styles.markdown} value={markdown}/>*/}
 		</div>

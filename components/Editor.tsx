@@ -5,7 +5,7 @@
  * github.com/elijahjcobb
  */
 
-import React, {FC, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import Monaco from "@monaco-editor/react";
 import styles from "../styles/Editor.module.scss";
 import {useDebounce, useInterval} from "./hooks";
@@ -16,11 +16,16 @@ export interface EditorProps {
 	value: string;
 	className?: string;
 	setValue: (value: string) => void;
+	startTyping: () => void;
 }
 
 export const Editor: FC<EditorProps> = props => {
 
 	const [source, setSource] = useState(props.value);
+
+	useEffect(() => {
+		props.startTyping();
+	}, [source])
 
 	useDebounce(() => {
 		props.setValue(source);
