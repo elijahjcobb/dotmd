@@ -5,15 +5,22 @@
  * github.com/elijahjcobb
  */
 
-import React, {FC, useState} from "react";
+import React, {FC, MutableRefObject, useRef, useState} from "react";
 import styles from "../styles/App.module.scss";
-import {Editor} from "./Editor";
 import {Markdown} from "./Markdown";
 import {useInterval, useDebounce} from "./hooks";
 import moment from "moment";
 import { CheckCircle, NightsStay, WbSunny, Circle } from "@mui/icons-material";
 import { useEffect } from "react";
 import Head from "next/head";
+import {UnControlled as CodeMirror} from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/3024-night.css';
+import 'codemirror/theme/eclipse.css';
+import { Markdown2 } from "./Markdown2";
+import {Editor2} from "./Editor2";
+import {Editor} from "./Editor";
+
 
 export interface AppProps {
 	name: string;
@@ -31,17 +38,19 @@ export const App: FC<AppProps> = props => {
 	const [darkMode, setDarkMode] = useState(false);
 	const [saved, setSaved] = useState(true);
 	
-	useDebounce(save, 3000, [markdown]);
+	useDebounce(save, 5000, [markdown]);
 
 	useInterval(() => {
-		var a = moment(Date.now());
-		var b = moment(lastSaved);
+		const a = moment(Date.now());
+		const b = moment(lastSaved);
 		setSaveMessage("Last saved " + b.from(a) + "...")
 	}, 1000)
 
 	useEffect(() => {
 		setSaved(false);
 	}, [markdown])
+
+	console.log("RE-RENDER");
 
 	function save() {
 		const xhr = new XMLHttpRequest();
@@ -79,8 +88,10 @@ export const App: FC<AppProps> = props => {
 			</div>
 		</div>
 		<div className={styles.container}>
+			{/*<Editor2 initialValue={props.data} darkMode={darkMode} onSave={v => preview.current?.setMarkdown(v)}/>*/}
 			<Editor dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
 			<Markdown dark={darkMode} className={styles.markdown} value={markdown}/>
+			{/*<Markdown2 ref={preview as MutableRefObject<Markdown2>} dark={darkMode} className={styles.markdown} value={markdown}/>*/}
 		</div>
 	</div>
 

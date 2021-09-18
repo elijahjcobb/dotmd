@@ -5,14 +5,13 @@
  * github.com/elijahjcobb
  */
 
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import Highlight, {defaultProps, Language} from "prism-react-renderer";
 import ReactMarkdown from "react-markdown";
 import 'katex/dist/katex.min.css'
-import styles from "../styles/Markdown.module.scss";
 import vsDark from 'prism-react-renderer/themes/vsDark';
 import vsLight from 'prism-react-renderer/themes/vsLight';
 
@@ -25,7 +24,7 @@ export interface MarkdownProps {
 export const Markdown: FC<MarkdownProps> = markdownProps => {
 
 	return <ReactMarkdown
-		className={(markdownProps.className ?? "") + " " + styles.Markdown}
+		className={(markdownProps.className ?? "") + " markdownPreview" + (markdownProps.dark ? " darkmd" : "")}
 		remarkPlugins={[remarkGfm, remarkMath]}
 		rehypePlugins={[rehypeKatex]}
 		components={{

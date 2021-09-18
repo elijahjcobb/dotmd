@@ -1,0 +1,139 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+$spacing: 16px;
+
+.markdownPreview {
+
+	padding: $spacing * 2;
+	overflow-y: auto;
+
+	h1 {
+		margin: 16px 0;
+	}
+
+	h2 {
+		margin: 12px 0;
+	}
+
+	h3, h4, h5, h6 {
+		margin: 8px 0;
+	}
+
+	p {
+		margin: $spacing 0;
+	}
+
+	& > ul, & > ol {
+		margin: $spacing 0
+	}
+
+	blockquote {
+		border-left: solid 6px #444;
+		color: #444;
+		font-style: italic;
+		padding: $spacing/8 0 $spacing/8 $spacing;
+		margin: $spacing 0;
+		border-radius: 4px;
+	}
+
+	a {
+		color: dodgerblue;
+		border-bottom: solid white 4px;
+		text-decoration: none;
+		transition: border-bottom-color 250ms ease-in-out;
+		&:hover {
+			border-bottom-color: dodgerblue;
+		}
+	}
+
+	li {
+		margin-left: $spacing * 2;
+		padding: $spacing/4 0;
+	}
+
+	ul.contains-task-list {
+		& > * {
+			margin-left: 16px;
+			list-style: none;
+		}
+	}
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		border-radius: 8px;
+		overflow: hidden;
+	}
+
+	th, td {
+		padding: $spacing / 2;
+	}
+
+	tr:nth-child(even) {
+		background-color: #eee
+	}
+
+	tr, td {
+		border: solid 1px #eee;
+	}
+
+	th {
+		background-color: #ddd;
+		text-align: left;
+	}
+
+	.katex-display>.katex, .katex-display, .katex {
+		text-align: left;
+	}
+
+	pre > pre, .katex-display {
+		padding: $spacing;
+		border-radius: $spacing / 2;
+		margin: $spacing 0;
+		border: solid 1px #eee;
+	}
+
+	code {
+		background: #eee;
+		padding: 2px 4px;
+		border-radius: 2px;
+		font-family: "Roboto Mono", monospace;
+		font-size: 14px;
+	}
+
+}
+
+.darkmd {
+	pre > pre, .katex-display {
+		border-color: #333;
+	}
+
+	tr:nth-child(even) {
+		 background-color: #222
+	 }
+
+	tr, td {
+		border: solid 1px #222;
+	}
+
+	th {
+		background-color: #292929;
+		text-align: left;
+	}
+	code {
+		background: #333
+	}
+
+	a {
+		border-bottom-color: #1e1e1e;
+	}
+	blockquote {
+		border-left-color: #777;
+		color: #777;
+	}
+
+}

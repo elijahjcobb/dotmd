@@ -1,7 +1,7 @@
 import type {GetServerSideProps, NextPage} from 'next'
 
 interface ErrorPageProps {
-    msg?: string;
+    msg: string | null;
 }
 
 const page: NextPage<ErrorPageProps> = props => {
@@ -15,7 +15,7 @@ const page: NextPage<ErrorPageProps> = props => {
 export const getServerSideProps: GetServerSideProps<ErrorPageProps> = async (context) => {
     return {
         props: {
-            msg: context.query.msg as string | undefined
+            msg: context.query.msg as string | undefined ?? null
         }
     }
 }
