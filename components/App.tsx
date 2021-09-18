@@ -11,7 +11,9 @@ import {Editor} from "./Editor";
 import {Markdown} from "./Markdown";
 import {useInterval, useDebounce} from "./hooks";
 import moment from "moment";
-import { NightsStay, WbSunny } from "@mui/icons-material";
+import { CheckCircle, NightsStay, WbSunny, Circle } from "@mui/icons-material";
+import { useEffect } from "react";
+import Head from "next/head";
 
 export interface AppProps {
 	name: string;
@@ -27,6 +29,7 @@ export const App: FC<AppProps> = props => {
 	const [lastSaved, setLastSaved] = useState(Date.now());
 	const [saveMessage, setSaveMessage] = useState("Fetched");
 	const [darkMode, setDarkMode] = useState(false);
+	const [saved, setSaved] = useState(true);
 	
 	useDebounce(save, 3000, [markdown]);
 
@@ -36,6 +39,10 @@ export const App: FC<AppProps> = props => {
 		setSaveMessage("Last saved " + b.from(a) + "...")
 	}, 1000)
 
+	useEffect(() => {
+		setSaved(false);
+	}, [markdown])
+
 	function save() {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", '/api/update', true);
@@ -44,6 +51,7 @@ export const App: FC<AppProps> = props => {
 			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 				// Request finished. Do processing here.
 				setLastSaved(Date.now())
+				setSaved(true);
 			}
 		}
 		xhr.send(JSON.stringify({
@@ -53,10 +61,15 @@ export const App: FC<AppProps> = props => {
 	}
 
 	return <div className={styles.App + " " + (darkMode ? styles.dark : "")}>
+		<Head>
+        <title>{name + ".md"}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
 		<div className={styles.header}>
 			<div className={styles.section}>
 				<img className={styles.logo} src={"/oafa.png"} alt={"icon"}/>
 				<input onBlur={save} onChange={e => setName(e.target.value)} className={styles.name} value={name} />
+				{saved ? <CheckCircle/> : <Circle/>}
 				<span onClick={save} className={styles.save}>{saveMessage}</span>
 			</div>
 			<div className={styles.section}>
