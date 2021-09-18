@@ -47,7 +47,7 @@ export const App: FC<AppProps> = props => {
 
 	}, []);
 	
-	useDebounce(save, 10000, [markdown]);
+	useDebounce(save, 4000, [markdown]);
 
 	useInterval(() => {
 		const a = moment(Date.now());
