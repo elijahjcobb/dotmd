@@ -10,7 +10,7 @@ import styles from "../styles/App.module.scss";
 import {Markdown} from "./Markdown";
 import {useInterval, useDebounce} from "./hooks";
 import moment from "moment";
-import { NightsStay, WbSunny, CloudDone, CloudQueue } from "@mui/icons-material";
+import { NightsStay, WbSunny, CloudDone, CloudQueue, Error } from "@mui/icons-material";
 import { useEffect } from "react";
 import Head from "next/head";
 import {Editor} from "./Editor";
@@ -24,6 +24,12 @@ export interface AppProps {
 	data: string;
 }
 
+enum SaveStatus {
+	Unsaved,
+	Saved,
+	Error
+}
+
 export const App: FC<AppProps> = props => {
 
 	const [markdown, setMarkdown] = useState(props.data);
@@ -31,7 +37,7 @@ export const App: FC<AppProps> = props => {
 	const [lastSaved, setLastSaved] = useState(Date.now());
 	const [saveMessage, setSaveMessage] = useState("Fetched");
 	const [darkMode, setDarkMode] = useState(false);
-	const [saved, setSaved] = useState(true);
+	const [status, setStatus] = useState<SaveStatus>(SaveStatus.Unsaved);
 
 	useEffect(() => {
 		// window.history.replaceState(null, "", window.location.pathname)
@@ -56,7 +62,7 @@ export const App: FC<AppProps> = props => {
 	}, 1000)
 
 	useEffect(() => {
-		setSaved(false);
+		setStatus(SaveStatus.Unsaved)
 	}, [markdown])
 
 	function save() {
@@ -64,10 +70,14 @@ export const App: FC<AppProps> = props => {
 		xhr.open("POST", '/api/update', true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+			if (this.readyState === XMLHttpRequest.DONE) {
 				// Request finished. Do processing here.
-				setLastSaved(Date.now())
-				setSaved(true);
+				if (this.status === 200) {
+					setLastSaved(Date.now())
+					setStatus(SaveStatus.Saved);
+				} else {
+					setStatus(SaveStatus.Error);
+				}
 			}
 		}
 		xhr.send(JSON.stringify({
@@ -86,7 +96,9 @@ export const App: FC<AppProps> = props => {
 			<div className={styles.section}>
 				<img className={styles.logo} src={"/oafa.png"} alt={"icon"}/>
 				<input onBlur={save} onChange={e => setName(e.target.value)} className={styles.name} value={name} />
-				{saved ? <CloudDone className={styles.saved}/> : <CloudQueue className={styles.unsaved}/>}
+				{status === SaveStatus.Saved && <CloudDone className={styles.saved}/>}
+				{status === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved}/>}
+				{status === SaveStatus.Error && <Error className={styles.saveError}/>}
 				<span onClick={save} className={styles.save}>{saveMessage}</span>
 			</div>
 			<div className={styles.section}>
@@ -97,7 +109,7 @@ export const App: FC<AppProps> = props => {
 		</div>
 		<div className={styles.container}>
 			{/*<Editor2 initialValue={props.data} darkMode={darkMode} onSave={v => preview.current?.setMarkdown(v)}/>*/}
-			<Editor startTyping={() => setSaved(false)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
+			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
 			<Markdown dark={darkMode} className={styles.markdown} value={markdown}/>
 			{/*<Markdown2 ref={preview as MutableRefObject<Markdown2>} dark={darkMode} className={styles.markdown} value={markdown}/>*/}
 		</div>

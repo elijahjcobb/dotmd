@@ -41,9 +41,13 @@ $headerSize: 64px;
 	}
 }
 
-.unsaved, .saved {
+.unsaved, .saved, .saveError {
 	width: 24px;
 	height: 24px;
+}
+
+.saveError {
+	color: firebrick;
 }
 
 .unsaved {
