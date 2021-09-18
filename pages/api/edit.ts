@@ -24,6 +24,6 @@ export default async function handler(
 		serialize('file', fileId, { path: '/' }),
 	]);
 
-	res.redirect("/")
+	res.redirect("/?file=" + fileId)
 
 }

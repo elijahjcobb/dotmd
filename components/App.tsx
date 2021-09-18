@@ -5,20 +5,14 @@
  * github.com/elijahjcobb
  */
 
-import React, {FC, MutableRefObject, useRef, useState} from "react";
+import React, {FC, useState} from "react";
 import styles from "../styles/App.module.scss";
 import {Markdown} from "./Markdown";
 import {useInterval, useDebounce} from "./hooks";
 import moment from "moment";
-import { CheckCircle, NightsStay, WbSunny, Circle } from "@mui/icons-material";
+import { NightsStay, WbSunny, CloudDone, CloudQueue } from "@mui/icons-material";
 import { useEffect } from "react";
 import Head from "next/head";
-import {UnControlled as CodeMirror} from 'react-codemirror2'
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/3024-night.css';
-import 'codemirror/theme/eclipse.css';
-import { Markdown2 } from "./Markdown2";
-import {Editor2} from "./Editor2";
 import {Editor} from "./Editor";
 
 
@@ -26,6 +20,7 @@ export interface AppProps {
 	name: string;
 	profile: string;
 	fileName: string;
+	file: string;
 	data: string;
 }
 
@@ -37,8 +32,22 @@ export const App: FC<AppProps> = props => {
 	const [saveMessage, setSaveMessage] = useState("Fetched");
 	const [darkMode, setDarkMode] = useState(false);
 	const [saved, setSaved] = useState(true);
+
+	useEffect(() => {
+		// window.history.replaceState(null, "", window.location.pathname)
+
+		window.onkeydown = ev => {
+			if (ev.ctrlKey !== true) return;
+			const key = ev.key.toLowerCase();
+			if (key === "s") {
+				ev.preventDefault();
+				save();
+			}
+		}
+
+	}, []);
 	
-	useDebounce(save, 5000, [markdown]);
+	useDebounce(save, 10000, [markdown]);
 
 	useInterval(() => {
 		const a = moment(Date.now());
@@ -49,8 +58,6 @@ export const App: FC<AppProps> = props => {
 	useEffect(() => {
 		setSaved(false);
 	}, [markdown])
-
-	console.log("RE-RENDER");
 
 	function save() {
 		const xhr = new XMLHttpRequest();
@@ -65,7 +72,8 @@ export const App: FC<AppProps> = props => {
 		}
 		xhr.send(JSON.stringify({
 			data: markdown,
-			name 
+			name,
+			file: props.file
 		}));
 	}
 
@@ -78,11 +86,11 @@ export const App: FC<AppProps> = props => {
 			<div className={styles.section}>
 				<img className={styles.logo} src={"/oafa.png"} alt={"icon"}/>
 				<input onBlur={save} onChange={e => setName(e.target.value)} className={styles.name} value={name} />
-				{saved ? <CheckCircle/> : <Circle/>}
+				{saved ? <CloudDone className={styles.saved}/> : <CloudQueue className={styles.unsaved}/>}
 				<span onClick={save} className={styles.save}>{saveMessage}</span>
 			</div>
 			<div className={styles.section}>
-				<div className={styles.themeButton} onClick={() => setDarkMode(v => !v)}>{darkMode ? <WbSunny/> : <NightsStay/>}</div>
+				<div className={styles.themeButton} onClick={() => setDarkMode(v => !v)}>{darkMode ? <WbSunny /> : <NightsStay/>}</div>
 				<span>{props.name}</span>
 				<img className={styles.profile} src={props.profile} alt={"profile"}/>
 			</div>

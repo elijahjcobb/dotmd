@@ -18,7 +18,7 @@ export default async function handler(
 	const drive = google.drive({version: "v3", auth});
 	const date = new Date();
 	var fileMetadata = {
-		'name': date.toLocaleDateString() + '.md',
+		'name': 'Untitled.md',
 		//@ts-ignore
 		'parents': [JSON.parse(req.query.state).folderId]
 	};
@@ -38,5 +38,5 @@ export default async function handler(
 		serialize('file', file.data.id ?? "", { path: '/' }),
 	]);
 
-	res.redirect("/")
+	res.redirect("/?file="+file.data.id)
 }

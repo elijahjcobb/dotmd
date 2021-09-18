@@ -113,7 +113,8 @@ export const getServerSideProps: GetServerSideProps<AppProps> = async (context) 
 
 	const auth = getAuthFromCookie(context.req.cookies);
 	const drive = google.drive({version: "v3", auth});
-	const fileId = context.req.cookies.file
+	const fileId = context.query.file as string | undefined;
+
 
 	if (!fileId) return {redirect: {destination: "https://drive.google.com", permanent: false}}
 
@@ -146,7 +147,7 @@ export const getServerSideProps: GetServerSideProps<AppProps> = async (context) 
 		return handleError("Could not access file data.");
 	}
 	return { props: {
-		name, fileName, profile, data: fileData.data as string
+		name, fileName, profile, data: fileData.data as string, file: fileId
 	}};
 }
 

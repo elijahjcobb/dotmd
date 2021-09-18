@@ -16,8 +16,7 @@ export default async function handler(
 	const auth = getAuthFromCookie(req.cookies);
 	const drive = google.drive({version: "v3", auth});
 
-	const fileId = req.cookies.file
-
+	const fileId = req.body.file as string;
 	const newName = req.body.name as string | undefined;
 	const content = req.body.data as string;
 

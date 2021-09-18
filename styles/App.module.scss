@@ -41,6 +41,19 @@ $headerSize: 64px;
 	}
 }
 
+.unsaved, .saved {
+	width: 24px;
+	height: 24px;
+}
+
+.unsaved {
+	color: #555;
+}
+
+.saved {
+	color: dodgerblue;
+}
+
 .name {
 	font-size: 26px;
 	font-weight: bold;
