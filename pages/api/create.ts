@@ -16,14 +16,15 @@ export default async function handler(
 ) {
 	const auth = getAuthFromCookie(req.cookies);
 	const drive = google.drive({version: "v3", auth});
+	const date = new Date();
 	var fileMetadata = {
-		'name': 'file.md',
+		'name': date.toLocaleDateString() + '.md',
 		//@ts-ignore
 		'parents': [JSON.parse(req.query.state).folderId]
 	};
 	var media = {
 		mimeType: 'text/markdown',
-		body: "# new file\n"
+		body: ""
 	};
 
 	const file = await drive.files.create({

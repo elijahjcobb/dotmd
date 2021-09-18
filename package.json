@@ -19,7 +19,9 @@
 		"@types/cookie": "^0.4.1",
 		"cookie": "^0.4.1",
 		"googleapis": "latest",
+		"moment": "^2.29.1",
 		"next": "11.1.2",
+		"node-fetch": "latest",
 		"prism-react-renderer": "latest",
 		"react": "17.0.2",
 		"react-dom": "17.0.2",
@@ -28,8 +30,7 @@
 		"rehype-katex": "latest",
 		"remark-gfm": "latest",
 		"remark-math": "latest",
-		"sass": "^1.41.1",
-		"node-fetch": "latest"
+		"sass": "^1.41.1"
 	},
 	"devDependencies": {
 		"@types/react": "17.0.21",
