@@ -79,7 +79,10 @@ $headerSize: 64px;
 	height: calc(100vh - #{$headerSize});
 	width: 100%;
 	overflow-y: auto;
-	grid-template-columns: 50% 50%;
+}
+
+.picker {
+	margin-right: 32cpx;
 }
 
 .editor, .markdown {
@@ -119,5 +122,8 @@ $headerSize: 64px;
 	color: white;
 	*::selection {
 		background: #555;
+	}
+	* {
+		color: white;
 	}
 }

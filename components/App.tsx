@@ -10,10 +10,12 @@ import styles from "../styles/App.module.scss";
 import {Markdown} from "./Markdown";
 import {useInterval, useDebounce} from "./hooks";
 import moment from "moment";
-import { NightsStay, WbSunny, CloudDone, CloudQueue, Error } from "@mui/icons-material";
+import { NightsStay, WbSunny, CloudDone, CloudQueue, Error, Code, ChromeReaderMode, Description } from "@mui/icons-material";
 import { useEffect } from "react";
 import Head from "next/head";
 import {Editor} from "./Editor";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 
 export interface AppProps {
@@ -30,6 +32,7 @@ enum SaveStatus {
 	Error
 }
 
+
 export const App: FC<AppProps> = props => {
 
 	const [markdown, setMarkdown] = useState(props.data);
@@ -38,6 +41,7 @@ export const App: FC<AppProps> = props => {
 	const [saveMessage, setSaveMessage] = useState("Fetched");
 	const [darkMode, setDarkMode] = useState(false);
 	const [status, setStatus] = useState<SaveStatus>(SaveStatus.Unsaved);
+	const [mode, setMode] = useState<"s" | "p" | "b">("b");
 
 	// useEffect(() => {
 	// 	// window.history.replaceState(null, "", window.location.pathname)
@@ -87,6 +91,12 @@ export const App: FC<AppProps> = props => {
 		}));
 	}
 
+	function getModeColumns(): string {
+		if (mode === "s") return "100% 0%";
+		else if (mode === "p") return "0% 100%";
+		return "50% 50%";
+	}
+
 	return <div className={styles.App + " " + (darkMode ? styles.dark : "")}>
 		<Head>
         <title>{name + ".md"}</title>
@@ -102,12 +112,51 @@ export const App: FC<AppProps> = props => {
 				<span className={styles.save}>{saveMessage}</span>
 			</div>
 			<div className={styles.section}>
-				<div className={styles.themeButton} onClick={() => setDarkMode(v => !v)}>{darkMode ? <WbSunny /> : <NightsStay/>}</div>
+				<ToggleButtonGroup
+					className={styles.picker}
+      				value={mode}
+      				exclusive
+     				onChange={(
+						event: React.MouseEvent<HTMLElement>,
+						newValue: "s" | "b" | "p"
+					  ) => {
+						setMode(newValue ?? "b");
+					}}
+   			 	>
+      				<ToggleButton value={"s"}>
+        				<Code />
+     				</ToggleButton>
+      				<ToggleButton value={"b"}>
+        				<ChromeReaderMode />
+      				</ToggleButton>
+      				<ToggleButton value={"p"}>
+        				<Description />
+      				</ToggleButton>
+    			</ToggleButtonGroup>
+				<ToggleButtonGroup
+					className={styles.picker}
+      				value={darkMode ? "n" : "d"}
+      				exclusive
+     				onChange={(
+						event: React.MouseEvent<HTMLElement>,
+						newValue: "d" | "n"
+					  ) => {
+						setDarkMode(newValue === "n");
+					}}
+   			 	>
+      				<ToggleButton value={"d"}>
+        				<WbSunny />
+     				</ToggleButton>
+      				<ToggleButton value={"n"}>
+        				<NightsStay />
+      				</ToggleButton>
+    			</ToggleButtonGroup>
+				{/* <div className={styles.themeButton} onClick={() => setDarkMode(v => !v)}>{darkMode ? <WbSunny /> : <NightsStay/>}</div> */}
 				<span>{props.name}</span>
 				<img className={styles.profile} src={props.profile} alt={"profile"}/>
 			</div>
 		</div>
-		<div className={styles.container}>
+		<div className={styles.container} style={{gridTemplateColumns: getModeColumns()}}>
 			{/*<Editor2 initialValue={props.data} darkMode={darkMode} onSave={v => preview.current?.setMarkdown(v)}/>*/}
 			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
 			<Markdown dark={darkMode} className={styles.markdown} value={markdown}/>
