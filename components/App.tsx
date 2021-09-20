@@ -49,7 +49,7 @@ export const App: FC<AppProps> = props => {
 	useInterval(() => {
 		const a = moment(Date.now());
 		const b = moment(lastSaved);
-		setSaveMessage("Last saved " + b.from(a) + "...")
+		setSaveMessage(b.from(a))
 	}, 1000)
 
 	useEffect(() => {
@@ -139,16 +139,13 @@ export const App: FC<AppProps> = props => {
         				<NightsStay />
       				</ToggleButton>
     			</ToggleButtonGroup>
-				{/* <div className={styles.themeButton} onClick={() => setDarkMode(v => !v)}>{darkMode ? <WbSunny /> : <NightsStay/>}</div> */}
 				<span>{props.name}</span>
 				<img className={styles.profile} src={props.profile} alt={"profile"}/>
 			</div>
 		</div>
 		<div className={styles.container} style={{gridTemplateColumns: getModeColumns()}}>
-			{/*<Editor2 initialValue={props.data} darkMode={darkMode} onSave={v => preview.current?.setMarkdown(v)}/>*/}
 			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
 			<Markdown dark={darkMode} className={styles.markdown} value={markdown}/>
-			{/*<Markdown2 ref={preview as MutableRefObject<Markdown2>} dark={darkMode} className={styles.markdown} value={markdown}/>*/}
 		</div>
 	</div>
 

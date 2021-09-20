@@ -30,28 +30,22 @@ export const Markdown: FC<MarkdownProps> = markdownProps => {
 		components={{
 			code({node, inline, className, children, ...props}) {
 				const match = /language-(\w+)/.exec(className || '')
-				return !inline && match ? (
-					<Highlight {...defaultProps} theme={markdownProps.dark ? vsDark : vsLight} code={String(children).replace(/\n$/, '')} language={(match[1] ?? "markup") as Language}>
-						{({ className, style, tokens, getLineProps, getTokenProps }) => (
-							<pre className={className} style={style}>{tokens.map((line, i) => (
-								<div key={i} {...getLineProps({line})}>
-									{line.map((token, key) => (
-										<span key={key} {...getTokenProps({token})} />
-									))}
-								</div>
-							))}
-								</pre>
-						)}
-					</Highlight>
-				) : (
-					<code className={className} {...props}>
-						{children}
-					</code>
-				)
+				return <Highlight {...defaultProps} theme={markdownProps.dark ? vsDark : vsLight} code={String(children).replace(/\n$/, '')} language={(match ? match[1] : "") as Language}>
+					{({ className, style, tokens, getLineProps, getTokenProps }) => (
+						<pre className={className} style={style}>{tokens.map((line, i) => (
+							<div key={i} {...getLineProps({line})}>
+								{line.map((token, key) => (
+									<span key={key} {...getTokenProps({token})} />
+								))}
+							</div>
+						))}</pre>
+					)}
+				</Highlight>
 			},
 			a({node, className, children}) {
 				// @ts-ignore
-				const href = node.properties.href as string;
+				let href = node.properties.href as string;
+				if (href.indexOf("http://") === -1 && href.indexOf("https://") === -1) href = "https://" + href
 				return <a target={"_blank"} rel={"noreferrer"} href={href} className={className}>{children}</a>
 			}
 		}}
