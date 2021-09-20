@@ -97,7 +97,7 @@ export const App: FC<AppProps> = props => {
 				{status === SaveStatus.Saved && <CloudDone className={styles.saved}/>}
 				{status === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved}/>}
 				{status === SaveStatus.Error && <Error className={styles.saveError}/>}
-				<span className={styles.save}>{saveMessage}</span>
+				<span className={styles.save}>{saveMessage + "..."}</span>
 			</div>
 			<div className={styles.section}>
 				<ToggleButtonGroup
