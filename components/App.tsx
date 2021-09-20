@@ -43,21 +43,8 @@ export const App: FC<AppProps> = props => {
 	const [status, setStatus] = useState<SaveStatus>(SaveStatus.Unsaved);
 	const [mode, setMode] = useState<"s" | "p" | "b">("b");
 
-	// useEffect(() => {
-	// 	// window.history.replaceState(null, "", window.location.pathname)
-
-	// 	window.onkeydown = ev => {
-	// 		if (ev.ctrlKey !== true && ev.metaKey !== true) return;
-	// 		const key = ev.key.toLowerCase();
-	// 		if (key === "s") {
-	// 			ev.preventDefault();
-	// 			save();
-	// 		}
-	// 	}
-
-	// }, []);
 	
-	useDebounce(save, 2000, [markdown]);
+	useDebounce(save, 3000, [markdown]);
 
 	useInterval(() => {
 		const a = moment(Date.now());
@@ -81,6 +68,7 @@ export const App: FC<AppProps> = props => {
 					setStatus(SaveStatus.Saved);
 				} else {
 					setStatus(SaveStatus.Error);
+					alert("API responded with error: " + this.status)
 				}
 			}
 		}
