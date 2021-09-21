@@ -26,6 +26,8 @@ export default async function handler(
 		return;
 	}
 
+	console.log("Generating pdf for file: " + fileId);
+
 	let fileData;
 	try {
 		fileData = await drive.files.get({fileId, alt: "media"})
@@ -50,6 +52,8 @@ export default async function handler(
 		return;
 	}
 
+	console.log("Fetched file data: " + content.length + " bytes.");
+
 	let fileInfo;
 	try {
 		fileInfo = await drive.files.get({fileId, fields: "*"})
@@ -67,6 +71,8 @@ export default async function handler(
 		return;
 	}
 
+	console.log("Fetched file info: " + fileInfo.data.name);
+
 	let file;
 	try {
 		file = await mdToPdf({content}, { stylesheet: ["./public/pdf.css"], pdf_options: {format: "letter", margin: {left: 1, right: 1, top: 1, bottom: 1}, printBackground: true}});
@@ -76,11 +82,16 @@ export default async function handler(
 		return res.send("");
 	}
 
+	console.log("Generated PDF");
+
 	let stream = Readable.from(file.content.toString());
+
+	console.log("Made stream.");
 
 	res.setHeader('Content-disposition', 'inline; filename="' + fileInfo.data.name + '"');
 	res.setHeader('Content-type', 'application/pdf');
 	stream.pipe(res);
 
+	console.log("Sending file.");
 
 }
