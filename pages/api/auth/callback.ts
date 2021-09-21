@@ -17,13 +17,15 @@ export default async function handler(
 	if (code) {
 		const client = createClient();
 		const token = await client.getToken(code);
+		const oneYearFromNow = new Date();
+		oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
 		res.setHeader('Set-Cookie', [
-			serialize('id_token', token.tokens.id_token ?? "", { path: '/' }),
-			serialize('access_token', token.tokens.access_token ?? "", { path: '/' }),
-			serialize('token_type', token.tokens.token_type ?? "", { path: '/' }),
-			serialize('refresh_token', token.tokens.refresh_token ?? "", { path: '/' }),
-			serialize('scope', token.tokens.scope ?? "", { path: '/' }),
-			serialize('expiry_date', (token.tokens.expiry_date ?? 0) + "", { path: '/' }),
+			serialize('id_token', token.tokens.id_token ?? "", { path: '/', expires: oneYearFromNow }),
+			serialize('access_token', token.tokens.access_token ?? "", { path: '/', expires: oneYearFromNow }),
+			serialize('token_type', token.tokens.token_type ?? "", { path: '/', expires: oneYearFromNow }),
+			serialize('refresh_token', token.tokens.refresh_token ?? "", { path: '/', expires: oneYearFromNow }),
+			serialize('scope', token.tokens.scope ?? "", { path: '/', expires: oneYearFromNow }),
+			serialize('expiry_date', (token.tokens.expiry_date ?? 0) + "", { path: '/', expires: oneYearFromNow }),
 		]);
 		res.redirect("/");
 

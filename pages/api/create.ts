@@ -34,8 +34,11 @@ export default async function handler(
 		fields: 'id'
 	});
 
+	const oneYearFromNow = new Date();
+	oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+
 	res.setHeader('Set-Cookie', [
-		serialize('file', file.data.id ?? "", { path: '/' }),
+		serialize('file', file.data.id ?? "", { path: '/', expires: oneYearFromNow }),
 	]);
 
 	res.redirect("/?file="+file.data.id)

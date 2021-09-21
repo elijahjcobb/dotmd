@@ -20,8 +20,11 @@ export default async function handler(
 	//@ts-ignore
 	const fileId = JSON.parse(req.query["state"])["ids"][0] as string;
 
+	const oneYearFromNow = new Date();
+	oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
+
 	res.setHeader('Set-Cookie', [
-		serialize('file', fileId, { path: '/' }),
+		serialize('file', fileId, { path: '/', expires: oneYearFromNow }),
 	]);
 
 	res.redirect("/?file=" + fileId)
