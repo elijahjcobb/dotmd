@@ -69,7 +69,7 @@ export default async function handler(
 		return;
 	}
 
-	const tempFileName = "/home/dotmd/tmp/" + Crypto.randomBytes(8).toString("hex") + ".pdf";
+	const tempFileName = "/tmp/" + Crypto.randomBytes(8).toString("hex") + ".pdf";
 
 	const latex = "---\nscript:\n- path: mathjax-config.js\n- url: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\n---\n"
 
