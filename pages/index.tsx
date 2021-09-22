@@ -2,7 +2,7 @@ import type {GetServerSideProps, NextPage} from 'next'
 import {App, AppProps} from "../components/App";
 import {getAuthFromCookie} from "../api/google";
 import {google} from "googleapis";
-
+import { allowed_emails } from '../api/emails';
 
 const Home: NextPage<AppProps> = (props) => {
 	return <App {...props}/>
@@ -130,6 +130,17 @@ export const getServerSideProps: GetServerSideProps<AppProps> = async (context) 
 		return handleError("Could not access file info.");
 	}
 
+	//@ts-ignore
+	const email = fileInfo.data.owners[0].emailAddress as string | undefined;
+
+	if (!email) {
+		return handleError("No email address present.");
+	}
+
+	if (email.indexOf("mtu.edu") === -1 && !allowed_emails.includes(email)) {
+		return handleError("Your google account is not on the white list. Use an mtu.edu account or contact ejcobb@mtu.edu to be added to the whitelist.");
+	}
+
 	if (fileInfo.data.trashed) return {redirect: {destination: "https://drive.google.com", permanent: false}}
 	//@ts-ignore
 	const name = fileInfo.data.owners[0].displayName as string;
@@ -146,6 +157,7 @@ export const getServerSideProps: GetServerSideProps<AppProps> = async (context) 
 		if (err.message === "Invalid Credentials") return {redirect: {destination: "/api/auth", permanent: false}}
 		return handleError("Could not access file data.");
 	}
+
 	return { props: {
 		name, fileName, profile, data: fileData.data as string, file: fileId
 	}};

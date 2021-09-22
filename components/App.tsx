@@ -10,7 +10,7 @@ import styles from "../styles/App.module.scss";
 import {Markdown} from "./Markdown";
 import {useInterval, useDebounce} from "./hooks";
 import moment from "moment";
-import { NightsStay, WbSunny, CloudDone, CloudQueue, Error, Code, ChromeReaderMode, Description } from "@mui/icons-material";
+import { NightsStay, WbSunny, CloudDone, CloudQueue, Error, Code, ChromeReaderMode, Description, Work, School } from "@mui/icons-material";
 import { useEffect } from "react";
 import Head from "next/head";
 import {Editor} from "./Editor";
@@ -139,9 +139,12 @@ export const App: FC<AppProps> = props => {
         				<NightsStay />
       				</ToggleButton>
     			</ToggleButtonGroup>
-				<button onClick={() => {
+				<div className={styles.download} onClick={() => {
 					window.open("https://dotmd.app/api/pdf?file=" + props.file, "_blank");
-				}}>save</button>
+				}}><Work/></div>
+				<div className={styles.download} onClick={() => {
+					window.open("https://dotmd.app/api/pdf?type=academic&file=" + props.file, "_blank");
+				}}><School/></div>
 				<span>{props.name}</span>
 				<img className={styles.profile} src={props.profile} alt={"profile"}/>
 			</div>

@@ -26,7 +26,7 @@ export default async function handler(
 		return;
 	}
 
-	console.log("Generating pdf for file: " + fileId);
+	const cssType = req.query.type ?? "normal" as "normal" | "academic";
 
 	let fileData;
 	try {
@@ -52,8 +52,6 @@ export default async function handler(
 		return;
 	}
 
-	console.log("Fetched file data: " + content.length + " bytes.");
-
 	let fileInfo;
 	try {
 		fileInfo = await drive.files.get({fileId, fields: "*"})
@@ -71,36 +69,25 @@ export default async function handler(
 		return;
 	}
 
-	console.log("Fetched file info: " + fileInfo.data.name);
-
-	// let file;
-	// console.log(content);
-	// try {
-	// 	file = await mdToPdf({content});
-	// } catch (e) {
-	// 	console.error(e);
-	// 	res.status(500);
-	// 	return res.send("");
-	// }
-
 	const tempFileName = "/home/dotmd/tmp/" + Crypto.randomBytes(8).toString("hex") + ".pdf";
-	console.log("Temp path: " + tempFileName);
 
 	const latex = "---\nscript:\n- path: mathjax-config.js\n- url: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\n---\n"
+
+	const margin = cssType === "academic" ? 1 : 0.45;
 	
 	try {
 		await mdToPdf({ content: latex + content }, {
 			dest: tempFileName,
-			stylesheet: ["https://dotmd.app/pdf.css"],
+			stylesheet: [`https://dotmd.app/${cssType === "academic" ? "academic" : "pdf"}.css`],
 			body_class: ["root"],
 			pdf_options: {
 				format: "letter",
 				displayHeaderFooter: false,
 				margin: {
-					left: "0.5in",
-					right: "0.5in",
-					top: "0.5in",
-					bottom: "0.5in",
+					left: margin + "in",
+					right: margin + "in",
+					top: margin + "in",
+					bottom: margin + "in"
 				},
 				printBackground: true
 			}
@@ -112,23 +99,17 @@ export default async function handler(
 	}
 
 
-	console.log("Generated PDF");
-
 	let stream = FS.createReadStream(tempFileName);
-
-	console.log("Made stream.");
 
 	res.setHeader('Content-disposition', 'inline; filename="' + fileInfo.data.name?.replace(".md", "") + '.pdf"');
 	res.setHeader('Content-type', 'application/pdf');
 	stream.pipe(res);
 
 	stream.on("close", () => {
-		console.log("Sent file.");
 		FS.rm(tempFileName, () => {
-			console.log("Deleted file.");
+			
 		});
 	});
 
-	console.log("Sending file.");
 
 }

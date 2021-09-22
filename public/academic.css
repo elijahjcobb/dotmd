@@ -1,10 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap');
 
+@font-face {
+    font-family: "Latex";
+    src: url("https://dotmd.app/font/normal.woff");
+}
 
 .root {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Latex', serif;
     font-size: 12px;
-    line-height: 2;
+    line-height: 1.5;
 }
 
 h1 {
@@ -25,19 +29,16 @@ p {
 
 
 blockquote {
-    border-left: solid 4px #444;
+    /* border-left: solid 4px #444; */
     color: #444;
     font-style: italic;
     display: block;
-    padding: 1px 8px;
-    margin: 0;
-    border-radius: 4px;
+    margin: 12px;
+    padding: 12px;
 }
 
 a {
-    color: dodgerblue;
-    text-decoration: none;
-    transition: border-bottom-color 250ms ease-in-out;
+    text-decoration: underline;
 }
 
 li {
@@ -59,24 +60,22 @@ ul:has(li) {
 table {
     border-collapse: collapse;
     width: 100%;
-    border-radius: 8px;
-    overflow: hidden;
 }
 
 th, td {
-    padding: 6px;
+    padding: 1px 4px;
 }
 
 tr:nth-child(even) {
-    background-color: #eee
+    /* background-color: #eee */
 }
 
-tr, td {
-    border: solid 1px #eee;
+tr, td, th {
+    border: solid 0.5px #666;
 }
 
 th {
-    background-color: #ddd;
+    /* background-color: #ddd; */
     text-align: left;
 }
 
@@ -88,7 +87,7 @@ pre > code, .MathJax[display] {
     padding: 12px;
     border-radius: 12px;
     margin: 12px 0;
-    border: solid 1px #eee;
+    /* border: solid 1px #eee; */
     text-align: left;
     display: block;
 }
