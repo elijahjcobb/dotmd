@@ -90,6 +90,9 @@ export default async function handler(
 					bottom: margin + "in"
 				},
 				printBackground: true
+			},
+			launch_options: {
+				args:  ["--no-sandbox"]
 			}
 		});
 	} catch (e) {
