@@ -1,12 +1,7 @@
-
-
-@font-face {
-    font-family: "Latex";
-    src: url("https://dotmd.app/font/normal.woff");
-}
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 .root {
-    font-family: 'Latex', monospace;
+    font-family: 'EB Garamond', serif;
     font-size: 12px;
     line-height: 1.5;
 }
