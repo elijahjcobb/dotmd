@@ -139,6 +139,9 @@ export const App: FC<AppProps> = props => {
         				<NightsStay />
       				</ToggleButton>
     			</ToggleButtonGroup>
+				<button onClick={() => {
+					window.open("https://dotmd.app/api/pdf?file=" + props.file, "_blank");
+				}}>save</button>
 				<span>{props.name}</span>
 				<img className={styles.profile} src={props.profile} alt={"profile"}/>
 			</div>

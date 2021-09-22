@@ -10,7 +10,7 @@ import * as FS from "fs";
 import {mdToPdf} from "md-to-pdf";
 import {getAuthFromCookie} from "../../api/google";
 import {google} from "googleapis";
-import {Readable} from "stream";
+import * as Crypto from "crypto";
 
 export default async function handler(
 	req: NextApiRequest,
@@ -73,24 +73,61 @@ export default async function handler(
 
 	console.log("Fetched file info: " + fileInfo.data.name);
 
-	let file;
+	// let file;
+	// console.log(content);
+	// try {
+	// 	file = await mdToPdf({content});
+	// } catch (e) {
+	// 	console.error(e);
+	// 	res.status(500);
+	// 	return res.send("");
+	// }
+
+	const tempFileName = "/home/dotmd/tmp/" + Crypto.randomBytes(8).toString("hex") + ".pdf";
+	console.log("Temp path: " + tempFileName);
+
+	const latex = "---\nscript:\n- path: mathjax-config.js\n- url: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js\n---\n"
+	
 	try {
-		file = await mdToPdf({content}, { stylesheet: ["./public/pdf.css"], pdf_options: {format: "letter", margin: {left: 1, right: 1, top: 1, bottom: 1}, printBackground: true}});
+		await mdToPdf({ content: latex + content }, {
+			dest: tempFileName,
+			stylesheet: ["https://dotmd.app/pdf.css"],
+			body_class: ["root"],
+			pdf_options: {
+				format: "letter",
+				displayHeaderFooter: false,
+				margin: {
+					left: "0.5in",
+					right: "0.5in",
+					top: "0.5in",
+					bottom: "0.5in",
+				},
+				printBackground: true
+			}
+		});
 	} catch (e) {
 		console.error(e);
 		res.status(500);
 		return res.send("");
 	}
 
+
 	console.log("Generated PDF");
 
-	let stream = Readable.from(file.content.toString());
+	let stream = FS.createReadStream(tempFileName);
 
 	console.log("Made stream.");
 
-	res.setHeader('Content-disposition', 'inline; filename="' + fileInfo.data.name + '"');
+	res.setHeader('Content-disposition', 'inline; filename="' + fileInfo.data.name?.replace(".md", "") + '.pdf"');
 	res.setHeader('Content-type', 'application/pdf');
 	stream.pipe(res);
+
+	stream.on("close", () => {
+		console.log("Sent file.");
+		FS.rm(tempFileName, () => {
+			console.log("Deleted file.");
+		});
+	});
 
 	console.log("Sending file.");
 

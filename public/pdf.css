@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap');
+
+
+.root {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+h1 {
+    margin: 8px 0;
+}
+
+h2 {
+    margin: 6px 0;
+}
+
+h3, h4, h5, h6 {
+    margin: 4px 0;
+}
+
+p {
+    margin: 12px 0;
+}
+
+
+blockquote {
+    border-left: solid 4px #444;
+    color: #444;
+    font-style: italic;
+    display: block;
+    padding: 1px 8px;
+    margin: 0;
+    border-radius: 4px;
+}
+
+a {
+    color: dodgerblue;
+    text-decoration: none;
+    transition: border-bottom-color 250ms ease-in-out;
+}
+
+li {
+    margin-left: 24px;
+    padding: 3px 0;
+}
+
+/* ul.contains-task-list {
+    & > * {
+        margin-left: 16px;
+        list-style: none;
+    }
+} */
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 6px;
+}
+
+tr:nth-child(even) {
+    background-color: #eee
+}
+
+tr, td {
+    border: solid 1px #eee;
+}
+
+th {
+    background-color: #ddd;
+    text-align: left;
+}
+
+.MathJax[display] {
+    text-align: left;
+}
+
+pre > code, .MathJax[display] {
+    padding: 12px;
+    border-radius: 12px;
+    margin: 12px 0;
+    border: solid 1px #eee;
+    text-align: left;
+    display: block;
+}
+
+
+code {
+    background: #eee;
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-family: "Roboto Mono", monospace;
+    font-size: 12px;
+}
