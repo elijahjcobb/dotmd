@@ -6,7 +6,7 @@
 }
 
 .root {
-    font-family: 'Latex', "Comis Sans", "serif";
+    font-family: 'Latex', monospace;
     font-size: 12px;
     line-height: 1.5;
 }
