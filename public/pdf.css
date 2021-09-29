@@ -1,8 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Roboto:ital,wght@0,300;0,400;0,700;1,400;1,700&display=swap');
+@font-face {
+    font-family: "Computer Modern";
+    src: url("/font/normal.ttf");
+    font-weight: normal;
+}
 
+@font-face {
+    font-family: "Computer Modern";
+    src: url("/font/bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "Computer Modern";
+    src: url("/font/oblique.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Computer Modern";
+    src: url("/font/bold-oblique.ttf");
+    font-style: italic;
+    font-weight: bold;
+}
 
 .root {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Computer Modern', serif;
     font-size: 12px;
     line-height: 2;
 }
