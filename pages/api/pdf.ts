@@ -17,6 +17,10 @@ export default async function handler(
 	res: NextApiResponse
 ) {
 
+	res.status(400);
+	res.send("no longer");
+	return;
+
 	const auth = getAuthFromCookie(req.cookies);
 	const drive = google.drive({version: "v3", auth});
 	const fileId = req.query.file as string | undefined;
