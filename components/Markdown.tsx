@@ -19,12 +19,13 @@ export interface MarkdownProps {
 	value: string;
 	className?: string;
 	dark: boolean;
+	academicTheme: boolean;
 }
 
 export const Markdown: FC<MarkdownProps> = markdownProps => {
 
 	return <ReactMarkdown
-		className={(markdownProps.className ?? "") + " markdownPreview" + (markdownProps.dark ? " darkmd" : "")}
+		className={(markdownProps.className ?? "") + " printContainer " + (markdownProps.academicTheme ? "academicStyleMD" : "workStyleMD") + (markdownProps.dark ? " darkmd" : "")}
 		remarkPlugins={[remarkGfm, remarkMath]}
 		rehypePlugins={[rehypeKatex]}
 		components={{

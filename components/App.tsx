@@ -42,6 +42,7 @@ export const App: FC<AppProps> = props => {
 	const [darkMode, setDarkMode] = useState(false);
 	const [status, setStatus] = useState<SaveStatus>(SaveStatus.Unsaved);
 	const [mode, setMode] = useState<"s" | "p" | "b">("b");
+	const [academicTheme, setAcademicTheme] = useState(false);
 
 	
 	useDebounce(save, 3000, [markdown]);
@@ -94,12 +95,12 @@ export const App: FC<AppProps> = props => {
 			<div className={styles.section}>
 				<img className={styles.logo} src={"/oafa.png"} alt={"icon"}/>
 				<input onBlur={save} onChange={e => setName(e.target.value)} className={styles.name} value={name} />
+			</div>
+			<div className={styles.section}>
 				{status === SaveStatus.Saved && <CloudDone className={styles.saved}/>}
 				{status === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved}/>}
 				{status === SaveStatus.Error && <Error className={styles.saveError}/>}
-				<span className={styles.save}>{saveMessage + "..."}</span>
-			</div>
-			<div className={styles.section}>
+				<span className={styles.save}>{saveMessage + "..."}</span>	
 				<ToggleButtonGroup
 					className={styles.picker}
       				value={mode}
@@ -139,19 +140,30 @@ export const App: FC<AppProps> = props => {
         				<NightsStay />
       				</ToggleButton>
     			</ToggleButtonGroup>
-				<div className={styles.download} onClick={() => {
-					window.open("https://dotmd.app/api/pdf?file=" + props.file, "_blank");
-				}}><Work/></div>
-				<div className={styles.download} onClick={() => {
-					window.open("https://dotmd.app/api/pdf?type=academic&file=" + props.file, "_blank");
-				}}><School/></div>
-				<span>{props.name}</span>
+				<ToggleButtonGroup
+					className={styles.picker}
+      				value={academicTheme ? "a" : "w"}
+      				exclusive
+     				onChange={(
+						event: React.MouseEvent<HTMLElement>,
+						newValue: "w" | "a"
+					  ) => {
+						setAcademicTheme(newValue === "a");
+					}}
+   			 	>
+      				<ToggleButton value={"w"}>
+        				<Work />
+     				</ToggleButton>
+      				<ToggleButton value={"a"}>
+        				<School />
+      				</ToggleButton>
+    			</ToggleButtonGroup>
 				<img className={styles.profile} src={props.profile} alt={"profile"}/>
 			</div>
 		</div>
 		<div className={styles.container} style={{gridTemplateColumns: getModeColumns()}}>
 			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
-			<Markdown dark={darkMode} className={styles.markdown} value={markdown}/>
+			<Markdown academicTheme={academicTheme} dark={darkMode} className={styles.markdown} value={markdown}/>
 		</div>
 	</div>
 

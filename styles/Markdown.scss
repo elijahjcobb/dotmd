@@ -6,10 +6,11 @@
 
 $spacing: 16px;
 
-.markdownPreview {
+.workStyleMD {
 
 	padding: $spacing * 2;
 	overflow-y: auto;
+	line-height: 1.75;
 
 	h1 {
 		margin: 16px 0;
@@ -42,7 +43,7 @@ $spacing: 16px;
 
 	a {
 		color: dodgerblue;
-		border-bottom: solid white 4px;
+		border-bottom: solid white 1px;
 		text-decoration: none;
 		transition: border-bottom-color 250ms ease-in-out;
 		&:hover {
@@ -106,6 +107,113 @@ $spacing: 16px;
 	}
 
 }
+
+
+@font-face {
+	font-family: "Computer Modern";
+	src: url("/font/normal.ttf");
+}
+
+.academicStyleMD {
+
+	padding: $spacing * 2;
+	overflow-y: auto;
+	
+	font-family: "Computer Modern", serif;
+	font-size: 12px;
+	line-height: 1.5;
+
+	h1 {
+		margin: 8px 0;
+	}
+
+	h2 {
+		margin: 6px 0;
+	}
+
+	h3, h4, h5, h6 {
+		margin: 4px 0;
+	}
+
+	p {
+		margin: 12px 0;
+	}
+
+
+	blockquote {
+		/* border-left: solid 4px #444; */
+		color: #444;
+		font-style: italic;
+		display: block;
+		margin: 12px;
+		padding: 12px;
+	}
+
+	a {
+		text-decoration: underline;
+	}
+
+	li {
+		margin-left: 24px;
+		padding: 3px 0;
+	}
+
+	ul:has(li) {
+		background: red;
+	}
+
+	/* ul.contains-task-list {
+		& > * {
+			margin-left: 16px;
+			list-style: none;
+		}
+	} */
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		padding: 1px 4px;
+	}
+
+	tr:nth-child(even) {
+		/* background-color: #eee */
+	}
+
+	tr, td, th {
+		border: solid 0.5px #666;
+	}
+
+	th {
+		/* background-color: #ddd; */
+		text-align: left;
+	}
+
+	.katex-display>.katex, .katex-display, .katex {
+		text-align: left;
+	}
+
+	pre > code, .MathJax[display] {
+		padding: 12px;
+		border-radius: 12px;
+		margin: 12px 0;
+		/* border: solid 1px #eee; */
+		text-align: left;
+		display: block;
+	}
+
+
+	code {
+		background: #eee;
+		padding: 2px 4px;
+		border-radius: 2px;
+		font-family: "Roboto Mono", monospace;
+		font-size: 12px;
+	}
+}
+
 
 .darkmd {
 	pre > pre, .katex-display {

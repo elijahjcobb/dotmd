@@ -30,3 +30,19 @@ body {
 	padding: 0 !important;
 	margin: 0 !important;
 }
+
+@media print {
+	.printContainer {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 33232;
+		background: white;
+		overflow: visible !important;
+		margin: 0;
+		padding: 0;
+	}
+
+}
