@@ -1,0 +1,34 @@
+/**
+ * Elijah Cobb
+ * elijah@elijahcobb.com
+ * elijahcobb.com
+ * github.com/elijahjcobb
+ */
+
+.container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	box-shadow: 0 0 16px #ddd;
+	width: 100%;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+
+	* {
+		display: block;
+	}
+
+	img {
+		width: 48px;
+	}
+
+	span {
+		font-weight: bolder;
+		margin-left: 16px;
+	}
+
+}
