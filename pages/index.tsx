@@ -9,11 +9,14 @@ import type {NextPage, GetServerSideProps, GetServerSidePropsContext} from "next
 import {DirectoryPage} from "../components/DirectoryPage";
 import {NavBar} from "../components/NavBar";
 import {ParsedUrlQuery} from "querystring";
-import {IDirectory, IFile} from "../components/types";
 import styles from "../styles/HomePage.module.scss"
-import {getCollectionDirectories, getCollectionFiles, getCollectionUser} from "../db/DB";
+import {Directory, FileProps, DirectoryProps, User, File} from "../db/DB";
+import {SiQuery} from "@element-ts/silicon";
+import {getEmail} from "../db/auth-silicon";
+import {IDirectory, IFile} from "../components/local-types";
 
 interface PageProps {
+	id: string;
 	directories: IDirectory[];
 	files: IFile[];
 }
@@ -26,6 +29,7 @@ const Page: NextPage<PageProps> = props => {
 		<div className={styles.container}>
 			<NavBar/>
 			{signedIn ? <DirectoryPage
+				id={props.id}
 				directories={props.directories}
 				files={props.files}
 			/> : <div>
@@ -35,46 +39,22 @@ const Page: NextPage<PageProps> = props => {
 	);
 };
 
-async function getEmail(context: GetServerSidePropsContext<ParsedUrlQuery>): Promise<string | undefined> {
-	const session = await getSession({req: context.req});
-	return session?.user?.email ?? undefined;
-}
-
 export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
 
 	const email = await getEmail(context);
 
 	if (!email) return {props: {directories: [], files: []}}
-	const users = await getCollectionUser();
-	const user = await users.findOne({email});
-	if (!user) await users.insertOne({email})
-	const userId = (user._id.id as Buffer).toString("hex");
+	let user = await (new SiQuery(User, {email})).getFirst();
+	if (!user) {
+		user = new User({email});
+		await user.save();
+	}
+	const directories = await (new SiQuery(Directory, {parent: user.getHexId(), owner: user.getHexId()})).getAll();
+	const files = await (new SiQuery(File, {parent: user.getHexId(), owner: user.getHexId()})).getAll();
 
-	console.log(userId);
-
-	const directoriesCol = await getCollectionDirectories();
-	const filesCol = await getCollectionFiles();
-
-	const dirsRaw = await directoriesCol.find({parent: email}).toArray();
-	const filesRaw = await filesCol.find({parent: email}).toArray();
-
-	const directories: IDirectory[] = dirsRaw.map(dir => {
-		console.log(dir)
-		return {
-			name: dir.name,
-			id: "dfew"
-		}
-	})
-
-	const files: IFile[] = filesRaw.map(file => {
-		return {
-			name: file.name,
-			lastUpdated: Date.now(),
-			id: "dfew"
-		}
-	});
-
-	return {props: {directories, files}}
+	return {props: {
+		directories: directories.map(v => v.toJSON()), files: files.map(v => v.toJSON()), id: user.getHexId()
+	}}
 
 }
 

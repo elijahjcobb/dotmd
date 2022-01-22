@@ -9,7 +9,7 @@ import React, {FC} from "react";
 import FolderIcon from '@mui/icons-material/Folder';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styles from "../styles/Directory.module.scss";
-import {IDirectory} from "./types";
+import {IDirectory} from "./local-types";
 
 export interface DirectoryProps {
 	directory: IDirectory;
@@ -21,6 +21,8 @@ export const Directory: FC<DirectoryProps> = props => {
 
 	const onClick = () => props.onSelect(props.directory);
 	const onOptionClick = () => props.onOptionSelect(props.directory);
+
+	console.log(props.directory)
 
 	return (<div onClick={onClick} className={styles.container}>
 		<FolderIcon/>

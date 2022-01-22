@@ -8,7 +8,7 @@
 import React, {FC} from "react";
 import styles from "../styles/DirectoryContainer.module.scss";
 import {Directory} from "./Directory";
-import {IDirectory} from "./types";
+import {IDirectory} from "./local-types";
 
 export interface DirectoryContainerProps {
 	directories: IDirectory[];

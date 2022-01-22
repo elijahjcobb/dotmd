@@ -5,30 +5,63 @@
  * github.com/elijahjcobb
  */
 
-import {MongoClient, Db, Collection} from "mongodb";
+import {SiDatabase, SiObject, SiObjectProps} from "@element-ts/silicon";
 
-let db: Db;
+SiDatabase.init({
+	address: "mongodb://localhost:27017",
+	database: "dotmd"
+}).catch(console.error);
 
-async function getCollection(collection: string): Promise<Collection<Document>> {
+export interface UserProps extends SiObjectProps {
+	email: string;
+}
 
-	if (!db) {
-		let client = new MongoClient("mongodb://localhost:27017");
-		await client.connect();
-		db = client.db("dotmd");
+export class User extends SiObject<UserProps> {
+
+	public constructor(value: UserProps) {
+		super("users", value);
 	}
 
-	return db.collection(collection);
+}
+
+export interface DirectoryProps extends SiObjectProps {
+	name: string;
+	parent: string;
+	owner: string;
+}
+
+export class Directory extends SiObject<DirectoryProps> {
+
+	public constructor(value: DirectoryProps) {
+		super("directories", value);
+	}
 
 }
 
-export function getCollectionUser() {
-	return getCollection("users");
+export interface FileProps extends SiObjectProps {
+	name: string
+	parent: string;
+	owner: string;
+	content: string;
 }
 
-export function getCollectionFiles() {
-	return getCollection("files");
+export class File extends SiObject<FileProps> {
+
+	public constructor(value: FileProps) {
+		super("files", value);
+	}
+
 }
 
-export function getCollectionDirectories() {
-	return getCollection("directories");
+export interface AttachmentProps extends SiObjectProps {
+	owner: string;
+	content: Buffer;
+}
+
+export class Attachment extends SiObject<AttachmentProps> {
+
+	public constructor(value: AttachmentProps) {
+		super("attachments", value);
+	}
+
 }
