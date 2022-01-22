@@ -11,11 +11,11 @@
 		"prod": "next start -p 9038"
 	},
 	"dependencies": {
-		"@emotion/react": "^11.4.1",
-		"@emotion/styled": "^11.3.0",
+		"@emotion/react": "^11.7.1",
+		"@emotion/styled": "^11.6.0",
 		"@monaco-editor/react": "latest",
 		"@mui/icons-material": "latest",
-		"@mui/material": "^5.0.0",
+		"@mui/material": "^5.3.0",
 		"@types/codemirror": "latest",
 		"@types/cookie": "^0.4.1",
 		"@types/parse": "^2.18.13",
@@ -24,6 +24,7 @@
 		"googleapis": "^92.0.0",
 		"md-to-pdf": "^4.0.1",
 		"moment": "^2.29.1",
+		"mongodb": "^4.3.1",
 		"next": "11.1.2",
 		"next-auth": "^4.0.5",
 		"node-fetch": "latest",

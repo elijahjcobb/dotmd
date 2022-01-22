@@ -12,6 +12,7 @@
 	justify-content: space-between;
 	box-shadow: 0 0 16px #ddd;
 	width: 100%;
+	padding: 8px 16px;
 }
 
 .header {
@@ -31,4 +32,36 @@
 		margin-left: 16px;
 	}
 
+}
+
+.profile {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.headshot {
+	width: 48px;
+	border-radius: 50%;
+	transition: box-shadow 250ms ease-in-out;
+	&:hover {
+		cursor: pointer;
+		box-shadow: 0 0 8px red;
+	}
+}
+
+.signIn {
+	color: dodgerblue;
+	border: solid 2px dodgerblue;
+	padding: 8px 16px;
+	border-radius: 8px;
+	font-weight: bold;
+	transition: all 250ms ease-in-out;
+	
+	&:hover {
+		cursor: pointer;
+		background: dodgerblue;
+		color: var(--background);
+		box-shadow: 0 0 8px var(--lighter);
+	}
 }

@@ -1,0 +1,37 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.container {
+
+	display: flex;
+	color: var(--text);
+	align-items: center;
+	padding: 16px;
+	background: var(--background);
+	border: solid 1px var(--primary);
+	transition: all 250ms ease-in-out;
+	user-select: none;
+
+	&:hover {
+		cursor: pointer;
+		background: var(--lighter);
+	}
+
+	* {
+		display: block;
+	}
+
+}
+
+.name {
+	margin: 0 16px;
+	flex-grow: 1;
+}
+
+.date {
+	font-weight: lighter;
+	color: var(--textLight);
+}

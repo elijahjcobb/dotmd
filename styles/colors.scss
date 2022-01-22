@@ -1,0 +1,28 @@
+/**
+ * Elijah Cobb
+ * elijah@elijahcobb.com
+ * elijahcobb.com
+ * github.com/elijahjcobb
+ */
+
+:root {
+	--text: #000;
+	--textLight: #333;
+	--background: #fff;
+	--lighter: #eee;
+	--primary: #ddd;
+	--secondary: #ccc;
+	--dark: #888;
+	--darker:#666;
+}
+
+.dark-mode {
+	--text: #fff;
+	--textLight: #ccc;
+	--background: #000;
+	--primary: #222;
+	--secondary: #333;
+	--lighter: #111;
+	--dark: #ddd;
+	--darker:#eee;
+}

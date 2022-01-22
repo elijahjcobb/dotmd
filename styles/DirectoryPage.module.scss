@@ -1,0 +1,43 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.container {
+
+}
+
+.add, .folder {
+	background: dodgerblue;
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 48px;
+	right: 48px;
+	transition: all 250ms ease-in-out;
+
+	&:hover {
+		box-shadow: 0 0 16px var(--primary);
+		transform: scale(1.1);
+		cursor: pointer;
+	}
+}
+
+.folder {
+	width: 36px;
+	height: 36px;
+	right: 54px;
+	bottom: 48px + 24px + 36px;
+}
+
+.addButton, .folderButton {
+	display: block;
+	width: 48px;
+	height: 48px;
+	color: var(--background);
+}
