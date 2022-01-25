@@ -10,6 +10,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import {IDirectory} from "./local-types";
+import {BreadcrumbItem} from "./BreadcrumbItem";
 
 export interface NavBarProps {
 	path: IDirectory[];
@@ -25,7 +26,7 @@ export const NavBar: FC<NavBarProps> = props => {
 			<img src={"/oafa.png"} alt={"logo"}/>
 			<Breadcrumbs maxItems={8} aria-label="breadcrumb">
 				{props.path.map((v, i) => {
-					return <Link key={i} underline="hover" color="inherit" href={"/view/" + v.id}>{v.name}</Link>
+					return <BreadcrumbItem key={i} directory={v}/>
 				})}
 			</Breadcrumbs>
 		</div>

@@ -46,3 +46,23 @@
 	font-weight: lighter;
 	color: var(--textLight);
 }
+
+.drag {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	width: 64px;
+	overflow: hidden;
+	height: 64px;
+	background: var(--background);
+	border-radius: 8px;
+	box-shadow: 0 0 16px var(--dark);
+	.dragIcon {
+		width: 48px;
+		height: 48px;
+	}
+}
+
+.dragging {
+	display: flex;
+}

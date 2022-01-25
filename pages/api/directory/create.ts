@@ -18,6 +18,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const dir = new Directory({name, parent, owner: user.getHexId()});
 	await dir.save();
 
-	res.redirect("/view/" + dir.getHexId());
+	res.redirect("/view/" + parent);
 
 }

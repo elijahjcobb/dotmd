@@ -18,6 +18,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const file = new File({name, parent, owner: user.getHexId(), content: ""});
 	await file.save();
 
-	res.redirect("/edit/" + file.getHexId());
+	res.redirect("/view/" + parent);
 
 }

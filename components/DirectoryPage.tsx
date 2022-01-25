@@ -11,7 +11,6 @@ import {DirectoryContainer} from "./DirectoryContainer";
 import {FilesContainer} from "./FilesContainer";
 import AddIcon from '@mui/icons-material/Add';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import {DirectoryProps, FileProps} from "../db/DB";
 import {ModalEditor} from "./ModalEditor";
 import {IDirectory, IFile} from "./local-types";
 import {Modal} from "./Modal";
@@ -24,32 +23,6 @@ export interface DirectoryPageProps {
 
 export const DirectoryPage: FC<DirectoryPageProps> = props => {
 
-	const onFileSelect = useCallback((file: IFile) => {
-		console.log("Select:", file);
-		window.open(`/edit/${file.id}`, "_self");
-	}, [])
-
-	const onFileEdit = useCallback((file: IFile) => {
-		setEditItem(file);
-	}, [])
-
-	const onFileDelete = useCallback((file: IFile) => {
-		setDeleteItem(file);
-	}, [])
-
-	const onDirectorySelect = useCallback((directory: IDirectory) => {
-		console.log("Select:", directory);
-		window.open(`/view/${directory.id}`, "_self");
-	}, [])
-
-	const onDirectoryEdit = useCallback((directory: IDirectory) => {
-		setEditItem(directory);
-	}, [])
-
-	const onDirectoryDelete = useCallback((directory: IDirectory) => {
-		setDeleteItem(directory);
-	}, [])
-
 	const [creator, setCreator] = useState<"dir" | "file" | undefined>(undefined);
 	const [deleteItem, setDeleteItem] = useState<IFile | IDirectory | undefined>(undefined);
 	const [editItem, setEditItem] = useState<IFile | IDirectory | undefined>(undefined);
@@ -59,11 +32,11 @@ export const DirectoryPage: FC<DirectoryPageProps> = props => {
 			<span>Click + below to create a file or directory.</span>
 		</div>}
 		{props.directories.length > 0 && <DirectoryContainer
-			onSelect={onDirectorySelect}
-			onEdit={onDirectoryEdit}
-			onDelete={onDirectoryDelete}
+			onSelect={d => window.open(`/view/${d.id}`, "_self")}
+			onEdit={d => setEditItem(d)}
+			onDelete={d => setDeleteItem(d)}
 			directories={props.directories}/>}
-		<FilesContainer onEdit={onFileEdit} onDelete={onFileDelete} onSelect={onFileSelect} files={props.files}/>
+		<FilesContainer onEdit={f => setEditItem(f)} onDelete={f => setDeleteItem(f)} onSelect={f => window.open(`/edit/${f.id}`, "_self")} files={props.files}/>
 		<div className={styles.add} onClick={() => setCreator("file")}>
 			<AddIcon className={styles.addButton}/>
 		</div>
