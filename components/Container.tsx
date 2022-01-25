@@ -15,7 +15,7 @@ export interface PageProps {
 export const Container: FC<PageProps> = props => {
 
 	return (<div className={styles.container}>
-		<NavBar/>
+		{/*<NavBar/>*/}
 	</div>);
 
 };
