@@ -14,6 +14,7 @@ import {SiQuery} from "@element-ts/silicon";
 import {getEmail} from "../../db/auth-silicon";
 import {IDirectory, IFile} from "../../components/local-types";
 import {ObjectId} from "bson";
+import {useEffect} from "react";
 
 interface PageProps {
 	dir: IDirectory;
@@ -25,6 +26,14 @@ interface PageProps {
 const Page: NextPage<PageProps> = props => {
 
 	const signedIn = useSession().status === "authenticated";
+
+	useEffect(() => {
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/service-worker.js').catch(console.error)
+			});
+		}
+	}, []);
 
 	return (
 		<div className={styles.container}>
