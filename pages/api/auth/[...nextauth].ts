@@ -7,6 +7,7 @@
 
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google";
+import * as Crypto from "crypto";
 
 
 export default NextAuth({
@@ -18,4 +19,5 @@ export default NextAuth({
 		})
 		// ...add more providers here
 	],
+	// secret: Crypto.randomBytes(32).toString("hex")
 })

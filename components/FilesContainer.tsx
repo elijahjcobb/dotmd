@@ -7,7 +7,7 @@
 
 import React, {FC} from "react";
 import {File} from "./File";
-import {IFile} from "./types";
+import {IFile} from "./local-types";
 
 export interface FilesContainerProps {
 	files: IFile[];

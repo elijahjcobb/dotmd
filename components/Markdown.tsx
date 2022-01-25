@@ -14,6 +14,7 @@ import ReactMarkdown from "react-markdown";
 import 'katex/dist/katex.min.css'
 import vsDark from 'prism-react-renderer/themes/vsDark';
 import vsLight from 'prism-react-renderer/themes/vsLight';
+import styles from "../styles/Markdown.module.scss";
 
 export interface MarkdownProps {
 	value: string;
@@ -25,7 +26,7 @@ export interface MarkdownProps {
 export const Markdown: FC<MarkdownProps> = markdownProps => {
 
 	return <ReactMarkdown
-		className={(markdownProps.className ?? "") + " printContainer " + (markdownProps.academicTheme ? "academicStyleMD" : "workStyleMD") + (markdownProps.dark ? " darkmd" : "")}
+		className={styles.mdDefault + " " + (markdownProps.className ?? "") + " printContainer " + (markdownProps.academicTheme ? styles.academicStyleMD : styles.workStyleMD) + (markdownProps.dark ? " " + styles.darkmd : "")}
 		remarkPlugins={[remarkGfm, remarkMath]}
 		rehypePlugins={[rehypeKatex]}
 		components={{

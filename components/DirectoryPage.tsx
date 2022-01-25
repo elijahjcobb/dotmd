@@ -40,6 +40,9 @@ export const DirectoryPage: FC<DirectoryPageProps> = props => {
 	const [creator, setCreator] = useState<"dir" | "file" | undefined>(undefined);
 
 	return (<div className={styles.container}>
+		{(props.directories.length + props.files.length === 0) && <div className={styles.nofile}>
+			<span>Click + below to create a file or directory.</span>
+		</div>}
 		{props.directories.length > 0 && <DirectoryContainer
 			onSelect={onDirectorySelect}
 			onOptionSelect={onDirectoryOptionsSelect}

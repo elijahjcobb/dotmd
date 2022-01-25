@@ -4,38 +4,19 @@
  * https://elijahcobb.com
  */
 
-import {getSession, useSession} from "next-auth/react";
-import type {NextPage, GetServerSideProps, GetServerSidePropsContext} from "next";
-import {DirectoryPage} from "../components/DirectoryPage";
-import {NavBar} from "../components/NavBar";
-import {ParsedUrlQuery} from "querystring";
-import styles from "../styles/HomePage.module.scss"
-import {Directory, FileProps, DirectoryProps, User, File} from "../db/DB";
-import {SiQuery} from "@element-ts/silicon";
+import type {GetServerSideProps, } from 'next';
+import {Directory, User} from "../db/DB";
 import {getEmail} from "../db/auth-silicon";
-import {IDirectory, IFile} from "../components/local-types";
+import {SiQuery} from "@element-ts/silicon";
+import {NextPage} from "next";
 
 interface PageProps {
-	id: string;
-	directories: IDirectory[];
-	files: IFile[];
+
 }
 
-const Page: NextPage<PageProps> = props => {
-
-	const signedIn = useSession().status === "authenticated";
-
+const Page: NextPage = () => {
 	return (
-		<div className={styles.container}>
-			<NavBar/>
-			{signedIn ? <DirectoryPage
-				id={props.id}
-				directories={props.directories}
-				files={props.files}
-			/> : <div>
-				<span>About info here... (sign in for this to go away)</span>
-			</div>}
-		</div>
+		<span>never see me</span>
 	);
 };
 
@@ -43,20 +24,24 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 
 	const email = await getEmail(context);
 
-	if (!email) return {props: {directories: [], files: []}}
+	if (!email) return { redirect: {destination: "/about", permanent: false}}
 	let user = await (new SiQuery(User, {email})).getFirst();
 	if (!user) {
 		user = new User({email});
 		await user.save();
 	}
-	const directories = await (new SiQuery(Directory, {parent: user.getHexId(), owner: user.getHexId()})).getAll();
-	const files = await (new SiQuery(File, {parent: user.getHexId(), owner: user.getHexId()})).getAll();
 
-	return {props: {
-		directories: directories.map(v => v.toJSON()), files: files.map(v => v.toJSON()), id: user.getHexId()
-	}}
+	let dir = await (new SiQuery(Directory, {owner: user.getHexId(), parent: user.getHexId()}).getFirst());
+	if (!dir) {
+		dir = new Directory({
+			name: "root",
+			parent: user.getHexId(),
+			owner: user.getHexId()
+		})
+		await dir.save();
+	}
 
+	return { redirect: {destination: "/view/" + dir.getHexId(), permanent: false}}
 }
-
 
 export default Page;

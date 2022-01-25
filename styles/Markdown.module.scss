@@ -6,6 +6,13 @@
 
 $spacing: 16px;
 
+.mdDefault {
+	img, * img {
+		display: block;
+		width: 100%;
+	}
+}
+
 .workStyleMD {
 
 	padding: $spacing * 2;
@@ -118,7 +125,7 @@ $spacing: 16px;
 
 	padding: $spacing * 2;
 	overflow-y: auto;
-	
+
 	font-family: "Computer Modern", serif;
 	font-size: 12px;
 	line-height: 1.5;

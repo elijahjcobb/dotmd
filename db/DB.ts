@@ -55,7 +55,9 @@ export class File extends SiObject<FileProps> {
 
 export interface AttachmentProps extends SiObjectProps {
 	owner: string;
+	parent: string;
 	content: Buffer;
+	mime: string;
 }
 
 export class Attachment extends SiObject<AttachmentProps> {

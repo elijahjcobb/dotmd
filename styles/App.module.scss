@@ -28,7 +28,37 @@ $headerSize: 64px;
 	align-items: center;
 }
 
-.download {
+.loading {
+	background: rgba(0, 0, 0,0.5);
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 22222222;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	div {
+		background: white;
+		padding: 32px 64px;
+		box-shadow: 0 0 16px #aaa;
+		border-radius: 16px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		span {
+			font-weight: bold;
+			font-size: 18px;
+			display: block;
+			margin-bottom: 32px;
+		}
+	}
+}
+
+.download, .upload {
 
 	display: flex;
 	justify-content: center;
@@ -45,13 +75,21 @@ $headerSize: 64px;
 	}
 }
 
-.download:hover {
+.download:hover, .upload:hover {
 	background: rgba(0, 0, 0, 0.08);
 	cursor: pointer;
 }
 
-.logo {
-	border-radius: 25%;
+.folder {
+	transition: transform 250ms ease-in-out;
+	&:hover {
+		cursor: pointer;
+		transform: scale(1.05);
+	}
+}
+
+.sep {
+	margin: 0 4px;
 }
 
 .save {

@@ -16,6 +16,11 @@ export async function getEmail(context: GetServerSidePropsContext<ParsedUrlQuery
 	return session?.user?.email ?? undefined;
 }
 
+export async function getEmailFromReq(req: NextApiRequest): Promise<string | undefined> {
+	const session = await getSession({req});
+	return session?.user?.email ?? undefined;
+}
+
 export async function getUserForEmail(email?: string): Promise<User | undefined> {
 	if (!email) return undefined;
 	const query = new SiQuery(User, {email});

@@ -8,7 +8,7 @@
 import React, {FC} from "react";
 import styles from "../styles/File.module.scss";
 import ArticleIcon from '@mui/icons-material/Article';
-import {IFile} from "./types";
+import {IFile} from "./local-types";
 
 export interface FileProps {
 	file: IFile;
