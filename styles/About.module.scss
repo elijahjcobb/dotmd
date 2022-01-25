@@ -1,0 +1,121 @@
+/**
+ * Elijah Cobb
+ * elijah@elijahcobb.com
+ * elijahcobb.com
+ * github.com/elijahjcobb
+ */
+
+.button {
+	background: dodgerblue;
+	color: var(--background);
+	font-weight: bolder;
+	padding: 8px 16px;
+	border-radius: 8px;
+	box-shadow: 0 0 8px var(--secondary);
+	display: block;
+	transition: transform 250ms ease-in-out;
+	
+	&:hover {
+		cursor: pointer;
+		transform: scale(1.05);
+	}
+}
+
+.nav {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px 16px;
+	align-items: center;
+	background: var(--background);
+	box-shadow: 0 0 16px var(--secondary);
+	margin-bottom: 16px;
+	position: sticky;
+	top: 0;
+	z-index: 3;
+
+	.left {
+
+		display: flex;
+		align-items: center;
+
+		& > * {
+			display: block;
+		}
+
+		img {
+			width: 48px;
+			margin-right: 16px;
+		}
+
+		h1 {
+
+		}
+	}
+}
+
+.body {
+
+	height: 100vh;
+	width: 100vw;
+	overflow-y: scroll;
+
+	footer {
+		margin-top: 16px;
+		padding: 32px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		span {
+			display: block;
+		}
+	}
+
+	section {
+		height: 80vh;
+		width: 100vw;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 32px;
+		flex-direction: column;
+		overflow: hidden;
+
+		& > img {
+			width: 60%;
+			object-fit: contain;
+			margin: 0 64px;
+			box-shadow: 0 0 16px var(--dark);
+			border-radius: 8px;
+		}
+
+		& > div {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+		}
+
+		h2 {
+			margin: 16px 0;
+		}
+
+		span {
+			display: block;
+			margin: 16px 0;
+			max-width: 480px;
+			line-height: 1.5;
+		}
+	}
+
+	@media (min-width: 720px) {
+		section {
+			flex-direction: row;
+		}
+		section:nth-child(odd) {
+			flex-direction: row-reverse;
+			background: var(--lighter);
+			box-shadow: 0 0 16px var(--dark);
+		}
+	}
+}
