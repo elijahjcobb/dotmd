@@ -9,6 +9,11 @@
 			"type": "image/png"
 		},
 		{
+			"src": "/oofa-92.png",
+			"sizes": "92x92",
+			"type": "image/png"
+		},
+		{
 			"src": "/oofa-512.png",
 			"sizes": "512x512",
 			"type": "image/png"

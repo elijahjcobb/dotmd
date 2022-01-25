@@ -27,14 +27,6 @@ const Page: NextPage<PageProps> = props => {
 
 	const signedIn = useSession().status === "authenticated";
 
-	useEffect(() => {
-		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', function() {
-				navigator.serviceWorker.register('/service-worker.js').catch(console.error)
-			});
-		}
-	}, []);
-
 	return (
 		<div className={styles.container}>
 			<NavBar path={props.path}/>
