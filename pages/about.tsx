@@ -13,7 +13,7 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = () => {
 	return (
-		<button onClick={() => signIn("google")}>Sign In</button>
+		<button onClick={() => signIn("google", {callbackUrl: "https://dotmd.app/"})}>Sign In</button>
 	);
 };
 
