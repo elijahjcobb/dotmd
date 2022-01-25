@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 
-const withPWA = require("next-pwa");
+// const withPWA = require("next-pwa");
 
-module.exports = withPWA({
+module.exports = {
   reactStrictMode: true,
   optimizeFonts: false,
   pwa: {
@@ -11,4 +11,4 @@ module.exports = withPWA({
     skipWaiting: true,
     swSrc: "/service-worker.js"
   },
-})
+}
