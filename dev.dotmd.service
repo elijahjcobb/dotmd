@@ -5,10 +5,10 @@ After=network.target
 [Service]
 type=simple
 User=root
-WorkingDirectory=/srv/dotmd
+WorkingDirectory=/srv/dev.dotmd
 EnvironmentFile=env
-ExecStart=/usr/bin/npm run prod
+ExecStart=/usr/bin/npm run devprod
 
 [Install]
 WantedBy=multi-user.target
-Alias=dotmd
+Alias=dev.dotmd
