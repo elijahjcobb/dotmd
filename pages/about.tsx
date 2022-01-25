@@ -36,7 +36,7 @@ const Page: NextPage<PageProps> = () => {
 	return (<div className={styles.body}>
 		<nav className={styles.nav}>
 			<div className={styles.left}>
-				<img alt={"logo"} src={"/oafa.png"} alt={"few"}/>
+				<img src={"/oafa.png"} alt={"logo"}/>
 				<h1>dotmd.app</h1>
 			</div>
 			<SignInButton/>
