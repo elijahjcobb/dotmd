@@ -2,13 +2,16 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 import {useEffect} from "react";
 
 class MyDocument extends Document {
-	render() {
 
-		useEffect(() => {
-			if('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/service-worker.js');
-			}
-		}, [])
+	componentDidMount() {
+
+		if('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/service-worker.js');
+		}
+
+	};
+
+	render() {
 
 		return (
 			<Html>
