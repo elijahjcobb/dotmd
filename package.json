@@ -7,8 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"devserver": "next dev -p 9038",
-		"prod": "next start -p 9038"
+		"devserver": "next dev -p 9039",
+		"prod": "next start -p 9039"
 	},
 	"dependencies": {
 		"@element-ts/silicon": "^1.0.2",
