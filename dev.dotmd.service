@@ -6,8 +6,8 @@ After=network.target
 type=simple
 User=root
 WorkingDirectory=/srv/dev.dotmd
-Environment="GOOGLE_CLIENT_ID=728458981678-eqkv5ss4g01feccuhk5fjaum98jhuj0e.apps.googleusercontent.com;GOOGLE_CLIENT_SECRET=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;SECRET=wefoijweefoijweofijwefo"
-ExecStart=/usr/bin/npm run prod
+EnvironmentFile=env
+ExecStart=/usr/bin/npm run devprod
 
 [Install]
 WantedBy=multi-user.target
