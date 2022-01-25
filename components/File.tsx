@@ -11,7 +11,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import {IFile} from "./local-types";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useDrag, useDrop} from "react-dnd";
+import {DragPreviewImage, useDrag, useDrop} from "react-dnd";
 
 export interface FileProps {
 	file: IFile;
@@ -51,6 +51,7 @@ export const File: FC<FileProps> = props => {
 	const lastUpdated = date + " " + time;
 
 	return (<div ref={drag} onClick={props.onSelect} className={styles.container}>
+		<DragPreviewImage connect={dragPreview} src={"/article.png"} />
 		<ArticleIcon/>
 		<span className={styles.name}>{props.file.name}</span>
 		<span className={styles.date}>{lastUpdated}</span>
