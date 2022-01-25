@@ -1,3 +1,6 @@
+import { precacheAndRoute } from 'workbox-precaching'
+precacheAndRoute(self.__WB_MANIFEST)
+
 self.addEventListener('fetch', function(event) {
 	event.respondWith(async function() {
 		try{
