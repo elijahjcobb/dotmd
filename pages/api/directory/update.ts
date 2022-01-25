@@ -17,12 +17,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const {id, name} = req.query as {id: string, name: string};
 
-	const dir = await (new SiQuery(Directory, {_id: new ObjectId(id), owner: new ObjectId(user.getHexId())})).getFirst();
+	const dir = await (new SiQuery(Directory, {_id: new ObjectId(id), owner: user.getHexId()})).getFirst();
 	if (!dir) return res.status(404).send("Dir dne.");
 
 	dir.put("name", name);
 	await dir.save();
 
-	res.json(dir.toJSON());
+	res.redirect("/view/" + dir.get("parent"));
 
 }

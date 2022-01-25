@@ -12,13 +12,15 @@ import {IFile} from "./local-types";
 export interface FilesContainerProps {
 	files: IFile[];
 	onSelect: (file: IFile) => void;
+	onEdit: (file: IFile) => void;
+	onDelete: (file: IFile) => void;
 }
 
 export const FilesContainer: FC<FilesContainerProps> = props => {
 
 	return (<div>
 		{props.files.map((v, i) => {
-			return <File onClick={() => props.onSelect(v)} file={v} key={i}/>
+			return <File onEdit={() => props.onEdit(v)} onDelete={() => props.onDelete(v)} onSelect={() => props.onSelect(v)} file={v} key={i}/>
 		})}
 	</div>);
 

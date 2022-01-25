@@ -9,10 +9,14 @@ import React, {FC} from "react";
 import styles from "../styles/File.module.scss";
 import ArticleIcon from '@mui/icons-material/Article';
 import {IFile} from "./local-types";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface FileProps {
 	file: IFile;
-	onClick?: () => void;
+	onSelect?: () => void;
+	onEdit: (file: IFile) => void;
+	onDelete: (file: IFile) => void;
 }
 
 export const File: FC<FileProps> = props => {
@@ -22,10 +26,24 @@ export const File: FC<FileProps> = props => {
 	const time = d.toLocaleTimeString();
 	const lastUpdated = date + " " + time;
 
-	return (<div onClick={props.onClick} className={styles.container}>
+	return (<div onClick={props.onSelect} className={styles.container}>
 		<ArticleIcon/>
 		<span className={styles.name}>{props.file.name}</span>
 		<span className={styles.date}>{lastUpdated}</span>
+		<EditIcon
+			onClick={ev => {
+				ev.stopPropagation();
+				props.onEdit(props.file);
+			}}
+			className={styles.option}
+		/>
+		<DeleteIcon
+			onClick={ev => {
+				ev.stopPropagation();
+				props.onDelete(props.file);
+			}}
+			className={styles.option}
+		/>
 	</div>);
 
 };

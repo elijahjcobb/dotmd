@@ -7,30 +7,34 @@
 
 import React, {FC} from "react";
 import FolderIcon from '@mui/icons-material/Folder';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import styles from "../styles/Directory.module.scss";
 import {IDirectory} from "./local-types";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export interface DirectoryProps {
 	directory: IDirectory;
 	onSelect: (dir: IDirectory) => void;
-	onOptionSelect: (dir: IDirectory) => void;
+	onEdit: (dir: IDirectory) => void;
+	onDelete: (dir: IDirectory) => void;
 }
 
 export const Directory: FC<DirectoryProps> = props => {
 
-	const onClick = () => props.onSelect(props.directory);
-	const onOptionClick = () => props.onOptionSelect(props.directory);
-
-	console.log(props.directory)
-
-	return (<div onClick={onClick} className={styles.container}>
+	return (<div onClick={() => props.onSelect(props.directory)} className={styles.container}>
 		<FolderIcon/>
 		<span className={styles.name}>{props.directory.name}</span>
-		<MoreVertIcon
+		<EditIcon
 			onClick={ev => {
 				ev.stopPropagation();
-				onOptionClick();
+				props.onEdit(props.directory);
+			}}
+			className={styles.option}
+		/>
+		<DeleteIcon
+			onClick={ev => {
+				ev.stopPropagation();
+				props.onDelete(props.directory);
 			}}
 			className={styles.option}
 		/>

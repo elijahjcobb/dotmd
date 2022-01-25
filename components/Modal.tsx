@@ -9,27 +9,22 @@ import React, {FC, useState} from "react";
 import styles from "../styles/CreateModal.module.scss";
 
 export interface CreateModalProps {
-	mode: "dir" | "file"
+	title: string;
+	submitText?: string;
 	onCancel: () => void;
-	onCreate: (value: string) => void;
+	onSubmit: () => void;
 }
 
-export const CreateModal: FC<CreateModalProps> = props => {
+export const Modal: FC<CreateModalProps> = props => {
 
 	const [value, setValue] = useState("");
 
 	return (<div className={styles.container}>
 		<div className={styles.child}>
-			<span className={styles.title}>Create new {props.mode === "dir" ? "Directory" : "File"}</span>
-			<input
-				onKeyDown={event => {
-					if (event.key !== "Enter") return;
-					props.onCreate(value);
-				}}
-				placeholder={"name"} className={styles.field} value={value} onChange={v => setValue(v.target.value)}/>
+			<span className={styles.title}>{props.title}</span>
 			<div className={styles.buttons}>
 				<span onClick={props.onCancel} className={styles.cancel}>Cancel</span>
-				<span onClick={() => props.onCreate(value)}>Create</span>
+				<span onClick={props.onSubmit}>{props.submitText ?? "Submit"}</span>
 			</div>
 		</div>
 	</div>);

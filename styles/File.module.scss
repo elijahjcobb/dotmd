@@ -26,6 +26,17 @@
 
 }
 
+.option {
+	transition: all 250ms ease-in-out;
+	border-radius: 25%;
+	padding: 2px;
+	margin-left: 8px;
+	&:hover {
+		background: var(--primary);
+		border-radius: 50%;
+	}
+}
+
 .name {
 	margin: 0 16px;
 	flex-grow: 1;

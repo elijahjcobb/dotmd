@@ -13,7 +13,8 @@ import {IDirectory} from "./local-types";
 export interface DirectoryContainerProps {
 	directories: IDirectory[];
 	onSelect: (dir: IDirectory) => void;
-	onOptionSelect: (dir: IDirectory) => void;
+	onEdit: (dir: IDirectory) => void;
+	onDelete: (dir: IDirectory) => void;
 }
 
 export const DirectoryContainer: FC<DirectoryContainerProps> = props => {
@@ -23,7 +24,8 @@ export const DirectoryContainer: FC<DirectoryContainerProps> = props => {
 			return <Directory
 				key={i}
 				onSelect={props.onSelect}
-				onOptionSelect={props.onOptionSelect}
+				onEdit={props.onEdit}
+				onDelete={props.onDelete}
 				directory={v}/>
 		})}
 	</div>);
