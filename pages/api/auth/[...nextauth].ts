@@ -19,5 +19,5 @@ export default NextAuth({
 		})
 		// ...add more providers here
 	],
-	// secret: Crypto.randomBytes(32).toString("hex")
+	secret: Crypto.randomBytes(32).toString("hex")
 })
