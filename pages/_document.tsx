@@ -3,14 +3,6 @@ import {useEffect} from "react";
 
 class MyDocument extends Document {
 
-	componentDidMount() {
-
-		if('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('/service-worker.js');
-		}
-
-	};
-
 	render() {
 
 		return (
