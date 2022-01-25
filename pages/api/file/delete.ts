@@ -27,7 +27,8 @@ export default async function handler(
 	const query = new SiQuery(File, {_id: new ObjectId(id)});
 	const file = await query.getFirst();
 	if (!file || file.get("owner") !== user.getHexId())return res.status(400).send("Not authorized.");
+	const parentId = file.get("parent");
 	await deleteFile(file);
 
-	res.send({status: "Deleted"});
+	res.redirect("/view/" + parentId);
 }

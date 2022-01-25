@@ -25,5 +25,7 @@ export default async function handler(
 	file.put("content", content);
 	file.put("name", name);
 	await file.save();
-	res.send("saved")
+
+	res.redirect("/view/" + file.get("parent"));
+
 }
