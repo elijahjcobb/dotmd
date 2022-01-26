@@ -9,7 +9,7 @@ import type {NextPage, GetServerSideProps, GetServerSidePropsContext} from "next
 import {DirectoryPage} from "../../components/DirectoryPage";
 import {NavBar} from "../../components/NavBar";
 import styles from "../../styles/HomePage.module.scss"
-import {Directory, FileProps, DirectoryProps, User, File} from "../../db/DB";
+import {Directory, FileProps, DirectoryProps, User, File, Analytics} from "../../db/DB";
 import {SiQuery} from "@element-ts/silicon";
 import {getEmail} from "../../db/auth-silicon";
 import {IDirectory, IFile} from "../../components/local-types";
@@ -69,6 +69,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 
 	path = path.reverse();
 	if (path[0].name === "root") path[0].name = "home"
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: dir.getHexId(),
+		targetType: "dir"
+	})).save();
 
 	return {props: {
 			directories: directories.map(v => v.toJSON()),

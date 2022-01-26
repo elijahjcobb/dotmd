@@ -1,16 +1,10 @@
-import { precacheAndRoute } from 'workbox-precaching'
-precacheAndRoute(self.__WB_MANIFEST)
+/**
+ * Elijah Cobb
+ * elijah@elijahcobb.com
+ * elijahcobb.com
+ * github.com/elijahjcobb
+ */
 
-self.addEventListener('fetch', function(event) {
-	event.respondWith(async function() {
-		try{
-			var res = await fetch(event.request);
-			var cache = await caches.open('cache');
-			cache.put(event.request.url, res.clone());
-			return res;
-		}
-		catch(error){
-			return caches.match(event.request);
-		}
-	}());
-});
+self.addEventListener("fetch", event => {
+	console.log(event);
+})

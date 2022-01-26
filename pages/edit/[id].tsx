@@ -28,7 +28,7 @@ import {Editor} from "../../components/Editor";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {IAttachment, IFile} from "../../components/local-types";
-import {File} from "../../db/DB";
+import {Analytics, File} from "../../db/DB";
 import {getEmail, getUserForEmail, getUserFromAuth} from "../../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
 import {ObjectId} from "bson";
@@ -107,13 +107,13 @@ const Page: NextPage<PageProps> = props => {
 	}
 
 	const onOpenFile = useCallback(() => {
-		setUploading(true);
 		const filePicker = document.getElementById("file") as HTMLInputElement | null;
 		if (!filePicker) return;
 		filePicker.click();
 		filePicker.onchange = () => {
 			const file = (filePicker.files ?? [])[0]
 			if (file) {
+				setUploading(true);
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
 				reader.onload = () => {
@@ -132,6 +132,7 @@ const Page: NextPage<PageProps> = props => {
 							} else {
 								console.error(this.status, this.statusText)
 								alert("Image upload to dotmd.app filed.")
+								setUploading(false);
 							}
 						}
 					}
@@ -145,6 +146,7 @@ const Page: NextPage<PageProps> = props => {
 				reader.onerror = function (error) {
 					console.log('Error: ', error);
 					alert("Failed to upload file data.")
+					setUploading(false);
 				};
 			}
 		}
@@ -254,6 +256,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	const query = new SiQuery(File, {_id: new ObjectId(fileId)})
 	const file = await query.getFirst();
 	if (!file || file.get("owner") !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: file.getHexId(),
+		targetType: "file"
+	})).save();
 
 	return {
 		props: {file: file.toJSON()}
