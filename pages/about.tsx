@@ -92,7 +92,7 @@ const Page: NextPage<PageProps> = () => {
 			</div>
 		</section>
 		<footer>
-			<span>Created by <a rel={"noreferrer"} href={"https://elijahcobb.com"} target={"_blank"}>Elijah Cobb</a>.</span>
+			<span>Created by <a rel={"noreferrer"} href={"https://elijahcobb.com"} target={"_blank"}>Elijah Cobb</a>. View <a rel={"noreferrer"} href={"/privacy"}>Privacy Policy</a></span>
 		</footer>
 	</div>);
 };
