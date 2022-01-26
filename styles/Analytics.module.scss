@@ -1,0 +1,75 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.Analytics {
+
+}
+
+.main {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.counts,.users {
+	width: 80%;
+	max-width: 1024px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.count {
+	user-select: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 32px;
+	margin: 32px;
+	background: dodgerblue;
+	border-radius: 16px;
+	box-shadow: 0 0 16px var(--secondary);
+
+	& > * {
+		display: block;
+	}
+}
+
+.countName {
+	font-weight: bold;
+	font-family: "Roboto Mono", monospace;
+	font-size: 72px;
+}
+
+.countValue {
+	font-weight: lighter;
+	font-size: 32px;
+}
+
+.users {
+
+}
+
+.user {
+	user-select: none;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 16px;
+	margin: 16px;
+	background: var(--background);
+	border-radius: 8px;
+	box-shadow: 0 0 16px var(--secondary);
+}
+
+.userName {
+
+}
