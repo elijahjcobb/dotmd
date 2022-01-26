@@ -23,7 +23,9 @@ export const NavBar: FC<NavBarProps> = props => {
 
 	return (<div className={styles.container}>
 		<div className={styles.header}>
-			<img src={"/oafa.png"} alt={"logo"}/>
+			<img onClick={() => {
+				window.open("/", "_self")
+			}} src={"/dotmd-512.png"} alt={"logo"}/>
 			<Breadcrumbs maxItems={8} aria-label="breadcrumb">
 				{props.path.map((v, i) => {
 					return <BreadcrumbItem key={i} directory={v}/>

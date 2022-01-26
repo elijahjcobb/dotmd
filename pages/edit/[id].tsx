@@ -165,7 +165,7 @@ const Page: NextPage<PageProps> = props => {
 		</div>}
 		<div className={styles.header}>
 			<div className={styles.section}>
-				<img className={styles.logo} src={"/oafa.png"} alt={"icon"}/>
+				<img onClick={openFolder} className={styles.logo} src={"/dotmd.png"} alt={"icon"}/>
 				<Folder onClick={openFolder} className={styles.folder}/>
 				<span className={styles.sep}>/</span>
 				<input onBlur={save} onChange={e => setName(e.target.value)} className={styles.name} value={name} />

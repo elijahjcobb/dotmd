@@ -133,6 +133,7 @@ $headerSize: 64px;
 	width: $headerSize * 0.75;
 	height: $headerSize * 0.75;
 	margin: 0 16px;
+	&:hover {cursor: pointer}
 }
 
 .container {
