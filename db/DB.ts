@@ -67,3 +67,17 @@ export class Attachment extends SiObject<AttachmentProps> {
 	}
 
 }
+
+export interface AnalyticsProps extends SiObjectProps {
+	user: string;
+	targetType: "dir" | "file";
+	targetId: string;
+}
+
+export class Analytics extends SiObject<AnalyticsProps> {
+
+	public constructor(value: AnalyticsProps) {
+		super("analytics", value);
+	}
+
+}

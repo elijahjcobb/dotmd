@@ -28,7 +28,7 @@ import {Editor} from "../../components/Editor";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {IAttachment, IFile} from "../../components/local-types";
-import {File} from "../../db/DB";
+import {Analytics, File} from "../../db/DB";
 import {getEmail, getUserForEmail, getUserFromAuth} from "../../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
 import {ObjectId} from "bson";
@@ -256,6 +256,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	const query = new SiQuery(File, {_id: new ObjectId(fileId)})
 	const file = await query.getFirst();
 	if (!file || file.get("owner") !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: file.getHexId(),
+		targetType: "file"
+	})).save();
 
 	return {
 		props: {file: file.toJSON()}
