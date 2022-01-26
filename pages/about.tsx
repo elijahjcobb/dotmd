@@ -36,7 +36,7 @@ const Page: NextPage<PageProps> = () => {
 	return (<div className={styles.body}>
 		<nav className={styles.nav}>
 			<div className={styles.left}>
-				<img src={"/oafa.png"} alt={"logo"}/>
+				<img src={"/dotmd.png"} alt={"logo"}/>
 				<h1>dotmd.app</h1>
 			</div>
 			<SignInButton/>
@@ -54,6 +54,13 @@ const Page: NextPage<PageProps> = () => {
 			<div>
 				<h2>Intuitive Cloud File System</h2>
 				<span>{"Create directories or markdown files on the fly. Rename, delete, or drag and drop. It is just like any other file system."}</span>
+			</div>
+		</section>
+		<section>
+			<img src={"/examples/pwa.png"} alt={"fs"}/>
+			<div>
+				<h2>Installable (PWA)</h2>
+				<span>{"Using the latest Chrome APIs, dotmd is installable as a Progressive Web App (PWA). With just one click, dotmd operates like any other app on your computer."}</span>
 			</div>
 		</section>
 		<section>
