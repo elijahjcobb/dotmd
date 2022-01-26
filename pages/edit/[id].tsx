@@ -107,13 +107,13 @@ const Page: NextPage<PageProps> = props => {
 	}
 
 	const onOpenFile = useCallback(() => {
-		setUploading(true);
 		const filePicker = document.getElementById("file") as HTMLInputElement | null;
 		if (!filePicker) return;
 		filePicker.click();
 		filePicker.onchange = () => {
 			const file = (filePicker.files ?? [])[0]
 			if (file) {
+				setUploading(true);
 				const reader = new FileReader();
 				reader.readAsDataURL(file);
 				reader.onload = () => {
@@ -132,6 +132,7 @@ const Page: NextPage<PageProps> = props => {
 							} else {
 								console.error(this.status, this.statusText)
 								alert("Image upload to dotmd.app filed.")
+								setUploading(false);
 							}
 						}
 					}
@@ -145,6 +146,7 @@ const Page: NextPage<PageProps> = props => {
 				reader.onerror = function (error) {
 					console.log('Error: ', error);
 					alert("Failed to upload file data.")
+					setUploading(false);
 				};
 			}
 		}
