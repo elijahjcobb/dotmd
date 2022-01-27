@@ -14,10 +14,7 @@ import styles from "../styles/Analytics.module.scss";
 
 interface PageProps {
 	count: {name: string, count: number}[];
-	load: {
-		directory: number;
-		file: number;
-	};
+	load: {name: string, count: number}[];
 	user: IUser[];
 }
 
@@ -28,6 +25,14 @@ const Page: NextPage<PageProps> = props => {
 			<div className={styles.main}>
 				<div className={styles.counts}>
 					{props.count.map((v, i) => {
+						return <div key={i} className={styles.count}>
+							<span className={styles.countName}>{v.count}</span>
+							<span className={styles.countValue}>{v.name}</span>
+						</div>
+					})}
+				</div>
+				<div className={styles.counts}>
+					{props.load.map((v, i) => {
 						return <div key={i} className={styles.count}>
 							<span className={styles.countName}>{v.count}</span>
 							<span className={styles.countValue}>{v.name}</span>
@@ -73,10 +78,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 					count: await (new SiQuery(Attachment, {})).count(),
 				}
 			],
-			load: {
-				directory: await (new SiQuery(Analytics, {targetType: "dir"})).count(),
-				file: await (new SiQuery(Analytics, {targetType: "file"})).count(),
-			},
+			load: [
+				{name: "Loads", count: await (new SiQuery(Analytics, {})).count()},
+				{name: "Directory Loads", count: await (new SiQuery(Analytics, {targetType: "dir"})).count()},
+				{name: "File Loads", count: await (new SiQuery(Analytics, {targetType: "file"})).count()},
+			],
 			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON())
 		}
 	}
