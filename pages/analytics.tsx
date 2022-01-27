@@ -54,7 +54,7 @@ const Page: NextPage<PageProps> = props => {
 				</div>
 				<h1>Page Views</h1>
 				<div className={styles.counts}>
-					{props.file.map((v, i) => {
+					{props.pages.map((v, i) => {
 						return <div key={i} className={styles.count}>
 							<span className={styles.countName}>{v.count}</span>
 							<span className={styles.countValue}>{v.name}</span>
