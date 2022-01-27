@@ -131,7 +131,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 			],
 			pages: [
 				{name: "/about", count: await (new SiQuery(Analytics, {targetId: "about", targetType: "page", actionType: "view"})).count()},
-				{name: "/view", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "view"})).count()},
 				{name: "/privacy", count: await (new SiQuery(Analytics, {targetId: "privacy", targetType: "page", actionType: "view"})).count()},
 			],
 			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON())
