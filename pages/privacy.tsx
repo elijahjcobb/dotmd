@@ -7,7 +7,9 @@
 import type {NextPage, GetStaticProps, GetStaticPaths, GetServerSideProps} from "next";
 import {NavBar} from "../components/NavBar";
 import styles from "../styles/Privacy.module.scss"
-import {Analytics} from "../db/DB";
+import {Analytics, User} from "../db/DB";
+import {getEmail, getUserForEmail} from "../db/auth-silicon";
+import {SiQuery} from "@element-ts/silicon";
 
 interface PageProps {
 
@@ -197,8 +199,9 @@ const Page: NextPage<PageProps> = () => {
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
 
+	const user = (await getUserForEmail(await getEmail(context)));
 	await (new Analytics({
-		user: "na",
+		user: user ? user.getHexId() : "na",
 		targetId: "privacy",
 		targetType: "page",
 		actionType: "view"

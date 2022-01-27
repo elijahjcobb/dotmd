@@ -9,6 +9,7 @@ import {signIn, useSession} from "next-auth/react";
 import styles from "../styles/About.module.scss";
 import {FC, useCallback} from "react";
 import {Analytics} from "../db/DB";
+import {getEmail, getUserForEmail} from "../db/auth-silicon";
 
 interface PageProps {
 
@@ -100,8 +101,9 @@ const Page: NextPage<PageProps> = () => {
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
 
+	const user = (await getUserForEmail(await getEmail(context)));
 	await (new Analytics({
-		user: "na",
+		user: user ? user.getHexId() : "na",
 		targetId: "about",
 		targetType: "page",
 		actionType: "view"
