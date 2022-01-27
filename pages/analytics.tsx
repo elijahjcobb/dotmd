@@ -71,6 +71,20 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	if (!user) return {redirect: {destination: "/", permanent: false}};
 	if (user.get("email") !== "ejcobb@mtu.edu") return {redirect: {destination: "/", permanent: false}};
 
+	let dView = await (new SiQuery(Analytics, {targetType: "dir", actionType: "view"})).count()
+	const dCreate = await (new SiQuery(Analytics, {targetType: "dir", actionType: "create"})).count()
+	const dMove = await (new SiQuery(Analytics, {targetType: "dir", actionType: "move"})).count()
+	const dUpdate = await (new SiQuery(Analytics, {targetType: "dir", actionType: "update"})).count()
+	const dDelete = await (new SiQuery(Analytics, {targetType: "dir", actionType: "delete"})).count()
+
+	const fView = await (new SiQuery(Analytics, {targetType: "file", actionType: "view"})).count()
+	const fCreate = await (new SiQuery(Analytics, {targetType: "file", actionType: "create"})).count()
+	const fMove = await (new SiQuery(Analytics, {targetType: "file", actionType: "move"})).count()
+	const fUpdate = await (new SiQuery(Analytics, {targetType: "file", actionType: "update"})).count()
+	const fDelete = await (new SiQuery(Analytics, {targetType: "file", actionType: "delete"})).count()
+	dView -= (dCreate + dMove + dUpdate + dDelete + fCreate + fMove + fUpdate + fDelete);
+
+
 	return {
 		props: {
 			count: [
@@ -92,18 +106,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 				}
 			],
 			dir: [
-				{name: "View", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "view"})).count()},
-				{name: "Create", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "create"})).count()},
-				{name: "Update", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "update"})).count()},
-				{name: "Move", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "move"})).count()},
-				{name: "Delete", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "delete"})).count()},
+				{name: "View", count: dView},
+				{name: "Create", count: dCreate},
+				{name: "Update", count: dUpdate},
+				{name: "Move", count: dMove},
+				{name: "Delete", count: dDelete},
 			],
 			file: [
-				{name: "View", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "view"})).count()},
-				{name: "Create", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "create"})).count()},
-				{name: "Update", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "update"})).count()},
-				{name: "Move", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "move"})).count()},
-				{name: "Delete", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "delete"})).count()},
+				{name: "View", count: fView},
+				{name: "Create", count: fCreate},
+				{name: "Update", count: fUpdate},
+				{name: "Move", count: fMove},
+				{name: "Delete", count: fDelete},
 			],
 			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON())
 		}
