@@ -9,6 +9,7 @@ import React, {FC, useState, useEffect, useCallback} from "react";
 import styles from "../../styles/App.module.scss";
 import {Markdown} from "../../components/Markdown";
 import {useInterval, useDebounce} from "../../components/hooks";
+import EditIcon from '@mui/icons-material/Edit';
 import moment from "moment";
 import {
 	NightsStay,
@@ -35,6 +36,7 @@ import {ObjectId} from "bson";
 import {NavBar} from "../../components/NavBar";
 import {useSession} from "next-auth/react";
 import {CircularProgress} from "@mui/material";
+import {AttachmentManager} from "../../components/AttachmentManager";
 
 interface PageProps {
 	file: IFile;
@@ -57,6 +59,8 @@ const Page: NextPage<PageProps> = props => {
 	const [mode, setMode] = useState<"s" | "p" | "b">("b");
 	const [academicTheme, setAcademicTheme] = useState(false);
 	const [uploading, setUploading] = useState(false);
+	const [sketching, setSketching] = useState(false);
+	const [imaging, setImaging] = useState(false);
 
 	const session = useSession();
 	const user: string = session.data?.user?.image ?? "";
@@ -163,6 +167,23 @@ const Page: NextPage<PageProps> = props => {
 				<CircularProgress/>
 			</div>
 		</div>}
+		<input accept={".png,.jpg,.jpeg,.gif"} id={"file"} type={"file"} style={{display: "none"}}/>
+		{sketching && <AttachmentManager
+			onDelete={() => {}}
+			onNew={() => {
+
+			}}
+			name={"Sketches"}
+			onClose={() => setSketching(false)}
+		/>}
+		{imaging && <AttachmentManager
+			onDelete={() => {}}
+			onNew={() => {
+				onOpenFile();
+			}}
+			name={"Images"}
+			onClose={() => setImaging(false)}
+		/>}
 		<div className={styles.header}>
 			<div className={styles.section}>
 				<img onClick={openFolder} className={styles.logo} src={"/dotmd.png"} alt={"icon"}/>
@@ -175,8 +196,10 @@ const Page: NextPage<PageProps> = props => {
 				{status === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved}/>}
 				{status === SaveStatus.Error && <Error className={styles.saveError}/>}
 				<span className={styles.save}>{saveMessage + "..."}</span>
-				<div className={styles.upload} onClick={onOpenFile}>
-					<input accept={".png,.jpg,.jpeg,.gif"} id={"file"} type={"file"} style={{display: "none"}}/>
+				<div className={styles.upload} onClick={() => setSketching(true)}>
+					<EditIcon/>
+				</div>
+				<div className={styles.upload} onClick={() => setImaging(true)}>
 					<Image/>
 				</div>
 				<ToggleButtonGroup

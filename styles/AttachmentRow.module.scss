@@ -1,0 +1,52 @@
+/**
+ * Elijah Cobb
+ * elijah@elijahcobb.com
+ * elijahcobb.com
+ * github.com/elijahjcobb
+ */
+
+.container {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	overflow: hidden;
+	border: solid 1px var(--dark);
+	box-shadow: 0 0 3px var(--dark);
+	border-radius: 16px;
+	width: 100%;
+	transition: all 250ms ease-in-out;
+
+	&:hover {
+		cursor: pointer;
+		box-shadow: 0 0 8px var(--dark);
+		transform: scale(1.025);
+	}
+}
+
+.preview {
+	width: 100%;
+}
+
+.options {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 8px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	background: var(--background);
+}
+
+.copy, .delete {
+	transition: all 250ms ease-in-out;
+
+	&:hover {
+		transform: scale(1.1);
+		color: dodgerblue;
+	}
+}
+
+.delete:hover {
+	color: red;
+}

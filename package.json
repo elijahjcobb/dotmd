@@ -41,6 +41,7 @@
 		"react-dom": "17.0.2",
 		"react-google-login": "latest",
 		"react-markdown": "latest",
+		"react-sketch-canvas": "^6.1.0",
 		"rehype-katex": "latest",
 		"remark-gfm": "latest",
 		"remark-math": "latest",
