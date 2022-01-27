@@ -8,6 +8,7 @@ import type {NextPage, GetStaticProps, GetStaticPaths, GetServerSideProps} from 
 import {signIn, useSession} from "next-auth/react";
 import styles from "../styles/About.module.scss";
 import {FC, useCallback} from "react";
+import {Analytics} from "../db/DB";
 
 interface PageProps {
 
@@ -97,11 +98,19 @@ const Page: NextPage<PageProps> = () => {
 	</div>);
 };
 
-// export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
-// 	return {
-// 		props: {}
-// 	}
-// }
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+
+	await (new Analytics({
+		user: "na",
+		targetId: "about",
+		targetType: "page",
+		actionType: "view"
+	})).save();
+
+	return {
+		props: {}
+	}
+}
 
 // export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
 // 	return {

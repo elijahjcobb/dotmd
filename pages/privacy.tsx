@@ -7,6 +7,7 @@
 import type {NextPage, GetStaticProps, GetStaticPaths, GetServerSideProps} from "next";
 import {NavBar} from "../components/NavBar";
 import styles from "../styles/Privacy.module.scss"
+import {Analytics} from "../db/DB";
 
 interface PageProps {
 
@@ -194,11 +195,19 @@ const Page: NextPage<PageProps> = () => {
 	);
 };
 
-// export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
-// 	return {
-// 		props: {}
-// 	}
-// }
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+
+	await (new Analytics({
+		user: "na",
+		targetId: "privacy",
+		targetType: "page",
+		actionType: "view"
+	})).save();
+
+	return {
+		props: {}
+	}
+}
 
 // export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
 // 	return {

@@ -16,6 +16,7 @@ interface PageProps {
 	count: {name: string, count: number}[];
 	dir: {name: string, count: number}[];
 	file: {name: string, count: number}[];
+	pages: {name: string, count: number}[];
 	user: IUser[];
 }
 
@@ -43,6 +44,15 @@ const Page: NextPage<PageProps> = props => {
 					})}
 				</div>
 				<h1>File Analytics</h1>
+				<div className={styles.counts}>
+					{props.file.map((v, i) => {
+						return <div key={i} className={styles.count}>
+							<span className={styles.countName}>{v.count}</span>
+							<span className={styles.countValue}>{v.name}</span>
+						</div>
+					})}
+				</div>
+				<h1>Page Views</h1>
 				<div className={styles.counts}>
 					{props.file.map((v, i) => {
 						return <div key={i} className={styles.count}>
@@ -118,6 +128,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 				{name: "Update", count: fUpdate},
 				{name: "Move", count: fMove},
 				{name: "Delete", count: fDelete},
+			],
+			pages: [
+				{name: "/about", count: await (new SiQuery(Analytics, {targetId: "about", targetType: "page", actionType: "view"})).count()},
+				{name: "/view", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "view"})).count()},
+				{name: "/privacy", count: await (new SiQuery(Analytics, {targetId: "privacy", targetType: "page", actionType: "view"})).count()},
 			],
 			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON())
 		}

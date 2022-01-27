@@ -70,7 +70,7 @@ export class Attachment extends SiObject<AttachmentProps> {
 
 export interface AnalyticsProps extends SiObjectProps {
 	user: string;
-	targetType: "dir" | "file";
+	targetType: "dir" | "file" | "page";
 	actionType: "create" | "delete" | "move" | "update" | "view";
 	targetId: string;
 }
