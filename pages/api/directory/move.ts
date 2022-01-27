@@ -7,7 +7,7 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {getUserFromAuth} from "../../../db/auth-silicon";
-import {Directory} from "../../../db/DB";
+import {Analytics, Directory} from "../../../db/DB";
 import {SiQuery} from "@element-ts/silicon";
 import {ObjectId} from "bson";
 
@@ -25,6 +25,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const oldParent = dirSrc.get("parent")
 	dirSrc.put("parent", dirDest.getHexId());
 	await dirSrc.save();
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: dirSrc.getHexId(),
+		targetType: "dir",
+		actionType: "move"
+	})).save();
 
 	res.redirect("/view/" + oldParent);
 

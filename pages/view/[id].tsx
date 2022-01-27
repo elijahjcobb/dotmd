@@ -73,7 +73,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	await (new Analytics({
 		user: user.getHexId(),
 		targetId: dir.getHexId(),
-		targetType: "dir"
+		targetType: "dir",
+		actionType: "view"
 	})).save();
 
 	return {props: {

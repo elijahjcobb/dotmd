@@ -260,7 +260,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	await (new Analytics({
 		user: user.getHexId(),
 		targetId: file.getHexId(),
-		targetType: "file"
+		targetType: "file",
+		actionType: "view"
 	})).save();
 
 	return {

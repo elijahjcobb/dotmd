@@ -14,7 +14,8 @@ import styles from "../styles/Analytics.module.scss";
 
 interface PageProps {
 	count: {name: string, count: number}[];
-	load: {name: string, count: number}[];
+	dir: {name: string, count: number}[];
+	file: {name: string, count: number}[];
 	user: IUser[];
 }
 
@@ -23,6 +24,7 @@ const Page: NextPage<PageProps> = props => {
 		<div className={styles.Analytics}>
 			<NavBar path={[]}/>
 			<div className={styles.main}>
+				<h1>Counts</h1>
 				<div className={styles.counts}>
 					{props.count.map((v, i) => {
 						return <div key={i} className={styles.count}>
@@ -31,14 +33,25 @@ const Page: NextPage<PageProps> = props => {
 						</div>
 					})}
 				</div>
+				<h1>Directory Analytics</h1>
 				<div className={styles.counts}>
-					{props.load.map((v, i) => {
+					{props.dir.map((v, i) => {
 						return <div key={i} className={styles.count}>
 							<span className={styles.countName}>{v.count}</span>
 							<span className={styles.countValue}>{v.name}</span>
 						</div>
 					})}
 				</div>
+				<h1>File Analytics</h1>
+				<div className={styles.counts}>
+					{props.file.map((v, i) => {
+						return <div key={i} className={styles.count}>
+							<span className={styles.countName}>{v.count}</span>
+							<span className={styles.countValue}>{v.name}</span>
+						</div>
+					})}
+				</div>
+				<h1>Users</h1>
 				<div className={styles.users}>
 					{props.user.map((v, i) => {
 						return <div key={i} className={styles.user}>
@@ -78,10 +91,19 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 					count: await (new SiQuery(Attachment, {})).count(),
 				}
 			],
-			load: [
-				{name: "Loads", count: await (new SiQuery(Analytics, {})).count()},
-				{name: "Directory Loads", count: await (new SiQuery(Analytics, {targetType: "dir"})).count()},
-				{name: "File Loads", count: await (new SiQuery(Analytics, {targetType: "file"})).count()},
+			dir: [
+				{name: "View", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "view"})).count()},
+				{name: "Create", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "create"})).count()},
+				{name: "Update", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "update"})).count()},
+				{name: "Move", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "move"})).count()},
+				{name: "Delete", count: await (new SiQuery(Analytics, {targetType: "dir", actionType: "delete"})).count()},
+			],
+			file: [
+				{name: "View", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "view"})).count()},
+				{name: "Create", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "create"})).count()},
+				{name: "Update", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "update"})).count()},
+				{name: "Move", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "move"})).count()},
+				{name: "Delete", count: await (new SiQuery(Analytics, {targetType: "file", actionType: "delete"})).count()},
 			],
 			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON())
 		}

@@ -8,7 +8,7 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {getUserFromAuth} from "../../../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
-import {File} from "../../../db/DB";
+import {Analytics, File} from "../../../db/DB";
 import {ObjectId} from "bson";
 
 
@@ -24,6 +24,13 @@ export default async function handler(
 	if (!file || file.get("owner") !== user.getHexId()) return res.status(400).send("Not authorized.");
 	file.put("name", name);
 	await file.save();
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: file.getHexId(),
+		targetType: "file",
+		actionType: "update"
+	})).save();
 
 	res.redirect("/view/" + file.get("parent"));
 

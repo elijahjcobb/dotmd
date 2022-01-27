@@ -8,7 +8,7 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {getUserFromAuth} from "../../../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
-import {File} from "../../../db/DB";
+import {Analytics, File} from "../../../db/DB";
 import {ObjectId} from "bson";
 
 
@@ -21,10 +21,17 @@ export default async function handler(
 	const {content, id, name} = req.body as {content: string, id: string, name: string};
 	const query = new SiQuery(File, {_id: new ObjectId(id)});
 	const file = await query.getFirst();
-	if (!file || file.get("owner") !== user.getHexId())return res.status(400).send("Not authorized.");
+	if (!file || file.get("owner") !== user.getHexId()) return res.status(400).send("Not authorized.");
 	file.put("content", content);
 	file.put("name", name);
 	await file.save();
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: file.getHexId(),
+		targetType: "file",
+		actionType: "update"
+	})).save();
 
 	res.redirect("/view/" + file.get("parent"));
 

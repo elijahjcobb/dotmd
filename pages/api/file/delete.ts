@@ -8,7 +8,7 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {getUserFromAuth} from "../../../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
-import {Attachment, File} from "../../../db/DB";
+import {Analytics, Attachment, File} from "../../../db/DB";
 import {ObjectId} from "bson";
 
 export async function deleteFile(file: File): Promise<void> {
@@ -29,6 +29,13 @@ export default async function handler(
 	if (!file || file.get("owner") !== user.getHexId())return res.status(400).send("Not authorized.");
 	const parentId = file.get("parent");
 	await deleteFile(file);
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: file.getHexId(),
+		targetType: "file",
+		actionType: "delete"
+	})).save();
 
 	res.redirect("/view/" + parentId);
 }

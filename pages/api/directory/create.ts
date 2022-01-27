@@ -7,7 +7,7 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {getUserFromAuth} from "../../../db/auth-silicon";
-import {Directory} from "../../../db/DB";
+import {Analytics, Directory} from "../../../db/DB";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const user = await getUserFromAuth(req);
@@ -17,6 +17,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const dir = new Directory({name, parent, owner: user.getHexId()});
 	await dir.save();
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: dir.getHexId(),
+		targetType: "dir",
+		actionType: "create"
+	})).save();
 
 	res.redirect("/view/" + parent);
 

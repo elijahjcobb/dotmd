@@ -7,7 +7,7 @@
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {getUserFromAuth} from "../../../db/auth-silicon";
-import {Directory, File} from "../../../db/DB";
+import {Analytics, Directory, File} from "../../../db/DB";
 import {SiQuery} from "@element-ts/silicon";
 import {ObjectId} from "bson";
 import {deleteFile} from "../file/delete";
@@ -31,6 +31,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (!dir) return res.status(404).send("Dir dne.");
 	const parentId = dir.get("parent");
 	await deleteDirectory(dir);
+
+	await (new Analytics({
+		user: user.getHexId(),
+		targetId: id,
+		targetType: "dir",
+		actionType: "delete"
+	})).save();
 
 	res.redirect("/view/" + parentId);
 
