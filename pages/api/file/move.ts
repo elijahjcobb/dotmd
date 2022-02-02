@@ -18,17 +18,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const {dest, src} = req.query as {src: string, dest: string};
 
 
-	const fileSrc = await (new SiQuery(File, {_id: new ObjectId(src), owner: user.getHexId()})).getFirst();
-	const dirDest = await (new SiQuery(Directory, {_id: new ObjectId(dest), owner: user.getHexId()})).getFirst();
+	const fileSrc = await (new SiQuery(File, {_id: new ObjectId(src), owner: user.getIdForce()})).getFirst();
+	const dirDest = await (new SiQuery(Directory, {_id: new ObjectId(dest), owner: user.getIdForce()})).getFirst();
 	if (!fileSrc || !dirDest) return res.status(404).send("File or dir dne.");
 
 	const oldParent = fileSrc.get("parent")
-	fileSrc.put("parent", dirDest.getHexId());
+	fileSrc.put("parent", dirDest.getIdForce());
 	await fileSrc.save();
 
 	await (new Analytics({
-		user: user.getHexId(),
-		targetId: fileSrc.getHexId(),
+		user: user.getIdForce(),
+		targetId: fileSrc.getIdForce(),
 		targetType: "file",
 		actionType: "move"
 	})).save();

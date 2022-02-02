@@ -5,7 +5,7 @@
  * github.com/elijahjcobb
  */
 
-import {SiDatabase, SiObject, SiObjectProps} from "@element-ts/silicon";
+import {SiDatabase, SiID, SiObject, SiObjectProps} from "@element-ts/silicon";
 
 SiDatabase.init({
 	address: "mongodb://localhost:27017",
@@ -26,8 +26,8 @@ export class User extends SiObject<UserProps> {
 
 export interface DirectoryProps extends SiObjectProps {
 	name: string;
-	parent: string;
-	owner: string;
+	parent: SiID;
+	owner: SiID;
 }
 
 export class Directory extends SiObject<DirectoryProps> {
@@ -40,8 +40,8 @@ export class Directory extends SiObject<DirectoryProps> {
 
 export interface FileProps extends SiObjectProps {
 	name: string
-	parent: string;
-	owner: string;
+	parent: SiID;
+	owner: SiID;
 	content: string;
 }
 
@@ -54,8 +54,8 @@ export class File extends SiObject<FileProps> {
 }
 
 export interface AttachmentProps extends SiObjectProps {
-	owner: string;
-	parent: string;
+	owner: SiID;
+	parent: SiID;
 	content: Buffer;
 	mime: string;
 }
@@ -69,10 +69,10 @@ export class Attachment extends SiObject<AttachmentProps> {
 }
 
 export interface AnalyticsProps extends SiObjectProps {
-	user: string;
+	user: SiID;
 	targetType: "dir" | "file" | "page";
 	actionType: "create" | "delete" | "move" | "update" | "view";
-	targetId: string;
+	targetId: SiID;
 }
 
 export class Analytics extends SiObject<AnalyticsProps> {
@@ -80,5 +80,19 @@ export class Analytics extends SiObject<AnalyticsProps> {
 	public constructor(value: AnalyticsProps) {
 		super("analytics", value);
 	}
+
+}
+
+export interface SignUpInviteProps extends SiObjectProps {
+	email: string;
+	used: boolean;
+}
+
+export class SignUpInvite extends SiObject<SignUpInviteProps> {
+
+	public constructor(value: SignUpInviteProps) {
+		super("signupinvite", value);
+	}
+
 
 }

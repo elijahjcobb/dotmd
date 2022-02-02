@@ -13,7 +13,7 @@ import {ObjectId} from "bson";
 
 export async function deleteFile(file: File): Promise<void> {
 	await file.delete();
-	const attachments = await (new SiQuery(Attachment, {parent: file.getHexId()})).getAll();
+	const attachments = await (new SiQuery(Attachment, {parent: file.getIdForce()})).getAll();
 	for (const a of attachments) await a.delete();
 }
 
@@ -26,13 +26,13 @@ export default async function handler(
 	const {id} = req.query as {id: string};
 	const query = new SiQuery(File, {_id: new ObjectId(id)});
 	const file = await query.getFirst();
-	if (!file || file.get("owner") !== user.getHexId())return res.status(400).send("Not authorized.");
+	if (!file || file.get("owner").toHexString() !== user.getHexId())return res.status(400).send("Not authorized.");
 	const parentId = file.get("parent");
 	await deleteFile(file);
 
 	await (new Analytics({
-		user: user.getHexId(),
-		targetId: file.getHexId(),
+		user: user.getIdForce(),
+		targetId: file.getIdForce(),
 		targetType: "file",
 		actionType: "delete"
 	})).save();

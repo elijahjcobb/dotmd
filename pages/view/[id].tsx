@@ -10,7 +10,7 @@ import {DirectoryPage} from "../../components/DirectoryPage";
 import {NavBar} from "../../components/NavBar";
 import styles from "../../styles/HomePage.module.scss"
 import {Directory, FileProps, DirectoryProps, User, File, Analytics} from "../../db/DB";
-import {SiQuery} from "@element-ts/silicon";
+import {createSiID, SiQuery} from "@element-ts/silicon";
 import {getEmail} from "../../db/auth-silicon";
 import {IDirectory, IFile} from "../../components/local-types";
 import {ObjectId} from "bson";
@@ -49,8 +49,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	if (!user) return { redirect: { destination: "/", permanent: false }}
 	const dir = await (new SiQuery(Directory, {_id: new ObjectId(id)})).getFirst();
 	if (!dir) return { redirect: { destination: "/e", permanent: false }}
-	const directories = await (new SiQuery(Directory, {parent: id, owner: user.getHexId()})).getAll();
-	const files = await (new SiQuery(File, {parent: id, owner: user.getHexId()})).getAll();
+	const directories = await (new SiQuery(Directory, {parent: createSiID(id), owner: user.getIdForce()})).getAll();
+	const files = await (new SiQuery(File, {parent: createSiID(id), owner: user.getIdForce()})).getAll();
 
 	let path: IDirectory[] = [dir.toJSON()];
 	let atRoot = false;
@@ -71,8 +71,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	if (path[0].name === "root") path[0].name = "home"
 
 	await (new Analytics({
-		user: user.getHexId(),
-		targetId: dir.getHexId(),
+		user: user.getIdForce(),
+		targetId: dir.getIdForce(),
 		targetType: "dir",
 		actionType: "view"
 	})).save();

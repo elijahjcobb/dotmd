@@ -11,6 +11,7 @@ import {Attachment} from "../../../db/DB";
 import Jimp from "jimp";
 import * as FS from "fs";
 import * as Crypto from "crypto";
+import {createSiID} from "@element-ts/silicon";
 
 export const config = {
 	api: {
@@ -43,7 +44,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		FS.unlinkSync(fileName);
 	}
 
-	const file = new Attachment({parent: id, mime, owner: user.getHexId(), content: imageData});
+	const file = new Attachment({parent: createSiID(id), mime, owner: user.getIdForce(), content: imageData});
 
 	try {
 		await file.save();

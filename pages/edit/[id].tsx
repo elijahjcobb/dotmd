@@ -31,7 +31,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {IAttachment, IFile} from "../../components/local-types";
 import {Analytics, File} from "../../db/DB";
 import {getEmail, getUserForEmail, getUserFromAuth} from "../../db/auth-silicon";
-import {SiQuery} from "@element-ts/silicon";
+import {createSiID, SiQuery} from "@element-ts/silicon";
 import {ObjectId} from "bson";
 import {NavBar} from "../../components/NavBar";
 import {useSession} from "next-auth/react";
@@ -196,10 +196,10 @@ const Page: NextPage<PageProps> = props => {
 				{status === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved}/>}
 				{status === SaveStatus.Error && <Error className={styles.saveError}/>}
 				<span className={styles.save}>{saveMessage + "..."}</span>
-				<div className={styles.upload} onClick={() => setSketching(true)}>
-					<EditIcon/>
-				</div>
-				<div className={styles.upload} onClick={() => setImaging(true)}>
+				{/*<div className={styles.upload} onClick={() => setSketching(true)}>*/}
+				{/*	<EditIcon/>*/}
+				{/*</div>*/}
+				<div className={styles.upload} onClick={onOpenFile}>
 					<Image/>
 				</div>
 				<ToggleButtonGroup
@@ -276,13 +276,12 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	const user = await getUserForEmail(email);
 	if (!user) return {redirect: {destination: "/", permanent: false}}
 
-	const query = new SiQuery(File, {_id: new ObjectId(fileId)})
-	const file = await query.getFirst();
-	if (!file || file.get("owner") !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
+	const file = await SiQuery.getForId(File, createSiID(fileId));
+	if (!file || file.get("owner").toHexString() !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
 
 	await (new Analytics({
-		user: user.getHexId(),
-		targetId: file.getHexId(),
+		user: user.getIdForce(),
+		targetId: file.getIdForce(),
 		targetType: "file",
 		actionType: "view"
 	})).save();

@@ -5,7 +5,7 @@
  */
 
 import type {GetServerSideProps, } from 'next';
-import {Directory, User} from "../db/DB";
+import {Directory, SignUpInvite, User} from "../db/DB";
 import {getEmail} from "../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
 import {NextPage} from "next";
@@ -27,16 +27,21 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	if (!email) return { redirect: {destination: "/about", permanent: false}}
 	let user = await (new SiQuery(User, {email})).getFirst();
 	if (!user) {
+		const signUp = await SiQuery.init(SignUpInvite, {email}).getFirst();
+		if (!signUp) return { redirect: {destination: "/invite", permanent: false}}
+		if (signUp.get("used")) return { redirect: {destination: "/invite", permanent: false}}
 		user = new User({email});
 		await user.save();
+		signUp.put("used", true);
+		await signUp.save();
 	}
 
-	let dir = await (new SiQuery(Directory, {owner: user.getHexId(), parent: user.getHexId()}).getFirst());
+	let dir = await (new SiQuery(Directory, {owner: user.getId(), parent: user.getId()}).getFirst());
 	if (!dir) {
 		dir = new Directory({
 			name: "root",
-			parent: user.getHexId(),
-			owner: user.getHexId()
+			parent: user.getIdForce(),
+			owner: user.getIdForce()
 		})
 		await dir.save();
 	}

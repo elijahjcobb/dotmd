@@ -98,21 +98,21 @@ const Page: NextPage<PageProps> = () => {
 		</footer>
 	</div>);
 };
-
-export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
-
-	const user = (await getUserForEmail(await getEmail(context)));
-	await (new Analytics({
-		user: user ? user.getHexId() : "na",
-		targetId: "about",
-		targetType: "page",
-		actionType: "view"
-	})).save();
-
-	return {
-		props: {}
-	}
-}
+//
+// export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+//
+// 	const user = (await getUserForEmail(await getEmail(context)));
+// 	await (new Analytics({
+// 		user: user ? user.getHexId() : "na",
+// 		targetId: "about",
+// 		targetType: "page",
+// 		actionType: "view"
+// 	})).save();
+//
+// 	return {
+// 		props: {}
+// 	}
+// }
 
 // export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
 // 	return {

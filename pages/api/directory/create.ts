@@ -8,6 +8,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import {getUserFromAuth} from "../../../db/auth-silicon";
 import {Analytics, Directory} from "../../../db/DB";
+import {createSiID} from "@element-ts/silicon";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	const user = await getUserFromAuth(req);
@@ -15,12 +16,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const {parent, name} = req.query as {parent: string, name: string};
 
-	const dir = new Directory({name, parent, owner: user.getHexId()});
+	const dir = new Directory({name, parent: createSiID(parent), owner: user.getIdForce()});
 	await dir.save();
 
 	await (new Analytics({
-		user: user.getHexId(),
-		targetId: dir.getHexId(),
+		user: user.getIdForce(),
+		targetId: dir.getIdForce(),
 		targetType: "dir",
 		actionType: "create"
 	})).save();

@@ -1,3 +1,5 @@
+import {SiID} from "@element-ts/silicon";
+
 /**
  * Elijah Cobb
  * elijah@elijahcobb.com
@@ -13,6 +15,11 @@ interface Base {
 
 export interface IUser extends Base {
 	email: string;
+}
+
+export interface IInvite extends Base {
+	email: string;
+	used: boolean;
 }
 
 

@@ -21,13 +21,13 @@ export default async function handler(
 	const {id, name} = req.query as {id: string, name: string};
 	const query = new SiQuery(File, {_id: new ObjectId(id)});
 	const file = await query.getFirst();
-	if (!file || file.get("owner") !== user.getHexId()) return res.status(400).send("Not authorized.");
+	if (!file || file.get("owner").toHexString() !== user.getHexId()) return res.status(400).send("Not authorized.");
 	file.put("name", name);
 	await file.save();
 
 	await (new Analytics({
-		user: user.getHexId(),
-		targetId: file.getHexId(),
+		user: user.getIdForce(),
+		targetId: file.getIdForce(),
 		targetType: "file",
 		actionType: "update"
 	})).save();

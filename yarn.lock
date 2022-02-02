@@ -1009,10 +1009,10 @@
   resolved "https://registry.yarnpkg.com/@element-ts/oxygen/-/oxygen-1.1.3.tgz#726035ca4e4ae74545e8fc3a5383067577c16b94"
   integrity sha512-TxHd1okQEjYOFcjCGh7opGmeooZBs8Ny12fufIucWU9u3vg/ZY+6ZkOtvSkYdJUA08VqQ5WqJEfM3VfM4IGzUg==
 
-"@element-ts/silicon@^1.0.2":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@element-ts/silicon/-/silicon-1.0.4.tgz#b41891eb7e52ffd1455fab4994829700e55af04d"
-  integrity sha512-3dxRABFPJX43kMtPQjJiQOGbjThqipvyWC7o9b00X0yWCk38n/PdxYasmNnObQRbqxDgQN3J3XDpWoHmHbC6CQ==
+"@element-ts/silicon@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@element-ts/silicon/-/silicon-1.0.8.tgz#ae19c633074edc6d1e61e214ced019a7e1127af4"
+  integrity sha512-1anAz7T+Rq4HvkyDyYS6nxMJeiwrfm9o9w8MOBhEtaaw9KyfbIBz8ER0CcLKzN9JCtwK0vtlF94Lzfebr0Z16A==
   dependencies:
     "@element-ts/neon" "^1.0.1"
     "@element-ts/oxygen" "1.1.3"

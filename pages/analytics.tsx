@@ -8,16 +8,16 @@ import type {NextPage, GetStaticProps, GetStaticPaths, GetServerSideProps} from 
 import {getEmail, getUserForEmail} from "../db/auth-silicon";
 import {NavBar} from "../components/NavBar";
 import {SiQuery} from "@element-ts/silicon";
-import {Analytics, Attachment, Directory, File, User} from "../db/DB";
-import {IUser} from "../components/local-types";
+import {Analytics, Attachment, Directory, File, SignUpInvite, User} from "../db/DB";
+import {IInvite, IUser} from "../components/local-types";
 import styles from "../styles/Analytics.module.scss";
 
 interface PageProps {
 	count: {name: string, count: number}[];
 	dir: {name: string, count: number}[];
 	file: {name: string, count: number}[];
-	pages: {name: string, count: number}[];
 	user: IUser[];
+	invites: IInvite[];
 }
 
 const Page: NextPage<PageProps> = props => {
@@ -52,20 +52,26 @@ const Page: NextPage<PageProps> = props => {
 						</div>
 					})}
 				</div>
-				<h1>Page Views</h1>
-				<div className={styles.counts}>
-					{props.pages.map((v, i) => {
-						return <div key={i} className={styles.count}>
-							<span className={styles.countName}>{v.count}</span>
-							<span className={styles.countValue}>{v.name}</span>
-						</div>
-					})}
-				</div>
 				<h1>Users</h1>
 				<div className={styles.users}>
 					{props.user.map((v, i) => {
 						return <div key={i} className={styles.user}>
 							<span className={styles.userName}>{v.email}</span>
+						</div>
+					})}
+				</div>
+				<h1>Invites</h1>
+				<div className={styles.users}>
+					<button onClick={() => {
+						let email = prompt("Enter Email", "");
+						if (email == null || email == "") return;
+						window.open("/api/invite/create?email=" + email, "_self");
+					}}>Create</button>
+					{props.invites.map((v, i) => {
+						return <div key={i} className={styles.user}>
+							<span onClick={() => {
+								window.open("/api/invite/delete?email=" + v.email, "_self");
+							}} className={styles.userName}>{v.email}</span>
 						</div>
 					})}
 				</div>
@@ -129,11 +135,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 				{name: "Move", count: fMove},
 				{name: "Delete", count: fDelete},
 			],
-			pages: [
-				{name: "/about", count: await (new SiQuery(Analytics, {targetId: "about", targetType: "page", actionType: "view"})).count()},
-				{name: "/privacy", count: await (new SiQuery(Analytics, {targetId: "privacy", targetType: "page", actionType: "view"})).count()},
-			],
-			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON())
+			user: (await (new SiQuery(User,{}).getAll())).sort((a, b) => b.getUpdatedAt() - a.getUpdatedAt()).map(v => v.toJSON()),
+			invites: (await SiQuery.init(SignUpInvite, {used: false}).getAll()).map(v => v.toJSON())
 		}
 	}
 }

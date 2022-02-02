@@ -17,7 +17,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	if (!user) return res.status(400).send("Not authorized.");
 
 	const id = req.query.id as string;
-	const file = await (new SiQuery(Attachment, {_id: new ObjectId(id)})).getFirst();
+	const file = await SiQuery.getForId(Attachment, id);
 
 	if (!file) return res.status(404).send("No image.");
 
