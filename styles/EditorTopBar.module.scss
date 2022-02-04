@@ -1,0 +1,100 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.topBar {
+	padding: 4px;
+	width: 100%;
+	justify-content: space-between;
+
+	* {
+		//border: solid 1px red;
+	}
+}
+
+.left {
+	flex-grow: 1;
+}
+
+.topBar, .left, .right {
+	display: flex;
+	align-items: center;
+}
+
+.folder {
+
+}
+
+.sep {
+	margin: 0 4px;
+}
+
+.name {
+	border: none;
+	background: none;
+	flex-grow: 1;
+}
+
+.profilePic, .logo {
+	display: block;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+}
+
+.profilePic, .picker, .saveMessage {
+	margin-left: 8px;
+}
+
+.saveMessage, .uploadImage, .picker {
+	display: none;
+}
+
+.saved {
+	color: dodgerblue;
+}
+
+.saveError {
+	color: red;
+}
+
+.modePicker {
+	display: flex;
+}
+
+@media (min-width: 640px) {
+	.darkPicker {
+		display: flex;
+	}
+	.name {
+		font-size: 18px;
+	}
+}
+
+@media (min-width: 800px) {
+	.saveMessage {
+		display: block;
+	}
+
+}
+
+@media (min-width: 880px) {
+	.themePicker {
+		display: flex;
+	}
+}
+
+@media (min-width: 960px) {
+	.profilePic, .picker, .saveMessage {
+		margin-left: 16px;
+	}
+	.sep {
+		margin: 0 8px;
+	}
+	.topBar {
+		padding: 8px;
+	}
+}
+
