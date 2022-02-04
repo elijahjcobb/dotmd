@@ -46,6 +46,10 @@ const Page: NextPage<PageProps> = props => {
 	const [sketching, setSketching] = useState(false);
 	const [imaging, setImaging] = useState(false);
 
+	useEffect(() => {
+		if (/Mobi|Android/i.test(navigator.userAgent)) setMode(EditorMode.PREVIEW);
+		else setMode(window.innerWidth > 720 ? EditorMode.SPLIT : EditorMode.PREVIEW)
+	}, []);
 	useDebounce(save, 500, [markdown]);
 
 	useInterval(() => {

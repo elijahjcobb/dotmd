@@ -8,7 +8,6 @@
 
 import React, {FC, useEffect, useState} from "react";
 import Monaco from "@monaco-editor/react";
-import styles from "../styles/Editor.module.scss";
 import {useDebounce, useInterval} from "./hooks";
 
 
@@ -33,7 +32,7 @@ export const Editor: FC<EditorProps> = props => {
 	}, 500, [source]);
 
 	return <Monaco
-		className={(props.className ?? "") + " " + styles.Editor}
+		className={props.className}
 		theme={props.dark ? "vs-dark" : "vs-light"}
 		defaultLanguage="markdown"
 		value={source}

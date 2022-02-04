@@ -12,7 +12,26 @@ $spacing: 16px;
 		max-width: 100%;
 		object-fit: contain;
 		background: none;
+		max-height: 480px;
 	}
+
+	ul.contains-task-list {
+		list-style-type: none !important;
+	}
+
+	.task-list-item {
+		list-style: none !important;
+		list-style-type: none !important;
+	}
+
+	ul.contains-task-list {
+		& > * {
+			margin-left: 16px;
+			list-style: none;
+		}
+	}
+
+
 }
 
 .workStyleMD {
@@ -65,12 +84,6 @@ $spacing: 16px;
 		padding: $spacing/4 0;
 	}
 
-	ul.contains-task-list {
-		& > * {
-			margin-left: 16px;
-			list-style: none;
-		}
-	}
 
 	table {
 		border-collapse: collapse;
@@ -107,12 +120,34 @@ $spacing: 16px;
 		border: solid 1px #eee;
 	}
 
-	code {
-		background: #eee;
-		padding: 2px 4px;
-		border-radius: 2px;
+	code, .code {
+		padding: 16px;
+		border-radius: 4px;
+		border: solid 1px #eee;
 		font-family: "Roboto Mono", monospace;
 		font-size: 14px;
+		position: relative;
+	}
+
+	.inlineCode {
+		padding: 4px 8px;
+		font-family: "Roboto Mono", monospace;
+	}
+
+
+	.copyButton {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		width: 16px;
+		height: 16px;
+		color: #aaa;
+		transition: all 250ms ease-in-out;
+		&:hover {
+			color: #555;
+			cursor: pointer;
+			transform: scale(1.05);
+		}
 	}
 
 }
@@ -165,10 +200,6 @@ $spacing: 16px;
 	li {
 		margin-left: 24px;
 		padding: 3px 0;
-	}
-
-	ul:has(li) {
-		background: red;
 	}
 
 	/* ul.contains-task-list {

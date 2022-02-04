@@ -5,12 +5,14 @@
  */
 
 .topBar {
-	padding: 4px;
+	height: 64px;
+	align-items: center;
 	width: 100%;
 	justify-content: space-between;
+	padding-right: 8px;
 
 	* {
-		//border: solid 1px red;
+		//border: solid 1px red !important;
 	}
 }
 
@@ -41,14 +43,21 @@
 	display: block;
 	width: 48px;
 	height: 48px;
-	border-radius: 50%;
+	margin-right: 8px;
+	border-radius: 25%;
 }
 
-.profilePic, .picker, .saveMessage {
+.picker {
+	& > * {
+		padding: 6px;
+	}
+}
+
+.picker, .saveMessage, .uploadImage {
 	margin-left: 8px;
 }
 
-.saveMessage, .uploadImage, .picker {
+.saveMessage, .uploadImage, .picker, .folder, .sep, .profilePic {
 	display: none;
 }
 
@@ -74,21 +83,41 @@
 }
 
 @media (min-width: 800px) {
-	.saveMessage {
-		display: block;
+	.uploadImage {
+		display: flex;
+		border: solid 1px rgba(0, 0, 0, 0.12);
+		padding: 10px;
+		border-radius: 4px;
+		&:hover {
+			background: #efefef;
+			cursor: pointer;
+		}
 	}
-
+	.picker {
+		& > * {
+			padding: 10px;
+		}
+	}
 }
 
 @media (min-width: 880px) {
 	.themePicker {
 		display: flex;
 	}
+	.folder, .sep, .profilePic {
+		display: block;
+	}
 }
 
 @media (min-width: 960px) {
+	.saveMessage {
+		display: block;
+	}
 	.profilePic, .picker, .saveMessage {
 		margin-left: 16px;
+	}
+	.topBar {
+		padding-right: 16px;
 	}
 	.sep {
 		margin: 0 8px;

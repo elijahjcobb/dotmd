@@ -15,6 +15,7 @@ import 'katex/dist/katex.min.css'
 import vsDark from 'prism-react-renderer/themes/vsDark';
 import vsLight from 'prism-react-renderer/themes/vsLight';
 import styles from "../styles/Markdown.module.scss";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 export interface MarkdownProps {
 	value: string;
@@ -33,20 +34,26 @@ export const Markdown: FC<MarkdownProps> = markdownProps => {
 			code({node, inline, className, children, ...props}) {
 				const match = /language-(\w+)/.exec(className || '')
 				return !inline && match ? (
-					<Highlight {...defaultProps} theme={markdownProps.dark ? vsDark : vsLight} code={String(children).replace(/\n$/, '')} language={(match[1] ?? "markup") as Language}>
-						{({ className, style, tokens, getLineProps, getTokenProps }) => (
-							<pre className={className} style={style}>{tokens.map((line, i) => (
-								<div key={i} {...getLineProps({line})}>
-									{line.map((token, key) => (
-										<span key={key} {...getTokenProps({token})} />
-									))}
-								</div>
-							))}
+					<div className={styles.code}>
+						<Highlight {...defaultProps} theme={markdownProps.dark ? vsDark : vsLight} code={String(children).replace(/\n$/, '')} language={(match[1] ?? "markup") as Language}>
+							{({ className, style, tokens, getLineProps, getTokenProps }) => (
+								<pre className={className} style={style}>{tokens.map((line, i) => (
+									<div key={i} {...getLineProps({line})}>
+										{line.map((token, key) => (
+											<span key={key} {...getTokenProps({token})} />
+										))}
+									</div>
+								))}
 								</pre>
-						)}
-					</Highlight>
+							)}
+						</Highlight>
+						<ContentCopyIcon onClick={() => {
+							const code = children[0];
+							navigator.clipboard.writeText(code as string).catch(console.error);
+						}} className={styles.copyButton}/>
+					</div>
 				) : (
-					<code className={className} {...props}>
+					<code className={styles.inlineCode} {...props}>
 						{children}
 					</code>
 				)
