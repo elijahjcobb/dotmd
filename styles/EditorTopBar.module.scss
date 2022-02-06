@@ -33,6 +33,14 @@
 	margin: 0 4px;
 }
 
+.folder, .logo {
+	transition: transform 250ms ease-in-out;
+	&:hover {
+		cursor: pointer;
+		transform: scale(1.05);
+	}
+}
+
 .name {
 	border: none;
 	background: none;
@@ -45,6 +53,10 @@
 	height: 48px;
 	margin-right: 8px;
 	border-radius: 25%;
+}
+
+.profilePic {
+	border-radius: 50%;
 }
 
 .picker {

@@ -20,6 +20,7 @@ import {CircularProgress} from "@mui/material";
 import {AttachmentManager} from "../../components/AttachmentManager";
 import {EditorTopBar} from "../../components/editor/EditorTopBar";
 import {EditorMode} from "../../components/editor/EditorModePicker";
+import {Toast, ToastConfig} from "../../components/Toast";
 
 interface PageProps {
 	file: IFile;
@@ -45,6 +46,7 @@ const Page: NextPage<PageProps> = props => {
 	const [uploading, setUploading] = useState(false);
 	const [sketching, setSketching] = useState(false);
 	const [imaging, setImaging] = useState(false);
+	const [toast, setToast] = useState<ToastConfig | undefined>(undefined);
 
 	useEffect(() => {
 		if (/Mobi|Android/i.test(navigator.userAgent)) setMode(EditorMode.PREVIEW);
@@ -117,10 +119,11 @@ const Page: NextPage<PageProps> = props => {
 								const res = JSON.parse(this.responseText) as IAttachment;
 								navigator.clipboard.writeText(`![image](/api/attachment/view/${res.id})`).then(() => {
 									setUploading(false);
+									setToast({message: "Image uploaded, markdown copied to clipboard.", severity: "success"});
 								})
 							} else {
 								console.error(this.status, this.statusText)
-								alert("Image upload to dotmd.app filed.")
+								setToast({message: "Image upload to dotmd.app filed.", severity: "error"})
 								setUploading(false);
 							}
 						}
@@ -134,7 +137,7 @@ const Page: NextPage<PageProps> = props => {
 				};
 				reader.onerror = function (error) {
 					console.log('Error: ', error);
-					alert("Failed to upload file data.")
+					setToast({message: "Failed to upload file data.", severity: "error"})
 					setUploading(false);
 				};
 			}
@@ -153,6 +156,10 @@ const Page: NextPage<PageProps> = props => {
 			</div>
 		</div>}
 		<input accept={".png,.jpg,.jpeg,.gif"} id={"file"} type={"file"} style={{display: "none"}}/>
+		<Toast
+			config={toast}
+			close={() => setToast(undefined)}
+		/>
 		{sketching && <AttachmentManager
 			onDelete={() => {}}
 			onNew={() => {
@@ -186,7 +193,7 @@ const Page: NextPage<PageProps> = props => {
 		/>
 		<div className={styles.container} style={{gridTemplateColumns: getModeColumns()}}>
 			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
-			<Markdown academicTheme={academicTheme} dark={darkMode} className={styles.markdown} value={markdown}/>
+			<Markdown setToast={setToast} academicTheme={academicTheme} dark={darkMode} className={styles.markdown} value={markdown}/>
 		</div>
 	</div>
 };

@@ -16,12 +16,14 @@ import vsDark from 'prism-react-renderer/themes/vsDark';
 import vsLight from 'prism-react-renderer/themes/vsLight';
 import styles from "../styles/Markdown.module.scss";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import {ToastConfig} from "./Toast";
 
 export interface MarkdownProps {
 	value: string;
 	className?: string;
 	dark: boolean;
 	academicTheme: boolean;
+	setToast: (config: ToastConfig | undefined) => void
 }
 
 export const Markdown: FC<MarkdownProps> = markdownProps => {
@@ -50,6 +52,7 @@ export const Markdown: FC<MarkdownProps> = markdownProps => {
 						<ContentCopyIcon onClick={() => {
 							const code = children[0];
 							navigator.clipboard.writeText(code as string).catch(console.error);
+							markdownProps.setToast({message: "Copied to Clipboard", severity: "info"});
 						}} className={styles.copyButton}/>
 					</div>
 				) : (
