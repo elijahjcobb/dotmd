@@ -11,7 +11,8 @@ import {
 	CloudQueue,
 	Error,
 	Folder,
-	Image,
+	AddPhotoAlternate,
+	Edit
 } from "@mui/icons-material";
 import styles from "../../styles/EditorTopBar.module.scss";
 import {SaveStatus} from "../../pages/edit/[id]";
@@ -19,6 +20,7 @@ import {useSession} from "next-auth/react";
 import {EditorMode, EditorModePicker} from "./EditorModePicker";
 import {EditorDarkModePicker} from "./EditorDarkModePicker";
 import {EditorThemePicker} from "./EditorThemePicker";
+import {EditorAttachmentManager} from "./EditorAttachmentManager";
 
 export interface EditorTopBarProps {
 	openFolder: () => void;
@@ -54,7 +56,12 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 			{props.saveStatus === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved + " " + styles.saveIcon}/>}
 			{props.saveStatus === SaveStatus.Error && <Error className={styles.saveError + " " + styles.saveIcon}/>}
 			<span className={styles.saveMessage}>{props.saveMessage + "..."}</span>
-			<div className={styles.uploadImage} onClick={props.openFile}><Image/></div>
+			<EditorAttachmentManager onClick={props.openFile} onSecondaryClick={() => {}}>
+				<AddPhotoAlternate/>
+			</EditorAttachmentManager>
+			<EditorAttachmentManager onClick={() => console.log("p")} onSecondaryClick={() => console.log("s")}>
+				<Edit/>
+			</EditorAttachmentManager>
 			<EditorModePicker value={props.mode} setValue={props.setMode}/>
 			<EditorDarkModePicker value={props.darkMode} setValue={props.setDarkMode}/>
 			<EditorThemePicker value={props.academicTheme} setValue={props.setAcademicTheme}/>

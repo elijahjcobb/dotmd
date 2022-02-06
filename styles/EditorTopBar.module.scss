@@ -65,11 +65,11 @@
 	}
 }
 
-.picker, .saveMessage, .uploadImage {
+.picker, .saveMessage {
 	margin-left: 8px;
 }
 
-.saveMessage, .uploadImage, .picker, .folder, .sep, .profilePic {
+.saveMessage, .picker, .folder, .sep, .profilePic {
 	display: none;
 }
 
@@ -95,16 +95,6 @@
 }
 
 @media (min-width: 800px) {
-	.uploadImage {
-		display: flex;
-		border: solid 1px rgba(0, 0, 0, 0.12);
-		padding: 10px;
-		border-radius: 4px;
-		&:hover {
-			background: #efefef;
-			cursor: pointer;
-		}
-	}
 	.picker {
 		& > * {
 			padding: 10px;

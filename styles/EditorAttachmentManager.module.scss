@@ -1,0 +1,41 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.container {
+	display: flex;
+	margin-left: 8px;
+	border: solid 1px rgba(0, 0, 0, 0.12);
+	border-radius: 4px;
+	&:hover {
+		background: rgba(0, 0, 0, 0.05);
+		cursor: pointer;
+	}
+}
+
+.left, .right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.left {
+	padding: 10px;
+}
+
+.right {
+	padding: 5px;
+	//border: solid 1px rgba(0, 0, 0, 0.12);
+	&:hover {
+		background: rgba(0, 0, 0, 0.05);
+		cursor: pointer;
+	}
+}
+
+@media (min-width: 960px) {
+	.container {
+		margin-left: 16px;
+	}
+}
