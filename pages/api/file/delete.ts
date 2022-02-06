@@ -8,13 +8,15 @@
 import type {NextApiRequest, NextApiResponse} from "next";
 import {getUserFromAuth} from "../../../db/auth-silicon";
 import {SiQuery} from "@element-ts/silicon";
-import {Analytics, Attachment, File} from "../../../db/DB";
+import {Analytics, Attachment, File, Sketch} from "../../../db/DB";
 import {ObjectId} from "bson";
 
 export async function deleteFile(file: File): Promise<void> {
 	await file.delete();
 	const attachments = await (new SiQuery(Attachment, {parent: file.getIdForce()})).getAll();
 	for (const a of attachments) await a.delete();
+	const sketches = await (new SiQuery(Sketch, {parent: file.getIdForce()})).getAll();
+	for (const s of sketches) await s.delete();
 }
 
 export default async function handler(

@@ -1,0 +1,68 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.page {
+	width: 100vw;
+	height: 100vh;
+	background: rgba(255, 255, 255, 0.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 388;
+}
+
+.container {
+	background: white;
+	border-radius: 16px;
+	box-shadow: 0 0 16px #888;
+	overflow: hidden;
+}
+
+.canvas {
+	border: none !important;
+	width: 80vw !important;
+	max-width: 1080px;
+	height: 80vh !important;
+	max-height: 1080px;
+	border-radius: 0 !important;
+}
+
+.group {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	& > * {
+		margin: 0 8px;
+	}
+}
+
+.btn {
+	color: #555;
+	border: solid 1px #ccc;
+	border-radius: 4px;
+	padding: 10px;
+	width: 48px;
+	height: 48px;
+	transition: all 250ms ease-in-out;
+
+	&:hover {
+		background: #eee;
+		color: black;
+		cursor: pointer;
+	}
+}
+
+.top {
+	display: flex;
+	border-bottom: solid 1px #eee;
+	padding: 16px;
+	z-index: 8;
+	width: 100%;
+}

@@ -55,8 +55,8 @@
 	display: grid;
 	grid-template-columns: repeat(2, 50%);
 	grid-gap: 16px;
-	max-height: min(480px, 60vh);
-	overflow-y: scroll;
-	padding-top: 32px;
-	padding-right: 32px;
+	max-height: min(1080px, 60vh);
+	overflow-y: auto;
+	padding: 32px;
+	overflow-x: hidden;
 }

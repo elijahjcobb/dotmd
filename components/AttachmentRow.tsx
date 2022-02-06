@@ -8,18 +8,30 @@ import {FC} from "react";
 import styles from "../styles/AttachmentRow.module.scss";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteIcon from '@mui/icons-material/Delete';
+import {AttachmentManagerItem} from "./AttachmentManager";
 
 export interface SketchRowProps {
-
+	file: AttachmentManagerItem;
+	onSelect: (file: AttachmentManagerItem) => void;
+	onDelete: (file: AttachmentManagerItem) => void;
+	onCopy: (file: AttachmentManagerItem) => void;
 }
 
 export const AttachmentRow: FC<SketchRowProps> = props => {
 
+	const getSrc = () => {
+		//@ts-ignore
+		const prefix = (props.file.hasOwnProperty("svg")) ? "svg+xml" : "png";
+		//@ts-ignore
+		const img = (props.file.hasOwnProperty("svg")) ? props.file.svg : props.file.content;
+		return `data:image/${prefix};base64,` + img;
+	}
+
 	return (<div className={styles.container}>
-		<img className={styles.preview} alt={"sketch"} src={"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Domestic_llama_%282009-05-19%29.jpg/440px-Domestic_llama_%282009-05-19%29.jpg"}/>
+		<img onClick={() => props.onSelect(props.file)} className={styles.preview} alt={"sketch"} src={getSrc()}/>
 		<div className={styles.options}>
-			<ContentCopyIcon className={styles.copy}/>
-			<DeleteIcon className={styles.delete}/>
+			<ContentCopyIcon onClick={() => props.onCopy(props.file)} className={styles.copy}/>
+			<DeleteIcon onClick={() => props.onDelete(props.file)} className={styles.delete}/>
 		</div>
 	</div>);
 

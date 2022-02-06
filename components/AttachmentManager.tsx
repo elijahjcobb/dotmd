@@ -8,12 +8,18 @@ import {FC} from "react";
 import styles from "../styles/AttachmentManager.module.scss"
 import {AttachmentRow} from "./AttachmentRow";
 import {Add} from "@mui/icons-material";
+import {IAttachment, ISketch} from "./local-types";
+
+export type AttachmentManagerItem = ISketch | IAttachment;
 
 export interface SketchManagerProps {
 	name: string;
+	onSelect: (file: AttachmentManagerItem) => void;
+	onDelete: (file: AttachmentManagerItem) => void;
+	onCopy: (file: AttachmentManagerItem) => void;
 	onClose: () => void;
-	onDelete: (id: string) => void;
 	onNew: () => void;
+	files: AttachmentManagerItem[];
 }
 
 export const AttachmentManager: FC<SketchManagerProps> = props => {
@@ -28,12 +34,13 @@ export const AttachmentManager: FC<SketchManagerProps> = props => {
 				}} className={styles.icon}/>
 			</div>
 			<div className={styles.sketches}>
-				<AttachmentRow/>
-				<AttachmentRow/>
-				<AttachmentRow/>
-				<AttachmentRow/>
-				<AttachmentRow/>
-				<AttachmentRow/>
+				{props.files.map(((file, index) => {
+					return <AttachmentRow
+						onSelect={props.onSelect}
+						onCopy={props.onCopy}
+						onDelete={props.onDelete}
+						file={file} key={index}/>
+				}))}
 			</div>
 		</div>
 	</div>);

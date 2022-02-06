@@ -24,7 +24,10 @@ import {EditorAttachmentManager} from "./EditorAttachmentManager";
 
 export interface EditorTopBarProps {
 	openFolder: () => void;
-	openFile: () => void;
+	newImage: () => void;
+	newSketch: () => void;
+	openImages: () => void;
+	openSketches: () => void;
 	saveStatus: SaveStatus;
 	saveMessage: string;
 	mode: EditorMode;
@@ -56,10 +59,10 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 			{props.saveStatus === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved + " " + styles.saveIcon}/>}
 			{props.saveStatus === SaveStatus.Error && <Error className={styles.saveError + " " + styles.saveIcon}/>}
 			<span className={styles.saveMessage}>{props.saveMessage + "..."}</span>
-			<EditorAttachmentManager onClick={props.openFile} onSecondaryClick={() => {}}>
+			<EditorAttachmentManager onClick={props.newImage} onSecondaryClick={props.openImages}>
 				<AddPhotoAlternate/>
 			</EditorAttachmentManager>
-			<EditorAttachmentManager onClick={() => console.log("p")} onSecondaryClick={() => console.log("s")}>
+			<EditorAttachmentManager onClick={props.newSketch} onSecondaryClick={props.openSketches}>
 				<Edit/>
 			</EditorAttachmentManager>
 			<EditorModePicker value={props.mode} setValue={props.setMode}/>

@@ -54,6 +54,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 
 	res.setHeader("content-type", "");
-	res.send(file.toJSON())
+	res.send({
+		...file.toJSON(),
+		content: file.get("content").toString("base64")
+	})
 
 }

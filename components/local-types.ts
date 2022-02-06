@@ -44,6 +44,13 @@ export interface IAttachment extends Base {
 	mime: string;
 }
 
+export interface ISketch extends Base {
+	parent: string;
+	owner: string;
+	svg: string;
+	paths: string;
+}
+
 //
 // async function directoryDelete(dir: IDirectory): Promise<void> {
 //

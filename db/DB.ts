@@ -68,6 +68,19 @@ export class Attachment extends SiObject<AttachmentProps> {
 
 }
 
+export interface SketchProps extends SiObjectProps {
+	owner: SiID;
+	parent: SiID;
+	svg: Buffer;
+	paths: Buffer;
+}
+
+export class Sketch extends SiObject<SketchProps> {
+	public constructor(value: SketchProps) {
+		super("sketches", value);
+	}
+}
+
 export interface AnalyticsProps extends SiObjectProps {
 	user: SiID;
 	targetType: "dir" | "file" | "page";
