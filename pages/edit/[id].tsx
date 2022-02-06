@@ -230,6 +230,7 @@ const Page: NextPage<PageProps> = props => {
 						setUploading(false);
 						if (this.status === 200) {
 							const res = JSON.parse(this.responseText) as ISketch;
+							if (sketching?.id) window.open("/edit/" + props.file.id, "_self")
 							copySketchToClipboard(res);
 							setSketching(undefined);
 							setViewingSketches(false);

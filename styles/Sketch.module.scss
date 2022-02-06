@@ -49,6 +49,8 @@
 	border-radius: 4px;
 	padding: 10px;
 	width: 48px;
+	min-width: 48px !important;
+	min-height: 48px !important;
 	height: 48px;
 	transition: all 250ms ease-in-out;
 
