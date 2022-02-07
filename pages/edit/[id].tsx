@@ -22,6 +22,7 @@ import {EditorTopBar} from "../../components/editor/EditorTopBar";
 import {EditorMode} from "../../components/editor/EditorModePicker";
 import {Toast, ToastConfig} from "../../components/Toast";
 import {Sketch as SketchEditor} from "../../components/editor/Sketch";
+import {EditorAccess} from "../../components/editor/EditorAccessPicker";
 
 interface PageProps {
 	file: IFile;
@@ -51,9 +52,13 @@ const Page: NextPage<PageProps> = props => {
 	const [viewingImages, setViewingImages] = useState(false);
 	const [toast, setToast] = useState<ToastConfig | undefined>(undefined);
 	const [sketching, setSketching] = useState<ISketch | null | undefined>(undefined);
-
+	const [access, setAccess] = useState<EditorAccess>(props.file.public ? EditorAccess.PUBLIC : EditorAccess.PRIVATE);
 	const [sketches, setSketches] = useState<ISketch[]>(props.sketches);
 	const [images, setImages] = useState<IAttachment[]>(props.images);
+
+	useEffect(() => {
+		save();
+	}, [access]);
 
 	useEffect(() => {
 		if (/Mobi|Android/i.test(navigator.userAgent)) setMode(EditorMode.PREVIEW);
@@ -90,7 +95,8 @@ const Page: NextPage<PageProps> = props => {
 		xhr.send(JSON.stringify({
 			content: markdown,
 			id: props.file.id,
-			name
+			name,
+			publicAccess: access === EditorAccess.PUBLIC
 		}));
 	}
 
@@ -268,6 +274,8 @@ const Page: NextPage<PageProps> = props => {
 			title={name}
 			setTitle={setName}
 			updateDoc={save}
+			access={access}
+			setAccess={setAccess}
 		/>
 		<div className={styles.container} style={{gridTemplateColumns: getModeColumns()}}>
 			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>

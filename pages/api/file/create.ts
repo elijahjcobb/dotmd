@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const {parent, name} = req.query as {parent: string, name: string};
 
-	const file = new File({name, parent: createSiID(parent), owner: user.getIdForce(), content: ""});
+	const file = new File({name, parent: createSiID(parent), owner: user.getIdForce(), content: "", public: false});
 	await file.save();
 
 	await (new Analytics({

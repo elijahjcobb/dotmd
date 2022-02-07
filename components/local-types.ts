@@ -35,6 +35,7 @@ export interface IFile extends Base {
 	parent: string;
 	owner: string;
 	content: string;
+	public: boolean;
 }
 
 export interface IAttachment extends Base {

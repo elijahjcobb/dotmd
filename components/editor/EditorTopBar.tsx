@@ -21,6 +21,7 @@ import {EditorMode, EditorModePicker} from "./EditorModePicker";
 import {EditorDarkModePicker} from "./EditorDarkModePicker";
 import {EditorThemePicker} from "./EditorThemePicker";
 import {EditorAttachmentManager} from "./EditorAttachmentManager";
+import {EditorAccess, EditorAccessPicker} from "./EditorAccessPicker";
 
 export interface EditorTopBarProps {
 	openFolder: () => void;
@@ -39,7 +40,8 @@ export interface EditorTopBarProps {
 	title: string;
 	setTitle: (value: string) => void;
 	updateDoc: () => void;
-
+	access: EditorAccess;
+	setAccess: (access: EditorAccess) => void;
 }
 
 export const EditorTopBar: FC<EditorTopBarProps> = props => {
@@ -68,6 +70,7 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 			<EditorModePicker value={props.mode} setValue={props.setMode}/>
 			<EditorDarkModePicker value={props.darkMode} setValue={props.setDarkMode}/>
 			<EditorThemePicker value={props.academicTheme} setValue={props.setAcademicTheme}/>
+			<EditorAccessPicker value={props.access} setValue={props.setAccess}/>
 			<img className={styles.profilePic} src={user} alt={"profile"}/>
 		</div>
 	</div>);

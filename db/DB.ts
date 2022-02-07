@@ -43,6 +43,7 @@ export interface FileProps extends SiObjectProps {
 	parent: SiID;
 	owner: SiID;
 	content: string;
+	public: boolean;
 }
 
 export class File extends SiObject<FileProps> {
