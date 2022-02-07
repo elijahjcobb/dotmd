@@ -27,13 +27,15 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	if (!email) return { redirect: {destination: "/about", permanent: false}}
 	let user = await (new SiQuery(User, {email})).getFirst();
 	if (!user) {
-		const signUp = await SiQuery.init(SignUpInvite, {email}).getFirst();
-		if (!signUp) return { redirect: {destination: "/invite", permanent: false}}
-		if (signUp.get("used")) return { redirect: {destination: "/invite", permanent: false}}
+		if (email !== "ejcobb@mtu.edu") {
+			const signUp = await SiQuery.init(SignUpInvite, {email}).getFirst();
+			if (!signUp) return { redirect: {destination: "/invite", permanent: false}}
+			if (signUp.get("used")) return { redirect: {destination: "/invite", permanent: false}}
+			signUp.put("used", true);
+			await signUp.save();
+		}
 		user = new User({email});
 		await user.save();
-		signUp.put("used", true);
-		await signUp.save();
 	}
 
 	let dir = await (new SiQuery(Directory, {owner: user.getId(), parent: user.getId()}).getFirst());

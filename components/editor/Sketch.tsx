@@ -10,7 +10,10 @@ import styles from "../../styles/Sketch.module.scss";
 import {ReactSketchCanvas, ReactSketchCanvasRef} from "react-sketch-canvas";
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
 import ToggleButton from "@mui/material/ToggleButton";
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import {FileDownload, Delete, Brush, FormatPaint, Circle} from "@mui/icons-material";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {ToastConfig} from "../Toast";
@@ -19,7 +22,7 @@ import {ISketch} from "../local-types";
 export interface SketchProps {
 	sketch: ISketch | null;
 	onClose: () => void;
-	onSave: (img: {svg: string, paths: string}) => void;
+	onSave: (img: {svg: string, paths: string}, copy: boolean) => void;
 	setToast: (config: ToastConfig | undefined) => void
 }
 
@@ -57,11 +60,11 @@ export const Sketch: FC<SketchProps> = props => {
 		return canvas;
 	}
 
-	const save = () => {
+	const save = (copy: boolean) => {
 		(async () => {
 			const svg = await canvas().exportSvg();
 			const paths = JSON.stringify(await canvas().exportPaths());
-			props.onSave({svg, paths})
+			props.onSave({svg, paths}, copy)
 		})().catch(err => {
 			console.error(err);
 			props.setToast({message: "Failed to save sketch.", severity: "error"})
@@ -110,6 +113,16 @@ export const Sketch: FC<SketchProps> = props => {
 								downloadLink.click();
 							}).catch(console.error);
 						}}
+					/>
+				</div>
+				<div className={styles.group}>
+					<UndoIcon
+						className={styles.btn}
+						onClick={() => canvas().undo()}
+					/>
+					<RedoIcon
+						className={styles.btn}
+						onClick={() => canvas().redo()}
 					/>
 				</div>
 				<div className={styles.group}>
@@ -169,7 +182,8 @@ export const Sketch: FC<SketchProps> = props => {
 						<ToggleButton value={SketchColor.ORANGE}><Circle style={{color: SketchColor.ORANGE}}/></ToggleButton>
 					</ToggleButtonGroup>
 				</div>
-				<SaveIcon className={styles.btn} onClick={save}/>
+				{props.sketch && <FileCopyIcon className={styles.btn} onClick={() => save(true)}/>}
+				<SaveIcon className={styles.btn} onClick={() => save(false)}/>
 			</div>
 			<ReactSketchCanvas
 				// @ts-ignore

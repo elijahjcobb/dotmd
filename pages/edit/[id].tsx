@@ -152,7 +152,7 @@ const Page: NextPage<PageProps> = props => {
 	}, [props.file.id])
 
 	const copySketchToClipboard = (sketch: ISketch) => {
-		navigator.clipboard.writeText(`![image](/api/sketch/view/${sketch.id})`).catch(console.error);
+		navigator.clipboard.writeText(`![sketch](/api/sketch/view/${sketch.id})`).catch(console.error);
 		setToast({message: "Copied to clipboard.", severity: "success"});
 	}
 
@@ -220,9 +220,11 @@ const Page: NextPage<PageProps> = props => {
 			sketch={sketching}
 			setToast={setToast}
 			onClose={() => setSketching(undefined)}
-			onSave={data => {
+			onSave={(data, copy) => {
 				setUploading(true);
 				const xhr = new XMLHttpRequest();
+				let sketch = sketching;
+				if (copy) sketch = null;
 				xhr.open("POST", '/api/sketch/save', true);
 				xhr.setRequestHeader("Content-Type", "application/json");
 				xhr.onreadystatechange = function() {
@@ -230,7 +232,7 @@ const Page: NextPage<PageProps> = props => {
 						setUploading(false);
 						if (this.status === 200) {
 							const res = JSON.parse(this.responseText) as ISketch;
-							if (sketching?.id) window.open("/edit/" + props.file.id, "_self")
+							if (sketch?.id) window.open("/edit/" + props.file.id, "_self")
 							copySketchToClipboard(res);
 							setSketching(undefined);
 							setViewingSketches(false);
@@ -242,7 +244,7 @@ const Page: NextPage<PageProps> = props => {
 					}
 				}
 				xhr.send(JSON.stringify({
-					id: sketching?.id,
+					id: sketch?.id,
 					parent: props.file.id,
 					svg: data.svg,
 					paths: data.paths,
