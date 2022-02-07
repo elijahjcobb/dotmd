@@ -12,6 +12,7 @@ class MyDocument extends Document {
 					<link rel="apple-touch-icon" href="/dotmd.png"></link>
 					<script async src="/other.js"></script>
 					<meta name="theme-color" content="#fff" />
+					<title>dotmd</title>
 				</Head>
 				<body>
 				<Main />
