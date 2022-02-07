@@ -58,6 +58,12 @@ const Page: NextPage<PageProps> = props => {
 
 	useEffect(() => {
 		save();
+		if (access) {
+			navigator.clipboard.writeText("https://dotmd.app/preview/" + props.file.id).catch(console.error);
+			setToast({message: "Document viewable with the link copied to clipboard.", severity: "success"})
+		} else {
+			setToast({message: "Document set to private.", severity: "success"})
+		}
 	}, [access]);
 
 	useEffect(() => {
@@ -292,7 +298,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 	const file = await SiQuery.getForId(File, createSiID(fileId));
 	if (!file) return {redirect: {destination: "/", permanent: false}}
 	const user = await getUserForEmail(email);
-	if (!user || file.get("owner").toHexString() !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
+	if (!user || file.get("owner").toHexString() !== user.getHexId()) return {redirect: {destination: "/preview/" + fileId, permanent: false}}
 
 	await (new Analytics({
 		user: user.getIdForce(),

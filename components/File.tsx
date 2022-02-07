@@ -8,6 +8,8 @@
 import React, {FC} from "react";
 import styles from "../styles/File.module.scss";
 import ArticleIcon from '@mui/icons-material/Article';
+import PublicIcon from '@mui/icons-material/Public';
+import LockIcon from '@mui/icons-material/Lock';
 import {IFile} from "./local-types";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -54,6 +56,7 @@ export const File: FC<FileProps> = props => {
 		<DragPreviewImage connect={dragPreview} src={"/article.png"} />
 		<ArticleIcon/>
 		<span className={styles.name}>{props.file.name}</span>
+		{props.file.public ? <PublicIcon className={styles.access}/> : <LockIcon className={styles.access}/>}
 		<span className={styles.date}>{lastUpdated}</span>
 		<EditIcon
 			onClick={ev => {

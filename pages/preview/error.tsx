@@ -17,7 +17,7 @@ const Page: NextPage<PageProps> = props => {
 		<div className={styles.main}>
 			<NavBar path={[]}/>
 			<div className={styles.center}>
-				<span>You are not the owner of this file, and the file is not public.</span>
+				<span>This file cannot be previewed. If you are the owner, set the file access to public in the editor.</span>
 				<a className={styles.tryagain} href={"/preview/" + props.id}>Try Again</a>
 			</div>
 		</div>

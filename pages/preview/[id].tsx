@@ -32,7 +32,7 @@ const Page: NextPage<PageProps> = props => {
 
 	return <div className={styles.App}>
 		<Head>
-			<title>Preview {props.file.name + ".md"}</title>
+			<title>Previewing {"'" + props.file.name + ".md'"}</title>
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 		</Head>
 		<NavBar path={[]}/>
