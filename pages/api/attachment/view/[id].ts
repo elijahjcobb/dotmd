@@ -24,7 +24,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (!file.get("public")) {
 		const user = await getUserFromAuth(req);
-		if (!user || !(file.get("owner").id.compare(user.getIdForce().id))) return res.status(400).send("Not authorized.");
+		if (!user || (file.get("owner").toHexString() !== user.getHexId())) return res.status(400).send("Not authorized.");
 	}
 
 	const data = attachment.get("content");

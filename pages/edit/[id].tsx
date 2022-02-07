@@ -288,11 +288,11 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
 
 	const fileId = context.query.id as string;
 	const email = await getEmail(context);
-	const user = await getUserForEmail(email);
-	if (!user) return {redirect: {destination: "/", permanent: false}}
 
 	const file = await SiQuery.getForId(File, createSiID(fileId));
-	if (!file || file.get("owner").toHexString() !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
+	if (!file) return {redirect: {destination: "/", permanent: false}}
+	const user = await getUserForEmail(email);
+	if (!user || file.get("owner").toHexString() !== user.getHexId()) return {redirect: {destination: "/", permanent: false}}
 
 	await (new Analytics({
 		user: user.getIdForce(),
