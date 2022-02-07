@@ -25,20 +25,27 @@
 
 .preview {
 	width: 100%;
+	flex-grow: 1;
+	min-height: 180px;
+	object-fit: contain;
 }
 
 .options {
 	position: absolute;
+	background: #eee;
 	bottom: 0;
 	width: 100%;
 	padding: 8px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	background: var(--background);
+	//background: var(--background);
 }
 
 .copy, .delete {
+
+	width: 32px;
+	height: 32px;
 	transition: all 250ms ease-in-out;
 
 	&:hover {

@@ -69,6 +69,8 @@ export const Directory: FC<DirectoryProps> = props => {
 			<DeleteIcon
 				onClick={ev => {
 					ev.stopPropagation();
+					// const x = window.confirm("Are you sure you want to delete?");
+					// if (!x) return;
 					props.onDelete(props.directory);
 				}}
 				className={styles.option}

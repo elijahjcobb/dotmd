@@ -44,7 +44,8 @@ export enum SketchColor {
 export enum SketchSize {
 	SMALL = 2,
 	MEDIUM = 4,
-	BIG = 8
+	BIG = 8,
+	EXTRA = 16
 }
 
 export const Sketch: FC<SketchProps> = props => {
@@ -154,13 +155,16 @@ export const Sketch: FC<SketchProps> = props => {
 						}}
 					>
 						<ToggleButton value={SketchSize.SMALL}>
-							<Circle style={{width: SketchSize.SMALL * 4}} />
+							<Circle style={{width: 12}} />
 						</ToggleButton>
 						<ToggleButton value={SketchSize.MEDIUM}>
-							<Circle style={{width: SketchSize.MEDIUM * 4}} />
+							<Circle style={{width: 16}} />
 						</ToggleButton>
 						<ToggleButton value={SketchSize.BIG}>
-							<Circle style={{width: SketchSize.BIG * 3}} />
+							<Circle style={{width: 20}} />
+						</ToggleButton>
+						<ToggleButton value={SketchSize.EXTRA}>
+							<Circle style={{width: 32}} />
 						</ToggleButton>
 					</ToggleButtonGroup>
 					<ToggleButtonGroup
@@ -190,9 +194,12 @@ export const Sketch: FC<SketchProps> = props => {
 				ref={canvasRef}
 				strokeColor={color}
 				strokeWidth={size}
-				eraserWidth={size * 2}
+				eraserWidth={size * 3}
 				className={styles.canvas}
 			/>
+			<div className={styles.grabber}>
+
+			</div>
 		</div>
 	</div>);
 

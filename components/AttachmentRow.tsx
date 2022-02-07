@@ -6,7 +6,7 @@
 
 import {FC} from "react";
 import styles from "../styles/AttachmentRow.module.scss";
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {AttachmentManagerItem} from "./AttachmentManager";
 
@@ -30,8 +30,12 @@ export const AttachmentRow: FC<SketchRowProps> = props => {
 	return (<div className={styles.container}>
 		<img onClick={() => props.onSelect(props.file)} className={styles.preview} alt={"sketch"} src={getSrc()}/>
 		<div className={styles.options}>
-			<ContentCopyIcon onClick={() => props.onCopy(props.file)} className={styles.copy}/>
-			<DeleteIcon onClick={() => props.onDelete(props.file)} className={styles.delete}/>
+			<InsertLinkIcon onClick={() => props.onCopy(props.file)} className={styles.copy}/>
+			<DeleteIcon onClick={() => {
+				const x = window.confirm("Are you sure you want to delete?");
+				if (!x) return;
+				props.onDelete(props.file)
+			}} className={styles.delete}/>
 		</div>
 	</div>);
 

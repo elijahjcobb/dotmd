@@ -65,6 +65,8 @@ export const File: FC<FileProps> = props => {
 		<DeleteIcon
 			onClick={ev => {
 				ev.stopPropagation();
+				// const x = window.confirm("Are you sure you want to delete?");
+				// if (!x) return;
 				props.onDelete(props.file);
 			}}
 			className={styles.option}

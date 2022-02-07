@@ -15,6 +15,10 @@
 	top: 0;
 	left: 0;
 	z-index: 388;
+
+	* {
+		//border: solid 1px red !important;
+	}
 }
 
 .container {
@@ -22,15 +26,26 @@
 	border-radius: 16px;
 	box-shadow: 0 0 16px #888;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	resize: vertical;
+	min-height: 280px;
+	max-height: 90vh;
+	height: 60vh;
 }
 
 .canvas {
 	border: none !important;
-	width: 80vw !important;
-	max-width: 1080px;
-	height: 80vh !important;
-	max-height: 1080px;
+	width: 100% !important;
+	margin: 0 !important;
+	flex-grow: 1;
 	border-radius: 0 !important;
+}
+
+.grabber {
+	height: 16px;
+	width: 100%;
+	background: #eee;
 }
 
 .group {
