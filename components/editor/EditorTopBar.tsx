@@ -22,6 +22,8 @@ import {EditorDarkModePicker} from "./EditorDarkModePicker";
 import {EditorThemePicker} from "./EditorThemePicker";
 import {EditorAttachmentManager} from "./EditorAttachmentManager";
 import {EditorAccess, EditorAccessPicker} from "./EditorAccessPicker";
+import HelpIcon from '@mui/icons-material/Help';
+import buttonStyles from "../../styles/EditorAttachmentManager.module.scss";
 
 export interface EditorTopBarProps {
 	openFolder: () => void;
@@ -71,6 +73,11 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 			<EditorDarkModePicker value={props.darkMode} setValue={props.setDarkMode}/>
 			<EditorThemePicker value={props.academicTheme} setValue={props.setAcademicTheme}/>
 			<EditorAccessPicker value={props.access} setValue={props.setAccess}/>
+			<div onClick={() => {
+				window.open("https://dotmd.app/preview/6201db268c37cb52f7a1f923", "_blank")
+			}} className={buttonStyles.left + " " + buttonStyles.container}>
+				<HelpIcon/>
+			</div>
 			<img className={styles.profilePic} src={user} alt={"profile"}/>
 		</div>
 	</div>);
