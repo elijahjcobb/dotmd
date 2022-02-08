@@ -19,6 +19,8 @@ $spacing: 16px;
 		list-style-type: none !important;
 	}
 
+
+
 	.task-list-item {
 		list-style: none !important;
 		list-style-type: none !important;
@@ -81,7 +83,7 @@ $spacing: 16px;
 
 	li {
 		margin-left: $spacing * 2;
-		padding: $spacing/4 0;
+		padding: $spacing/6 0;
 	}
 
 
@@ -134,7 +136,6 @@ $spacing: 16px;
 		font-family: "Roboto Mono", monospace;
 	}
 
-
 	.copyButton {
 		position: absolute;
 		top: 8px;
@@ -164,8 +165,11 @@ $spacing: 16px;
 	overflow-y: auto;
 
 	font-family: "Computer Modern", serif;
-	font-size: 12px;
 	line-height: 1.5;
+
+	.copyButton {
+		display: none;
+	}
 
 	h1 {
 		margin: 8px 0;

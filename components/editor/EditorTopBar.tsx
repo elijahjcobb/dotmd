@@ -52,15 +52,15 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 	return (<div className={styles.topBar}>
 		<div className={styles.left}>
 			<img onClick={props.openFolder} className={styles.logo} src={"/dotmd.png"} alt={"icon"}/>
-			<Folder onClick={props.openFolder} className={styles.folder}/>
-			<span className={styles.sep}>/</span>
+			{/*<Folder onClick={props.openFolder} className={styles.folder}/>*/}
+			{/*<span className={styles.sep}>/</span>*/}
 			<input onBlur={props.updateDoc} onChange={e => props.setTitle(e.target.value)} className={styles.name} value={props.title} />
 		</div>
 		<div className={styles.right}>
 			{props.saveStatus === SaveStatus.Saved && <CloudDone className={styles.saved + " " + styles.saveIcon}/>}
 			{props.saveStatus === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved + " " + styles.saveIcon}/>}
 			{props.saveStatus === SaveStatus.Error && <Error className={styles.saveError + " " + styles.saveIcon}/>}
-			<span className={styles.saveMessage}>{props.saveMessage + "..."}</span>
+			{/*<span className={styles.saveMessage}>{props.saveMessage + "..."}</span>*/}
 			<EditorAttachmentManager onClick={props.newImage} onSecondaryClick={props.openImages}>
 				<AddPhotoAlternate/>
 			</EditorAttachmentManager>

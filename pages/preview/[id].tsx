@@ -7,21 +7,12 @@
 import type {GetServerSideProps, NextPage} from "next";
 import React, {useCallback, useEffect, useState} from "react";
 import styles from "../../styles/App.module.scss";
+import previewStyles from "../../styles/Preview.module.scss";
 import {Markdown} from "../../components/Markdown";
-import {useDebounce, useInterval} from "../../components/hooks";
-import moment from "moment";
 import Head from "next/head";
-import {Editor} from "../../components/Editor";
 import {IAttachment, IFile, ISketch} from "../../components/local-types";
 import {Analytics, Attachment, File, Sketch} from "../../db/DB";
-import {getEmail, getUserForEmail} from "../../db/auth-silicon";
 import {createSiID, SiQuery} from "@element-ts/silicon";
-import {CircularProgress} from "@mui/material";
-import {AttachmentManager} from "../../components/AttachmentManager";
-import {EditorTopBar} from "../../components/editor/EditorTopBar";
-import {EditorMode} from "../../components/editor/EditorModePicker";
-import {Toast, ToastConfig} from "../../components/Toast";
-import {Sketch as SketchEditor} from "../../components/editor/Sketch";
 import {NavBar} from "../../components/NavBar";
 
 interface PageProps {
@@ -36,7 +27,7 @@ const Page: NextPage<PageProps> = props => {
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 		</Head>
 		<NavBar path={[]}/>
-		<Markdown setToast={() => {}} academicTheme={false} dark={false} className={styles.markdown} value={props.file.content}/>
+		<Markdown setToast={() => {}} academicTheme={false} dark={false} className={styles.markdown + " " + previewStyles.preview} value={props.file.content}/>
 	</div>
 };
 

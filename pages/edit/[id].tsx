@@ -60,9 +60,9 @@ const Page: NextPage<PageProps> = props => {
 		save();
 		if (access) {
 			navigator.clipboard.writeText("https://dotmd.app/preview/" + props.file.id).catch(console.error);
-			setToast({message: "Document viewable with the link copied to clipboard.", severity: "success"})
+			setToast({message: "This document is public, share link in clipboard.", severity: "info"})
 		} else {
-			setToast({message: "Document set to private.", severity: "success"})
+			setToast({message: "This document is private.", severity: "info"})
 		}
 	}, [access]);
 
@@ -72,11 +72,11 @@ const Page: NextPage<PageProps> = props => {
 	}, []);
 	useDebounce(save, 500, [markdown]);
 
-	useInterval(() => {
-		const a = moment(Date.now());
-		const b = moment(lastSaved);
-		setSaveMessage(b.from(a))
-	}, 1000)
+	// useInterval(() => {
+	// 	const a = moment(Date.now());
+	// 	const b = moment(lastSaved);
+	// 	setSaveMessage(b.from(a))
+	// }, 1000)
 
 	useEffect(() => {
 		setStatus(SaveStatus.Unsaved)
