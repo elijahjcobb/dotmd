@@ -4,6 +4,24 @@
  * ejcobb@mtu.edu
  */
 
-.preview {
+
+
+.container {
 	height: calc(100vh - 64px);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: #f8f8f8;
+}
+
+
+.preview {
+	z-index: 39999;
+	border-radius: 20px;
+	box-shadow: 0 0 20px #eee;
+	height: 100%;
+	margin: 32px;
+	width: 90vw;
+	max-width: 840px;
+	background: #fff;
 }

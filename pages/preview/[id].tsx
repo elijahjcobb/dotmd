@@ -27,7 +27,9 @@ const Page: NextPage<PageProps> = props => {
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 		</Head>
 		<NavBar path={[]}/>
-		<Markdown setToast={() => {}} academicTheme={false} dark={false} className={styles.markdown + " " + previewStyles.preview} value={props.file.content}/>
+		<div className={previewStyles.container}>
+			<Markdown setToast={() => {}} academicTheme={false} dark={false} className={styles.markdown + " " + previewStyles.preview} value={props.file.content}/>
+		</div>
 	</div>
 };
 
