@@ -59,8 +59,8 @@ const Page: NextPage<PageProps> = props => {
 	useEffect(() => {
 		save();
 		if (access) {
-			navigator.clipboard.writeText("https://dotmd.app/preview/" + props.file.id).catch(console.error);
-			setToast({message: "This document is public, share link in clipboard.", severity: "info"})
+			// navigator.clipboard.writeText("https://dotmd.app/preview/" + props.file.id).catch(console.error);
+			setToast({message: "This document is public.", severity: "info"})
 		} else {
 			setToast({message: "This document is private.", severity: "info"})
 		}
