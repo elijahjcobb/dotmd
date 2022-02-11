@@ -5,73 +5,65 @@
  */
 
 .topBar {
-	height: 64px;
-	align-items: center;
-	width: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 72px;
+	max-width: 72px;
+	min-width: 72px;
 	justify-content: space-between;
-	padding-right: 8px;
+	align-items: center;
+	background: #f8f8f8;
+	overflow: visible;
 
 	* {
 		//border: solid 1px red !important;
 	}
 }
 
-.left {
-	flex-grow: 1;
-}
-
-.topBar, .left, .right {
-	display: flex;
-	align-items: center;
-}
-
-.folder {
-
-}
-
-.sep {
-	margin: 0 4px;
-}
-
-.folder, .logo {
-	transition: transform 250ms ease-in-out;
-	&:hover {
-		cursor: pointer;
-		transform: scale(1.05);
+.dark {
+	background: #080808;
+	* {
+		color: black;
 	}
 }
 
-.name {
-	border: none;
-	background: none;
-	flex-grow: 1;
-	outline: none;
+.topBar, .top, .bottom, .middle {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
 }
 
-.profilePic, .logo {
-	display: block;
-	width: 48px;
-	height: 48px;
-	margin-right: 8px;
-	border-radius: 25%;
+.middle {
+	flex-grow: 1;
+	justify-content: center;
+	& > * {
+		margin: 8px 0;
+	}
+}
+
+.bottom {
+	margin-top: 16px;
+
+}
+
+.logo, .profilePic {
+	width: 100%;
+	padding: 16px;
 }
 
 .profilePic {
 	border-radius: 50%;
 }
 
-.picker {
-	& > * {
-		padding: 6px;
-	}
+.saveIcon {
+
 }
 
-.picker, .saveMessage {
-	margin-left: 8px;
-}
+.unsaved {
 
-.saveMessage, .picker, .folder, .sep, .profilePic {
-	display: none;
 }
 
 .saved {
@@ -81,52 +73,3 @@
 .saveError {
 	color: red;
 }
-
-.modePicker {
-	display: flex;
-}
-
-@media (min-width: 640px) {
-	.darkPicker {
-		display: flex;
-	}
-	.name {
-		font-size: 18px;
-	}
-}
-
-@media (min-width: 800px) {
-	.picker {
-		& > * {
-			padding: 10px;
-		}
-	}
-}
-
-@media (min-width: 880px) {
-	.themePicker {
-		display: flex;
-	}
-	.folder, .sep, .profilePic {
-		display: block;
-	}
-}
-
-@media (min-width: 960px) {
-	.saveMessage {
-		display: block;
-	}
-	.profilePic, .picker, .saveMessage {
-		margin-left: 16px;
-	}
-	.topBar {
-		padding-right: 16px;
-	}
-	.sep {
-		margin: 0 8px;
-	}
-	.topBar {
-		padding: 8px;
-	}
-}
-

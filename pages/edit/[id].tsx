@@ -19,7 +19,6 @@ import {createSiID, SiQuery} from "@element-ts/silicon";
 import {CircularProgress} from "@mui/material";
 import {AttachmentManager} from "../../components/AttachmentManager";
 import {EditorTopBar} from "../../components/editor/EditorTopBar";
-import {EditorMode} from "../../components/editor/EditorModePicker";
 import {Toast, ToastConfig} from "../../components/Toast";
 import {Sketch as SketchEditor} from "../../components/editor/Sketch";
 import {EditorAccess} from "../../components/editor/EditorAccessPicker";
@@ -36,23 +35,42 @@ export enum SaveStatus {
 	Error
 }
 
+export enum Theme {
+	LIGHT,
+	DARK
+}
+
+export enum EditorMode {
+	SOURCE,
+	SPLIT,
+	PREVIEW
+}
+
+export enum Style {
+	BUSINESS,
+	ACADEMIC
+}
+
+export enum Access {
+	PRIVATE,
+	PUBLIC
+}
+
 
 const Page: NextPage<PageProps> = props => {
 
 	const [markdown, setMarkdown] = useState(props.file.content);
 	const [name, setName] = useState(props.file.name);
-	const [lastSaved, setLastSaved] = useState(Date.now());
-	const [saveMessage, setSaveMessage] = useState("Fetched");
-	const [darkMode, setDarkMode] = useState(false);
+	const [theme, setTheme] = useState<Theme>(Theme.LIGHT);
 	const [status, setStatus] = useState<SaveStatus>(SaveStatus.Unsaved);
 	const [mode, setMode] = useState<EditorMode>(EditorMode.SPLIT);
-	const [academicTheme, setAcademicTheme] = useState(false);
+	const [style, setStyle] = useState<Style>(Style.BUSINESS);
 	const [uploading, setUploading] = useState(false);
 	const [viewingSketches, setViewingSketches] = useState(false);
 	const [viewingImages, setViewingImages] = useState(false);
 	const [toast, setToast] = useState<ToastConfig | undefined>(undefined);
 	const [sketching, setSketching] = useState<ISketch | null | undefined>(undefined);
-	const [access, setAccess] = useState<EditorAccess>(props.file.public ? EditorAccess.PUBLIC : EditorAccess.PRIVATE);
+	const [access, setAccess] = useState<Access>(props.file.public ? Access.PUBLIC : Access.PRIVATE);
 	const [sketches, setSketches] = useState<ISketch[]>(props.sketches);
 	const [images, setImages] = useState<IAttachment[]>(props.images);
 
@@ -90,7 +108,6 @@ const Page: NextPage<PageProps> = props => {
 			if (this.readyState === XMLHttpRequest.DONE) {
 				// Request finished. Do processing here.
 				if (this.status === 200) {
-					setLastSaved(Date.now())
 					setStatus(SaveStatus.Saved);
 				} else {
 					setStatus(SaveStatus.Error);
@@ -102,7 +119,7 @@ const Page: NextPage<PageProps> = props => {
 			content: markdown,
 			id: props.file.id,
 			name,
-			publicAccess: access === EditorAccess.PUBLIC
+			publicAccess: access === Access.PUBLIC
 		}));
 	}
 
@@ -173,7 +190,7 @@ const Page: NextPage<PageProps> = props => {
 		setToast({message: "Copied to clipboard.", severity: "success"});
 	}
 
-	return <div className={styles.App + " " + (darkMode ? styles.dark : "")}>
+	return <div className={styles.App + " " + (theme === Theme.DARK ? styles.dark : "")}>
 		<Head>
 			<title>{name + ".md"}</title>
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -270,13 +287,12 @@ const Page: NextPage<PageProps> = props => {
 			openSketches={() => setViewingSketches(true)}
 			newSketch={() => setSketching(null)}
 			saveStatus={status}
-			saveMessage={saveMessage}
 			mode={mode}
 			setMode={setMode}
-			darkMode={darkMode}
-			setDarkMode={setDarkMode}
-			academicTheme={academicTheme}
-			setAcademicTheme={setAcademicTheme}
+			theme={theme}
+			setTheme={setTheme}
+			style={style}
+			setStyle={setStyle}
 			title={name}
 			setTitle={setName}
 			updateDoc={save}
@@ -284,8 +300,8 @@ const Page: NextPage<PageProps> = props => {
 			setAccess={setAccess}
 		/>
 		<div className={styles.container} style={{gridTemplateColumns: getModeColumns()}}>
-			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={darkMode} className={styles.editor} value={markdown} setValue={setMarkdown}/>
-			<Markdown setToast={setToast} academicTheme={academicTheme} dark={darkMode} className={styles.markdown} value={markdown}/>
+			<Editor startTyping={() => setStatus(SaveStatus.Unsaved)} dark={theme === Theme.DARK} className={styles.editor} value={markdown} setValue={setMarkdown}/>
+			<Markdown setToast={setToast} academicTheme={style === Style.ACADEMIC} dark={theme === Theme.DARK} className={styles.markdown} value={markdown}/>
 		</div>
 	</div>
 };

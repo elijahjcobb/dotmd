@@ -18,6 +18,8 @@ import {FileDownload, Delete, Brush, FormatPaint, Circle} from "@mui/icons-mater
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {ToastConfig} from "../Toast";
 import {ISketch} from "../local-types";
+import {EditorTopButton} from "./EditorTopButton";
+import {EditTopBarSelector} from "./EditTopBarSelector";
 
 export interface SketchProps {
 	sketch: ISketch | null;
@@ -31,28 +33,47 @@ export enum SketchMode {
 	ERASER
 }
 
+export const SketchColorValue: string[] = [
+	"#f44336",
+	"#9c27b0",
+	"#2196f3",
+	"#4caf50",
+	"#ffeb3b",
+	"#ff9800",
+	"#000"
+];
+
 export enum SketchColor {
-	RED = "#f44336",
-	PURPLE = "#9c27b0",
-	BLUE = "#2196f3",
-	GREEN = "#4caf50",
-	YELLOW = "#ffeb3b",
-	ORANGE = "#ff9800",
-	BLACK = "#000"
+	RED,
+	PURPLE,
+	BLUE,
+	GREEN,
+	YELLOW,
+	ORANGE,
+	BLACK,
 }
 
 export enum SketchSize {
-	SMALL = 2,
-	MEDIUM = 4,
-	BIG = 8,
-	EXTRA = 16
+	TINY,
+	SMALL,
+	MEDIUM,
+	BIG,
+	EXTRA
 }
+
+export const SketchSizeValue: number[] = [
+	2,
+	4,
+	8,
+	16,
+	32
+];
 
 export const Sketch: FC<SketchProps> = props => {
 
 	const canvasRef = useRef<ReactSketchCanvasRef | null>()
 	const [mode, setMode] = useState<SketchMode>(SketchMode.PEN);
-	const [size, setSize] = useState<SketchSize>(SketchSize.MEDIUM);
+	const [size, setSize] = useState<SketchSize>(SketchSize.SMALL);
 	const [color, setColor] = useState<SketchColor>(SketchColor.BLACK);
 
 	const canvas: () => ReactSketchCanvasRef = () => {
@@ -87,23 +108,22 @@ export const Sketch: FC<SketchProps> = props => {
 	return (<div className={styles.page}>
 		<div className={styles.container}>
 			<div className={styles.top + " " + styles.group}>
-				<CloseIcon
-					className={styles.btn}
+				<EditorTopButton
 					onClick={() => {
 						const res = window.confirm("Are you sure you want to close this sketch?")
 						if (res) props.onClose();
-					}}
-				/>
+					}}>
+					<CloseIcon/>
+				</EditorTopButton>
 				<div className={styles.group}>
-					<Delete
-						className={styles.btn}
+					<EditorTopButton
 						onClick={() => {
 							const res = window.confirm("Are you sure you want to clear this sketch?")
 							if (res) canvas().clearCanvas();
-						}}
-					/>
-					<FileDownload
-						className={styles.btn}
+						}}>
+						<Delete/>
+					</EditorTopButton>
+					<EditorTopButton
 						onClick={() => {
 							canvas().exportImage("png").then(img => {
 								const downloadLink = document.createElement('a');
@@ -113,78 +133,39 @@ export const Sketch: FC<SketchProps> = props => {
 								downloadLink.download = "dotmd-sketch.png";
 								downloadLink.click();
 							}).catch(console.error);
-						}}
-					/>
+						}}>
+						<FileDownload/>
+					</EditorTopButton>
 				</div>
 				<div className={styles.group}>
-					<UndoIcon
-						className={styles.btn}
-						onClick={() => canvas().undo()}
-					/>
-					<RedoIcon
-						className={styles.btn}
-						onClick={() => canvas().redo()}
-					/>
+					<EditorTopButton onClick={() => canvas().undo()}>
+						<UndoIcon/>
+					</EditorTopButton>
+					<EditorTopButton onClick={() => canvas().redo()}>
+						<RedoIcon/>
+					</EditorTopButton>
 				</div>
 				<div className={styles.group}>
-					<ToggleButtonGroup
-						value={mode}
-						exclusive
-						onChange={(
-							event: React.MouseEvent<HTMLElement>,
-							newValue: SketchMode
-						) => {
-							setMode(newValue);
-						}}
-					>
-						<ToggleButton value={SketchMode.PEN}>
-							<Brush />
-						</ToggleButton>
-						<ToggleButton value={SketchMode.ERASER}>
-							<FormatPaint />
-						</ToggleButton>
-					</ToggleButtonGroup>
-					<ToggleButtonGroup
-						value={size}
-						exclusive
-						onChange={(
-							event: React.MouseEvent<HTMLElement>,
-							newValue: SketchSize
-						) => {
-							setSize(newValue);
-						}}
-					>
-						<ToggleButton value={SketchSize.SMALL}>
-							<Circle style={{width: 12}} />
-						</ToggleButton>
-						<ToggleButton value={SketchSize.MEDIUM}>
-							<Circle style={{width: 16}} />
-						</ToggleButton>
-						<ToggleButton value={SketchSize.BIG}>
-							<Circle style={{width: 20}} />
-						</ToggleButton>
-						<ToggleButton value={SketchSize.EXTRA}>
-							<Circle style={{width: 32}} />
-						</ToggleButton>
-					</ToggleButtonGroup>
-					<ToggleButtonGroup
-						value={color}
-						exclusive
-						onChange={(
-							event: React.MouseEvent<HTMLElement>,
-							newValue: SketchColor
-						) => {
-							setColor(newValue);
-						}}
-					>
-						<ToggleButton value={SketchColor.BLACK}><Circle style={{color: SketchColor.BLACK}}/></ToggleButton>
-						<ToggleButton value={SketchColor.BLUE}><Circle style={{color: SketchColor.BLUE}}/></ToggleButton>
-						<ToggleButton value={SketchColor.RED}><Circle style={{color: SketchColor.RED}}/></ToggleButton>
-						<ToggleButton value={SketchColor.PURPLE}><Circle style={{color: SketchColor.PURPLE}}/></ToggleButton>
-						<ToggleButton value={SketchColor.GREEN}><Circle style={{color: SketchColor.GREEN}}/></ToggleButton>
-						<ToggleButton value={SketchColor.YELLOW}><Circle style={{color: SketchColor.YELLOW}}/></ToggleButton>
-						<ToggleButton value={SketchColor.ORANGE}><Circle style={{color: SketchColor.ORANGE}}/></ToggleButton>
-					</ToggleButtonGroup>
+					<EditTopBarSelector onChange={setMode} value={mode}>
+						<Brush/>
+						<FormatPaint/>
+					</EditTopBarSelector>
+					<EditTopBarSelector onChange={setSize} value={size}>
+						<Circle style={{width: 8}} />
+						<Circle style={{width: 12}} />
+						<Circle style={{width: 16}} />
+						<Circle style={{width: 20}} />
+						<Circle style={{width: 32}} />
+					</EditTopBarSelector>
+					<EditTopBarSelector onChange={setColor} value={color}>
+						<Circle style={{color: SketchColorValue[SketchColor.BLACK]}}/>
+						<Circle style={{color: SketchColorValue[SketchColor.BLUE]}}/>
+						<Circle style={{color: SketchColorValue[SketchColor.RED]}}/>
+						<Circle style={{color: SketchColorValue[SketchColor.PURPLE]}}/>
+						<Circle style={{color: SketchColorValue[SketchColor.GREEN]}}/>
+						<Circle style={{color: SketchColorValue[SketchColor.YELLOW]}}/>
+						<Circle style={{color: SketchColorValue[SketchColor.ORANGE]}}/>
+					</EditTopBarSelector>
 				</div>
 				{props.sketch && <FileCopyIcon className={styles.btn} onClick={() => save(true)}/>}
 				<SaveIcon className={styles.btn} onClick={() => save(false)}/>
@@ -192,14 +173,13 @@ export const Sketch: FC<SketchProps> = props => {
 			<ReactSketchCanvas
 				// @ts-ignore
 				ref={canvasRef}
-				strokeColor={color}
-				strokeWidth={size}
-				eraserWidth={size * 3}
+				strokeColor={SketchColorValue[color]}
+				strokeWidth={SketchSizeValue[size]}
+				eraserWidth={SketchSizeValue[size * 3]}
 				className={styles.canvas}
+				allowOnlyPointerType={"pen"}
 			/>
-			<div className={styles.grabber}>
-
-			</div>
+			{/*<div className={styles.grabber}/>*/}
 		</div>
 	</div>);
 

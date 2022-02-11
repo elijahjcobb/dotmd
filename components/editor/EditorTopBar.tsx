@@ -15,7 +15,7 @@ import {
 	Edit
 } from "@mui/icons-material";
 import styles from "../../styles/EditorTopBar.module.scss";
-import {SaveStatus} from "../../pages/edit/[id]";
+import {Access, SaveStatus, Style, Theme} from "../../pages/edit/[id]";
 import {useSession} from "next-auth/react";
 import {EditorMode, EditorModePicker} from "./EditorModePicker";
 import {EditorDarkModePicker} from "./EditorDarkModePicker";
@@ -24,6 +24,16 @@ import {EditorAttachmentManager} from "./EditorAttachmentManager";
 import {EditorAccess, EditorAccessPicker} from "./EditorAccessPicker";
 import HelpIcon from '@mui/icons-material/Help';
 import buttonStyles from "../../styles/EditorAttachmentManager.module.scss";
+import {NightsStay, WbSunny} from "@mui/icons-material";
+import {EditTopBarSelector} from "./EditTopBarSelector";
+import SketchIcon from '@mui/icons-material/Edit';
+import {School, Work} from "@mui/icons-material";
+import {ChromeReaderMode, Code, Description} from "@mui/icons-material";
+import PhotoIcon from '@mui/icons-material/AddPhotoAlternate';
+import PublicIcon from '@mui/icons-material/Public';
+import LockIcon from '@mui/icons-material/Lock';
+import {EditorTopBarMultiButton} from "./EditorTopBarMultiButton";
+import {EditorTopButton} from "./EditorTopButton";
 
 export interface EditorTopBarProps {
 	openFolder: () => void;
@@ -32,18 +42,17 @@ export interface EditorTopBarProps {
 	openImages: () => void;
 	openSketches: () => void;
 	saveStatus: SaveStatus;
-	saveMessage: string;
 	mode: EditorMode;
 	setMode: (value: EditorMode) => void;
-	darkMode: boolean;
-	setDarkMode: (value:  boolean) => void;
-	academicTheme: boolean;
-	setAcademicTheme: (value: boolean) => void;
+	theme: Theme;
+	setTheme: (value:  Theme) => void;
+	style: Style;
+	setStyle: (value: Style) => void;
 	title: string;
 	setTitle: (value: string) => void;
 	updateDoc: () => void;
-	access: EditorAccess;
-	setAccess: (access: EditorAccess) => void;
+	access: Access;
+	setAccess: (access: Access) => void;
 }
 
 export const EditorTopBar: FC<EditorTopBarProps> = props => {
@@ -51,33 +60,42 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 	const session = useSession();
 	const user: string = session.data?.user?.image ?? "";
 
-	return (<div className={styles.topBar}>
-		<div className={styles.left}>
+	return (<div className={styles.topBar + (props.theme === Theme.DARK ? (" " + styles.dark) : "")}>
+		<div className={styles.top}>
 			<img onClick={props.openFolder} className={styles.logo} src={"/dotmd.png"} alt={"icon"}/>
-			{/*<Folder onClick={props.openFolder} className={styles.folder}/>*/}
-			{/*<span className={styles.sep}>/</span>*/}
-			<input onBlur={props.updateDoc} onChange={e => props.setTitle(e.target.value)} className={styles.name} value={props.title} />
 		</div>
-		<div className={styles.right}>
+		<div className={styles.middle}>
+			<EditorTopBarMultiButton onPrimaryClick={props.newImage} onSecondaryClick={props.openImages}>
+				<PhotoIcon/>
+			</EditorTopBarMultiButton>
+			<EditorTopBarMultiButton onPrimaryClick={props.newSketch} onSecondaryClick={props.openSketches}>
+				<SketchIcon/>
+			</EditorTopBarMultiButton>
+			<EditTopBarSelector value={props.mode} onChange={props.setMode}>
+				<Code/>
+				<ChromeReaderMode/>
+				<Description/>
+			</EditTopBarSelector>
+			<EditTopBarSelector value={props.theme} onChange={props.setTheme}>
+				<WbSunny/>
+				<NightsStay/>
+			</EditTopBarSelector>
+			<EditTopBarSelector value={props.style} onChange={props.setStyle}>
+				<Work/>
+				<School/>
+			</EditTopBarSelector>
+			<EditTopBarSelector value={props.access} onChange={props.setAccess}>
+				<LockIcon/>
+				<PublicIcon/>
+			</EditTopBarSelector>
+			<EditorTopButton onClick={() => window.open("https://dotmd.app/preview/6201db268c37cb52f7a1f923", "_blank")}>
+				<HelpIcon/>
+			</EditorTopButton>
+		</div>
+		<div className={styles.bottom}>
 			{props.saveStatus === SaveStatus.Saved && <CloudDone className={styles.saved + " " + styles.saveIcon}/>}
 			{props.saveStatus === SaveStatus.Unsaved && <CloudQueue className={styles.unsaved + " " + styles.saveIcon}/>}
 			{props.saveStatus === SaveStatus.Error && <Error className={styles.saveError + " " + styles.saveIcon}/>}
-			{/*<span className={styles.saveMessage}>{props.saveMessage + "..."}</span>*/}
-			<EditorAttachmentManager onClick={props.newImage} onSecondaryClick={props.openImages}>
-				<AddPhotoAlternate/>
-			</EditorAttachmentManager>
-			<EditorAttachmentManager onClick={props.newSketch} onSecondaryClick={props.openSketches}>
-				<Edit/>
-			</EditorAttachmentManager>
-			<EditorModePicker value={props.mode} setValue={props.setMode}/>
-			<EditorDarkModePicker value={props.darkMode} setValue={props.setDarkMode}/>
-			<EditorThemePicker value={props.academicTheme} setValue={props.setAcademicTheme}/>
-			<EditorAccessPicker value={props.access} setValue={props.setAccess}/>
-			<div onClick={() => {
-				window.open("https://dotmd.app/preview/6201db268c37cb52f7a1f923", "_blank")
-			}} className={buttonStyles.left + " " + buttonStyles.container}>
-				<HelpIcon/>
-			</div>
 			<img className={styles.profilePic} src={user} alt={"profile"}/>
 		</div>
 	</div>);

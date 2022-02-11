@@ -43,8 +43,8 @@ $headerSize: 48px;
 .App {
 	width: 100vw;
 	height: 100vh;
-	//display: flex;
-	//flex-direction: column;
+	display: flex;
+	flex-direction: row;
 	* {
 		//border: solid 1px red !important;
 	}
@@ -54,7 +54,10 @@ $headerSize: 48px;
 	display: grid;
 	grid-template-columns: 50% 50%;
 	grid-template-rows: 100%;
-	height: calc(100vh - #{$headerSize})
+	height: 100%;
+	width: calc(100% - 72px);
+	max-width: calc(100% - 72px);
+	flex-grow: 1;
 }
 
 
@@ -70,6 +73,7 @@ $headerSize: 48px;
 
 .editor {
 	overflow: hidden;
+	transition: none !important;
 }
 
 .dark {

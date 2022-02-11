@@ -1,0 +1,23 @@
+/*
+ * Elijah Cobb
+ * github.com/elijahjcobb
+ * ejcobb@mtu.edu
+ */
+
+.container {
+	width: 48px;
+	height: 48px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 8px;
+	border: solid 1px #ddd;
+	background: white;
+	transition: background 250ms ease-in-out;
+
+	&:hover {
+		background: #eee;
+		cursor: pointer;
+	}
+}
