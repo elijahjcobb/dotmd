@@ -20,6 +20,10 @@ import {ToastConfig} from "../Toast";
 import {ISketch} from "../local-types";
 import {EditorTopButton} from "./EditorTopButton";
 import {EditTopBarSelector} from "./EditTopBarSelector";
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import TouchAppIcon from '@mui/icons-material/TouchApp';
+import MouseIcon from '@mui/icons-material/Mouse';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 export interface SketchProps {
 	sketch: ISketch | null;
@@ -69,12 +73,27 @@ export const SketchSizeValue: number[] = [
 	32
 ];
 
+export enum InputType {
+	ALL,
+	TOUCH,
+	MOUSE,
+	PEN
+}
+
+export const InputTypeValue: string[] = [
+	"all",
+	"touch",
+	"mouse",
+	"pen"
+]
+
 export const Sketch: FC<SketchProps> = props => {
 
 	const canvasRef = useRef<ReactSketchCanvasRef | null>()
 	const [mode, setMode] = useState<SketchMode>(SketchMode.PEN);
 	const [size, setSize] = useState<SketchSize>(SketchSize.SMALL);
 	const [color, setColor] = useState<SketchColor>(SketchColor.BLACK);
+	const [inputType, setInputType] = useState<InputType>(InputType.PEN);
 
 	const canvas: () => ReactSketchCanvasRef = () => {
 		const canvas = canvasRef.current;
@@ -136,6 +155,12 @@ export const Sketch: FC<SketchProps> = props => {
 						}}>
 						<FileDownload/>
 					</EditorTopButton>
+					<EditTopBarSelector value={inputType} onChange={setInputType}>
+						<AllInclusiveIcon/>
+						<TouchAppIcon/>
+						<MouseIcon/>
+						<BorderColorIcon/>
+					</EditTopBarSelector>
 				</div>
 				<div className={styles.group}>
 					<EditorTopButton onClick={() => canvas().undo()}>
@@ -177,7 +202,7 @@ export const Sketch: FC<SketchProps> = props => {
 				strokeWidth={SketchSizeValue[size]}
 				eraserWidth={SketchSizeValue[size * 3]}
 				className={styles.canvas}
-				allowOnlyPointerType={"pen"}
+				allowOnlyPointerType={InputTypeValue[inputType]}
 			/>
 			{/*<div className={styles.grabber}/>*/}
 		</div>
