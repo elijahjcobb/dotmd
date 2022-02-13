@@ -51,6 +51,7 @@
 	background: #ddd;
 }
 
+
 .options {
 	overflow: hidden;
 	display: none;
@@ -64,6 +65,14 @@
 		display: block;
 	}
 }
+
+.leftHand {
+	.options {
+		left: unset;
+		right: 56px;
+	}
+}
+
 
 .item {
 	transition: all 250ms ease-in-out;

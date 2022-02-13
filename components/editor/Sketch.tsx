@@ -24,6 +24,8 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
 import MouseIcon from '@mui/icons-material/Mouse';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
+import {ResizableBox} from "react-resizable";
+import PanToolIcon from '@mui/icons-material/PanTool';
 
 export interface SketchProps {
 	sketch: ISketch | null;
@@ -38,23 +40,23 @@ export enum SketchMode {
 }
 
 export const SketchColorValue: string[] = [
+	"#000",
+	"#2196f3",
 	"#f44336",
 	"#9c27b0",
-	"#2196f3",
 	"#4caf50",
 	"#ffeb3b",
 	"#ff9800",
-	"#000"
 ];
 
 export enum SketchColor {
+	BLACK,
+	BLUE,
 	RED,
 	PURPLE,
-	BLUE,
 	GREEN,
 	YELLOW,
 	ORANGE,
-	BLACK,
 }
 
 export enum SketchSize {
@@ -87,13 +89,19 @@ export const InputTypeValue: string[] = [
 	"pen"
 ]
 
+export enum Hand {
+	LEFT,
+	RIGHT
+}
+
 export const Sketch: FC<SketchProps> = props => {
 
 	const canvasRef = useRef<ReactSketchCanvasRef | null>()
 	const [mode, setMode] = useState<SketchMode>(SketchMode.PEN);
 	const [size, setSize] = useState<SketchSize>(SketchSize.SMALL);
-	const [color, setColor] = useState<SketchColor>(SketchColor.BLACK);
+	const [color, setColor] = useState<number>(SketchColor.BLACK);
 	const [inputType, setInputType] = useState<InputType>(InputType.PEN);
+	const [hand, setHand] = useState<Hand>(Hand.LEFT);
 
 	const canvas: () => ReactSketchCanvasRef = () => {
 		const canvas = canvasRef.current;
@@ -125,7 +133,7 @@ export const Sketch: FC<SketchProps> = props => {
 	}, [])
 
 	return (<div className={styles.page}>
-		<div className={styles.container}>
+		<div className={styles.container} style={{flexDirection: hand === Hand.LEFT ? "row-reverse" : "row"}}>
 			<div className={styles.top + " " + styles.group}>
 				<EditorTopButton
 					onClick={() => {
@@ -155,11 +163,17 @@ export const Sketch: FC<SketchProps> = props => {
 						}}>
 						<FileDownload/>
 					</EditorTopButton>
-					<EditTopBarSelector value={inputType} onChange={setInputType}>
+				</div>
+				<div className={styles.group}>
+					<EditTopBarSelector hand={hand} value={inputType} onChange={setInputType}>
 						<AllInclusiveIcon/>
 						<TouchAppIcon/>
 						<MouseIcon/>
 						<BorderColorIcon/>
+					</EditTopBarSelector>
+					<EditTopBarSelector hand={hand} value={hand} onChange={setHand}>
+						<PanToolIcon style={{transform: "rotateY(180deg)"}}/>
+						<PanToolIcon/>
 					</EditTopBarSelector>
 				</div>
 				<div className={styles.group}>
@@ -171,18 +185,18 @@ export const Sketch: FC<SketchProps> = props => {
 					</EditorTopButton>
 				</div>
 				<div className={styles.group}>
-					<EditTopBarSelector onChange={setMode} value={mode}>
+					<EditTopBarSelector hand={hand} onChange={setMode} value={mode}>
 						<Brush/>
 						<FormatPaint/>
 					</EditTopBarSelector>
-					<EditTopBarSelector onChange={setSize} value={size}>
+					<EditTopBarSelector hand={hand} onChange={setSize} value={size}>
 						<Circle style={{width: 8}} />
 						<Circle style={{width: 12}} />
 						<Circle style={{width: 16}} />
 						<Circle style={{width: 20}} />
 						<Circle style={{width: 32}} />
 					</EditTopBarSelector>
-					<EditTopBarSelector onChange={setColor} value={color}>
+					<EditTopBarSelector hand={hand} onChange={setColor} value={color}>
 						<Circle style={{color: SketchColorValue[SketchColor.BLACK]}}/>
 						<Circle style={{color: SketchColorValue[SketchColor.BLUE]}}/>
 						<Circle style={{color: SketchColorValue[SketchColor.RED]}}/>
@@ -192,18 +206,24 @@ export const Sketch: FC<SketchProps> = props => {
 						<Circle style={{color: SketchColorValue[SketchColor.ORANGE]}}/>
 					</EditTopBarSelector>
 				</div>
-				{props.sketch && <FileCopyIcon className={styles.btn} onClick={() => save(true)}/>}
-				<SaveIcon className={styles.btn} onClick={() => save(false)}/>
+				{props.sketch && <EditorTopButton onClick={() => save(true)}>
+					<FileCopyIcon/>
+				</EditorTopButton>}
+				<EditorTopButton onClick={() => save(false)}>
+					<SaveIcon/>
+				</EditorTopButton>
 			</div>
-			<ReactSketchCanvas
-				// @ts-ignore
-				ref={canvasRef}
-				strokeColor={SketchColorValue[color]}
-				strokeWidth={SketchSizeValue[size]}
-				eraserWidth={SketchSizeValue[size * 3]}
-				className={styles.canvas}
-				allowOnlyPointerType={InputTypeValue[inputType]}
-			/>
+			<div className={styles.canvasContainer}>
+				<ReactSketchCanvas
+					// @ts-ignore
+					ref={canvasRef}
+					strokeColor={SketchColorValue[color]}
+					strokeWidth={SketchSizeValue[size]}
+					eraserWidth={SketchSizeValue[size * 3]}
+					className={styles.canvas}
+					allowOnlyPointerType={InputTypeValue[inputType]}
+				/>
+			</div>
 			{/*<div className={styles.grabber}/>*/}
 		</div>
 	</div>);

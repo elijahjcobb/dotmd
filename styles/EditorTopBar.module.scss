@@ -37,16 +37,18 @@
 }
 
 .middle {
-	flex-grow: 1;
 	justify-content: center;
 	& > * {
 		margin: 8px 0;
 	}
+	flex-grow: 1;
 }
 
 .bottom {
-	margin-top: 16px;
-
+	justify-content: center;
+	& > * {
+		display: block;
+	}
 }
 
 .logo, .profilePic {

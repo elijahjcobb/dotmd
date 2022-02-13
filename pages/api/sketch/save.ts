@@ -10,6 +10,14 @@ import {getUserFromAuth} from "../../../db/auth-silicon";
 import {Sketch} from "../../../db/DB";
 import {createSiID, SiQuery} from "@element-ts/silicon";
 
+export const config = {
+	api: {
+		bodyParser: {
+			sizeLimit: '10mb' // Set desired value here
+		}
+	}
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const user = await getUserFromAuth(req);

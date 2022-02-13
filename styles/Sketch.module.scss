@@ -35,46 +35,30 @@
 	height: 100%;
 }
 
+.canvasContainer {
+	flex-grow: 1;
+	height: 100%;
+	width: 100%;
+	background: #ddd;
+	resize: both;
+}
+
 .canvas {
 	border: none !important;
 	width: 100% !important;
 	margin: 0 !important;
-	flex-grow: 1;
+	height: 100% !important;
 	border-radius: 0 !important;
-}
-
-.grabber {
-	height: 16px;
-	width: 100%;
-	background: #eee;
+	resize: both;
 }
 
 .group {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
-	align-items: center;
 
 	& > * {
-		margin: 8px 0;
-	}
-}
-
-.btn {
-	color: #555;
-	border: solid 1px #ccc;
-	border-radius: 4px;
-	padding: 10px;
-	width: 48px;
-	min-width: 48px !important;
-	min-height: 48px !important;
-	height: 48px;
-	transition: all 250ms ease-in-out;
-
-	&:hover {
-		background: #eee;
-		color: black;
-		cursor: pointer;
+		margin: 2px 0;
 	}
 }
 

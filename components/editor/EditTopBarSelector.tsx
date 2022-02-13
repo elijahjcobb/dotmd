@@ -5,12 +5,14 @@
  * github.com/elijahjcobb
  */
 
-import React, {FC, PropsWithChildren, ReactElement, useState} from "react";
+import React, {PropsWithChildren, ReactElement, useState} from "react";
 import styles from "../../styles/EditTopBarSelector.module.scss";
 import CloseIcon from '@mui/icons-material/Close';
+import {Hand} from "./Sketch";
 
 export interface EditTopBarSelectorProps {
 	value: number;
+	hand?: Hand
 	onChange: (value: number) => void;
 }
 
@@ -20,7 +22,7 @@ export function EditTopBarSelector(props: PropsWithChildren<EditTopBarSelectorPr
 	const [showOptions, setShowOptions] = useState(false);
 
 
-	return (<div className={styles.container} onClick={() => setShowOptions(v => !v)}>
+	return (<div className={styles.container + (props.hand === Hand.LEFT ? (" " + styles.leftHand) : "")} onClick={() => setShowOptions(v => !v)}>
 		<div className={styles.item + " " + styles.default}>
 			{showOptions ? <CloseIcon/> : <div>{children[props.value]}</div>}
 		</div>
