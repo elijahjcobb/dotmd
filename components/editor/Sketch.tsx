@@ -5,17 +5,15 @@
  * github.com/elijahjcobb
  */
 
-import React, {FC, useCallback, useEffect, useRef, useState} from "react";
+import React, {FC, useEffect, useRef, useState} from "react";
 import styles from "../../styles/Sketch.module.scss";
 import {ReactSketchCanvas, ReactSketchCanvasRef} from "react-sketch-canvas";
 import CloseIcon from '@mui/icons-material/Close';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
-import ToggleButton from "@mui/material/ToggleButton";
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import {FileDownload, Delete, Brush, FormatPaint, Circle} from "@mui/icons-material";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {ToastConfig} from "../Toast";
 import {ISketch} from "../local-types";
 import {EditorTopButton} from "./EditorTopButton";
@@ -24,7 +22,6 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import TouchAppIcon from '@mui/icons-material/TouchApp';
 import MouseIcon from '@mui/icons-material/Mouse';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import {ResizableBox} from "react-resizable";
 import PanToolIcon from '@mui/icons-material/PanTool';
 
 export interface SketchProps {
