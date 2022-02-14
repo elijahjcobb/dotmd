@@ -6,14 +6,18 @@
 
 import type {GetServerSideProps, NextPage} from "next";
 import React, {useCallback, useEffect, useState} from "react";
-import styles from "../../styles/App.module.scss";
-import previewStyles from "../../styles/Preview.module.scss";
+import previewStyles from "../../styles/App.module.scss";
+import styles from "../../styles/Preview.module.scss";
 import {Markdown} from "../../components/Markdown";
 import Head from "next/head";
 import {IAttachment, IFile, ISketch} from "../../components/local-types";
 import {Analytics, Attachment, File, Sketch} from "../../db/DB";
 import {createSiID, SiQuery} from "@element-ts/silicon";
 import {NavBar} from "../../components/NavBar";
+import {EditTopBarSelector} from "../../components/editor/EditTopBarSelector";
+import {FileCopy, School, Work} from "@mui/icons-material";
+import {EditorTopButton} from "../../components/editor/EditorTopButton";
+import {useSession} from "next-auth/react";
 
 interface PageProps {
 	file: IFile;
@@ -21,14 +25,30 @@ interface PageProps {
 
 const Page: NextPage<PageProps> = props => {
 
-	return <div className={styles.App}>
+	const [theme, setTheme] = useState(0);
+
+	const session = useSession();
+	const user = session.data?.user;
+
+	return <div className={styles.root}>
 		<Head>
-			<title>Previewing {"'" + props.file.name + ".md'"}</title>
+			<title>{props.file.name}</title>
 			<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 		</Head>
 		<NavBar path={[]}/>
-		<div className={previewStyles.container}>
-			<Markdown setToast={() => {}} academicTheme={false} dark={false} className={styles.markdown + " " + previewStyles.preview} value={props.file.content}/>
+		<div className={styles.btns}>
+			{user && <EditorTopButton onClick={() => {
+				window.open("/api/file/clone?id=" + props.file.id, "_self");
+			}}>
+				<FileCopy/>
+			</EditorTopButton>}
+			<EditTopBarSelector value={theme} onChange={setTheme}>
+				<Work/>
+				<School/>
+			</EditTopBarSelector>
+		</div>
+		<div className={styles.container}>
+			<Markdown setToast={() => {}} academicTheme={theme === 1} dark={false} className={previewStyles.markdown + " " + styles.preview} value={props.file.content}/>
 		</div>
 	</div>
 };

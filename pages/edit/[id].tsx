@@ -281,6 +281,7 @@ const Page: NextPage<PageProps> = props => {
 			}}
 		/>}
 		<EditorTopBar
+			file={props.file}
 			openFolder={openFolder}
 			openImages={() => setViewingImages(true)}
 			newImage={onOpenFile}

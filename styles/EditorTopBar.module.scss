@@ -52,8 +52,19 @@
 }
 
 .logo, .profilePic {
-	width: 100%;
-	padding: 16px;
+	width: 60%;
+	margin: 16px 0;
+	//padding: 16px;
+}
+
+.logo {
+	border-radius: 8px;
+	transition: all 250ms ease-in-out;
+	&:hover {
+		transform: scale(1.05);
+		box-shadow: 0 0 8px #bbb;
+		cursor: pointer;
+	}
 }
 
 .profilePic {

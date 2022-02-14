@@ -4,24 +4,35 @@
  * ejcobb@mtu.edu
  */
 
-
+.root {
+	position: static;
+}
 
 .container {
 	height: calc(100vh - 64px);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: #f8f8f8;
+	background: white;
+	overflow-y: auto;
 }
 
+.btns {
+	position: absolute;
+	bottom: 32px;
+	left: 32px;
+	display: flex;
+	flex-direction: column;
+
+	& > * {
+		margin-top: 16px;
+	}
+}
 
 .preview {
 	z-index: 39999;
-	border-radius: 20px;
-	box-shadow: 0 0 20px #eee;
-	height: 100%;
-	margin: 32px;
-	width: 90vw;
+	padding-bottom: 32px;
+	width: 100%;
 	max-width: 840px;
-	background: #fff;
+	overflow-y: visible !important;
 }

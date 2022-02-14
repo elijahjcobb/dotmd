@@ -7,36 +7,35 @@
 
 import React, {FC} from "react";
 import {
+	ChromeReaderMode,
 	CloudDone,
 	CloudQueue,
+	Code,
+	Description,
 	Error,
-	Folder,
-	AddPhotoAlternate,
-	Edit
+	NightsStay,
+	School,
+	WbSunny,
+	Work
 } from "@mui/icons-material";
 import styles from "../../styles/EditorTopBar.module.scss";
 import {Access, SaveStatus, Style, Theme} from "../../pages/edit/[id]";
 import {useSession} from "next-auth/react";
-import {EditorMode, EditorModePicker} from "./EditorModePicker";
-import {EditorDarkModePicker} from "./EditorDarkModePicker";
-import {EditorThemePicker} from "./EditorThemePicker";
-import {EditorAttachmentManager} from "./EditorAttachmentManager";
-import {EditorAccess, EditorAccessPicker} from "./EditorAccessPicker";
+import {EditorMode} from "./EditorModePicker";
 import HelpIcon from '@mui/icons-material/Help';
-import buttonStyles from "../../styles/EditorAttachmentManager.module.scss";
-import {NightsStay, WbSunny} from "@mui/icons-material";
 import {EditTopBarSelector} from "./EditTopBarSelector";
 import SketchIcon from '@mui/icons-material/Edit';
-import {School, Work} from "@mui/icons-material";
-import {ChromeReaderMode, Code, Description} from "@mui/icons-material";
 import PhotoIcon from '@mui/icons-material/AddPhotoAlternate';
 import PublicIcon from '@mui/icons-material/Public';
 import LockIcon from '@mui/icons-material/Lock';
 import {EditorTopBarMultiButton} from "./EditorTopBarMultiButton";
 import {EditorTopButton} from "./EditorTopButton";
+import {IFile} from "../local-types";
+import PreviewIcon from "@mui/icons-material/Preview";
 
 export interface EditorTopBarProps {
 	openFolder: () => void;
+	file: IFile;
 	newImage: () => void;
 	newSketch: () => void;
 	openImages: () => void;
@@ -88,6 +87,9 @@ export const EditorTopBar: FC<EditorTopBarProps> = props => {
 				<LockIcon/>
 				<PublicIcon/>
 			</EditTopBarSelector>
+			{props.access === Access.PUBLIC && <EditorTopButton onClick={() => window.open("/preview/" + props.file.id, "_blank")}>
+				<PreviewIcon/>
+			</EditorTopButton>}
 			<EditorTopButton onClick={() => window.open("https://dotmd.app/preview/6201db268c37cb52f7a1f923", "_blank")}>
 				<HelpIcon/>
 			</EditorTopButton>

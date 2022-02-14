@@ -14,6 +14,7 @@ export interface EditTopBarSelectorProps {
 	value: number;
 	hand?: Hand
 	onChange: (value: number) => void;
+	className?: string;
 }
 
 export function EditTopBarSelector(props: PropsWithChildren<EditTopBarSelectorProps>): ReactElement {
@@ -22,7 +23,7 @@ export function EditTopBarSelector(props: PropsWithChildren<EditTopBarSelectorPr
 	const [showOptions, setShowOptions] = useState(false);
 
 
-	return (<div className={styles.container + (props.hand === Hand.LEFT ? (" " + styles.leftHand) : "")} onClick={() => setShowOptions(v => !v)}>
+	return (<div className={styles.container + (props.hand === Hand.LEFT ? (" " + styles.leftHand) : "") + (props.className ? (" " + props.className) : "")} onClick={() => setShowOptions(v => !v)}>
 		<div className={styles.item + " " + styles.default}>
 			{showOptions ? <CloseIcon/> : <div>{children[props.value]}</div>}
 		</div>

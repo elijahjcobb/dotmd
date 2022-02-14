@@ -10,11 +10,12 @@ import styles from "../../styles/EditorTopButton.module.scss";
 
 export interface EditorTopButtonProps {
 	onClick: () => void;
+	className?: string
 }
 
 export const EditorTopButton: FC<EditorTopButtonProps> = props => {
 
-	return (<div onClick={props.onClick} className={styles.container}>
+	return (<div onClick={props.onClick} className={styles.container + (props.className ? (" " + props.className) : "")}>
 		{props.children}
 	</div>);
 
